@@ -378,30 +378,138 @@
     </footer>
 
     <script>
-        // تحديد اسم المستخدم وكلمة المرور المعتمدة
-        const CORRECT_USER = "marassi";
-        const CORRECT_PASS = "1552004";
+           // ======================================================
+           // حسابات الموظفين
+           // ======================================================
 
-        function requireLogin(buttonName) {
-            alert(`⚠️ يرجى تسجيل الدخول أولاً للوصول إلى قسم (${buttonName})!`);
-        }
+            const EMPLOYEES = {
 
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            const user = document.getElementById('username').value.trim();
-            const pass = document.getElementById('password').value.trim();
-            const errorDiv = document.getElementById('errorMessage');
+            marawa: {
+            password: "marwa mostafa",
+            name: "marawa"
+                           },
 
-            // التحقق من صحة البيانات
-            if (user === CORRECT_USER && pass === CORRECT_PASS) {
-                errorDiv.style.display = "none";
-                window.location.href = "dashboard.html"; // الانتقال للوحة التحكم
-            } else {
-                // إظهار تنبيه بخطأ البيانات
-                errorDiv.style.display = "block";
-            }
-        }
+            mohabib: {
+            password: "123456",
+            name: "mohabib"
+          },
+
+            abdo: {
+            password: "999999",
+            name: "abdo"
+          },
+
+            kingnasr: {
+            password: "99117518",
+            name: "kingnasr"
+          },
+
+            shimee: {
+            password: "1552004",
+            name: "shimee"
+          }
+
+          };
+
+
+           // ======================================================
+           // التنقل قبل تسجيل الدخول
+           // ======================================================
+
+         function requireLogin(buttonName) {
+
+         alert(
+                 `⚠️ يرجى تسجيل الدخول أولاً للوصول إلى قسم (${buttonName})!`
+             );
+
+          }
+
+
+           // ======================================================
+           // تسجيل الدخول
+           // ======================================================
+
+          function handleLogin(event) {
+
+          event.preventDefault();
+
+          const user =
+          document
+            .getElementById("username")
+            .value
+            .trim()
+            .toLowerCase();
+
+          const pass =
+          document
+            .getElementById("password")
+            .value
+            .trim();
+
+         const errorDiv =
+          document.getElementById(
+            "errorMessage"
+          );
+
+
+          // ==================================================
+    // البحث عن الموظف
+    // ==================================================
+
+    const employee =
+        EMPLOYEES[user];
+
+
+    // ==================================================
+    // التحقق
+    // ==================================================
+
+    if (
+        employee &&
+        employee.password === pass
+    ) {
+
+        errorDiv.style.display = "none";
+
+
+        // ==================================================
+        // حفظ بيانات الموظف للجلسة الحالية
+        // ==================================================
+
+        localStorage.setItem(
+            "loggedIn",
+            "true"
+        );
+
+
+        localStorage.setItem(
+            "currentUser",
+            employee.name
+        );
+
+
+        localStorage.setItem(
+            "loginTime",
+            new Date().toISOString()
+        );
+
+
+        // ==================================================
+        // الانتقال للوحة التحكم
+        // ==================================================
+
+        window.location.href =
+            "dashboard.html";
+
+
+    } else {
+
+        errorDiv.style.display =
+            "block";
+
+    }
+
+}
     </script>
 </body>
 </html>

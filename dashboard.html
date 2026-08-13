@@ -20,186 +20,115 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-
     <style>
 
         * {
-
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-
-            font-family:
-                'Tajawal',
-                sans-serif;
-
+            font-family: 'Tajawal', sans-serif;
         }
-
 
         body {
-
             min-height: 100vh;
-
             display: flex;
-
             flex-direction: column;
-
-            justify-content:
-                space-between;
-
+            justify-content: space-between;
             align-items: center;
-
-            background-color:
-                #0f051d;
-
+            background-color: #0f051d;
             overflow-x: hidden;
-
             position: relative;
-
         }
-
 
         /* =====================================================
            الخلفيات
         ===================================================== */
 
         .blur-circle-1 {
-
             position: absolute;
-
             width: 500px;
             height: 500px;
-
             background: #5b21b6;
-
             border-radius: 50%;
-
-            filter:
-                blur(150px);
-
+            filter: blur(150px);
             top: 5%;
             left: 5%;
-
             opacity: 0.5;
-
             z-index: 1;
-
         }
-
 
         .blur-circle-2 {
-
             position: absolute;
-
             width: 450px;
             height: 450px;
-
             background: #7c3aed;
-
             border-radius: 50%;
-
-            filter:
-                blur(160px);
-
+            filter: blur(160px);
             bottom: 5%;
             right: 5%;
-
             opacity: 0.4;
-
             z-index: 1;
-
         }
-
 
         /* =====================================================
            الشريط العلوي
         ===================================================== */
 
         .header-nav {
-
             margin-top: 25px;
-
             z-index: 10;
 
-            background:
-                rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.08);
 
-            backdrop-filter:
-                blur(16px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
 
-            -webkit-backdrop-filter:
-                blur(16px);
+            border: 1px solid rgba(255,255,255,0.25);
 
-            border:
-                1px solid
-                rgba(255,255,255,0.25);
+            padding: 16px 35px;
 
-            padding:
-                16px 35px;
+            border-radius: 60px;
 
-            border-radius:
-                60px;
-
-            display:
-                flex;
+            display: flex;
 
             gap: 15px;
 
-            align-items:
-                center;
+            align-items: center;
 
             box-shadow:
-                0 15px 35px
-                rgba(0,0,0,0.4);
+                0 15px 35px rgba(0,0,0,0.4);
 
             max-width: 95%;
 
             width: 1050px;
 
-            justify-content:
-                space-around;
+            justify-content: space-around;
 
-            flex-wrap:
-                wrap;
-
+            flex-wrap: wrap;
         }
-
 
         .nav-btn {
 
-            color:
-                #ffffff;
+            color: #ffffff;
 
-            text-decoration:
-                none;
+            text-decoration: none;
 
-            padding:
-                12px 24px;
+            padding: 12px 24px;
 
-            border-radius:
-                50px;
+            border-radius: 50px;
 
-            font-weight:
-                700;
+            font-weight: 700;
 
-            font-size:
-                1.05rem;
+            font-size: 1.05rem;
 
-            transition:
-                all 0.3s ease;
+            transition: all 0.3s ease;
 
-            background:
-                rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.05);
 
-            border:
-                1px solid
-                rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.15);
 
-            cursor:
-                pointer;
-
+            cursor: pointer;
         }
-
 
         .nav-btn:hover {
 
@@ -215,9 +144,7 @@
             box-shadow:
                 0 8px 20px
                 rgba(124,58,237,0.4);
-
         }
-
 
         /* =====================================================
            الكارت الرئيسي
@@ -225,14 +152,11 @@
 
         .main-card {
 
-            position:
-                relative;
+            position: relative;
 
-            z-index:
-                10;
+            z-index: 10;
 
-            padding:
-                3rem;
+            padding: 3rem;
 
             background:
                 rgba(255,255,255,0.06);
@@ -262,14 +186,11 @@
 
             margin:
                 30px 0;
-
         }
-
 
         .title {
 
-            color:
-                #ffffff;
+            color: #ffffff;
 
             font-size:
                 2.2rem;
@@ -286,9 +207,7 @@
             text-shadow:
                 0 4px 25px
                 rgba(124,58,237,0.7);
-
         }
-
 
         /* =====================================================
            النموذج
@@ -304,9 +223,7 @@
 
             gap:
                 20px;
-
         }
-
 
         .form-group {
 
@@ -318,17 +235,13 @@
 
             gap:
                 8px;
-
         }
-
 
         .form-group.full-width {
 
             grid-column:
                 span 2;
-
         }
-
 
         .form-group label {
 
@@ -343,30 +256,22 @@
 
             padding-right:
                 5px;
-
         }
 
-
-        .form-group label
-        span.required {
+        .form-group label span.required {
 
             color:
                 #f87171;
-
         }
 
-
-        .form-group label
-        span.optional {
+        .form-group label span.optional {
 
             color:
                 #94a3b8;
 
             font-size:
                 0.8rem;
-
         }
-
 
         .bubble-input {
 
@@ -400,17 +305,13 @@
 
             transition:
                 all 0.3s ease;
-
         }
-
 
         .bubble-input::placeholder {
 
             color:
                 #64748b;
-
         }
-
 
         .bubble-input:hover,
         .bubble-input:focus {
@@ -427,21 +328,16 @@
 
             transform:
                 translateY(-2px);
-
         }
 
-
-        input[type="date"]
-        ::-webkit-calendar-picker-indicator {
+        input[type="date"]::-webkit-calendar-picker-indicator {
 
             filter:
                 invert(1);
 
             cursor:
                 pointer;
-
         }
-
 
         /* =====================================================
            زر الحفظ
@@ -501,9 +397,7 @@
 
             gap:
                 10px;
-
         }
-
 
         .submit-btn:hover {
 
@@ -513,9 +407,7 @@
             box-shadow:
                 0 10px 30px
                 rgba(124,58,237,0.8);
-
         }
-
 
         .submit-btn:disabled {
 
@@ -527,9 +419,7 @@
 
             transform:
                 none;
-
         }
-
 
         /* =====================================================
            Spinner
@@ -555,9 +445,7 @@
 
             animation:
                 spin 0.8s linear infinite;
-
         }
-
 
         @keyframes spin {
 
@@ -570,9 +458,7 @@
                 transform:
                     rotate(360deg);
             }
-
         }
-
 
         /* =====================================================
            نافذة البحث
@@ -609,17 +495,13 @@
 
             padding:
                 20px;
-
         }
-
 
         .search-overlay.active {
 
             display:
                 flex;
-
         }
-
 
         .search-modal {
 
@@ -654,9 +536,7 @@
 
             animation:
                 modalIn 0.25s ease;
-
         }
-
 
         @keyframes modalIn {
 
@@ -668,7 +548,6 @@
                 transform:
                     translateY(20px)
                     scale(0.97);
-
             }
 
             to {
@@ -679,11 +558,8 @@
                 transform:
                     translateY(0)
                     scale(1);
-
             }
-
         }
-
 
         .search-header {
 
@@ -698,9 +574,7 @@
 
             margin-bottom:
                 20px;
-
         }
-
 
         .search-title {
 
@@ -721,17 +595,13 @@
 
             gap:
                 10px;
-
         }
-
 
         .search-title i {
 
             color:
                 #c084fc;
-
         }
-
 
         .close-search {
 
@@ -761,9 +631,7 @@
 
             transition:
                 0.3s;
-
         }
-
 
         .close-search:hover {
 
@@ -772,9 +640,7 @@
 
             transform:
                 rotate(90deg);
-
         }
-
 
         .search-box {
 
@@ -783,9 +649,7 @@
 
             gap:
                 10px;
-
         }
-
 
         .search-input {
 
@@ -819,9 +683,7 @@
 
             font-weight:
                 700;
-
         }
-
 
         .search-input:focus {
 
@@ -831,9 +693,7 @@
             box-shadow:
                 0 0 18px
                 rgba(167,139,250,0.3);
-
         }
-
 
         .search-action {
 
@@ -864,9 +724,7 @@
 
             font-size:
                 1rem;
-
         }
-
 
         .search-action:disabled {
 
@@ -875,9 +733,7 @@
 
             cursor:
                 not-allowed;
-
         }
-
 
         .search-status {
 
@@ -892,9 +748,7 @@
 
             min-height:
                 25px;
-
         }
-
 
         /* =====================================================
            نتائج البحث
@@ -913,9 +767,7 @@
 
             gap:
                 10px;
-
         }
-
 
         .result-item {
 
@@ -946,9 +798,7 @@
 
             text-align:
                 right;
-
         }
-
 
         .result-item:hover {
 
@@ -960,9 +810,7 @@
 
             transform:
                 translateY(-2px);
-
         }
-
 
         .result-name {
 
@@ -974,9 +822,7 @@
 
             margin-bottom:
                 6px;
-
         }
-
 
         .result-info {
 
@@ -994,9 +840,7 @@
 
             font-size:
                 0.9rem;
-
         }
-
 
         .result-info span {
 
@@ -1008,17 +852,13 @@
 
             gap:
                 5px;
-
         }
-
 
         .result-info i {
 
             color:
                 #a78bfa;
-
         }
-
 
         /* =====================================================
            Footer
@@ -1044,9 +884,7 @@
 
             padding:
                 20px 0;
-
         }
-
 
         .footer-container {
 
@@ -1079,9 +917,7 @@
 
             font-size:
                 0.9rem;
-
         }
-
 
         .footer a {
 
@@ -1090,9 +926,7 @@
 
             text-decoration:
                 none;
-
         }
-
 
         .designer-name {
 
@@ -1101,9 +935,7 @@
 
             color:
                 #c084fc;
-
         }
-
 
         /* =====================================================
            الهاتف
@@ -1121,9 +953,7 @@
 
                 border-radius:
                     30px;
-
             }
-
 
             .nav-btn {
 
@@ -1132,50 +962,38 @@
 
                 padding:
                     10px 14px;
-
             }
-
 
             .form-grid {
 
                 grid-template-columns:
                     1fr;
-
             }
-
 
             .form-group.full-width,
             .submit-btn {
 
                 grid-column:
                     span 1;
-
             }
-
 
             .main-card {
 
                 padding:
                     2rem 1.5rem;
-
             }
-
 
             .search-box {
 
                 flex-direction:
                     column;
-
             }
-
 
             .search-action {
 
                 padding:
                     14px;
-
             }
-
 
             .footer-container {
 
@@ -1184,9 +1002,7 @@
 
                 text-align:
                     center;
-
             }
-
         }
 
     </style>
@@ -1195,7 +1011,6 @@
 
 
 <body>
-
 
     <div class="blur-circle-1"></div>
 
@@ -1208,15 +1023,21 @@
 
     <nav class="header-nav">
 
+        <!-- تسجيل الخروج -->
 
-        <a
-            href="index.html"
-            class="nav-btn">
+        <button
+            type="button"
+            class="nav-btn"
+            onclick="logoutUser()">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
 
             تسجيل الخروج
 
-        </a>
+        </button>
 
+
+        <!-- حسابات الشركة -->
 
         <a
             href="company_accounts.html"
@@ -1227,7 +1048,7 @@
         </a>
 
 
-        <!-- زر البحث الجديد -->
+        <!-- البحث -->
 
         <button
             type="button"
@@ -1241,6 +1062,8 @@
         </button>
 
 
+        <!-- معلومات حول -->
+
         <a
             href="https://www.facebook.com/share/1BaiuDESTS/"
             class="nav-btn"
@@ -1251,6 +1074,8 @@
         </a>
 
 
+        <!-- الدعم -->
+
         <a
             href="https://wa.me/201005389471"
             class="nav-btn"
@@ -1260,7 +1085,6 @@
 
         </a>
 
-
     </nav>
 
 
@@ -1269,7 +1093,6 @@
     ====================================================== -->
 
     <main class="main-card">
-
 
         <h1 class="title">
 
@@ -1296,7 +1119,6 @@
 
                 </label>
 
-
                 <input
                     type="text"
                     id="passengerName"
@@ -1318,7 +1140,6 @@
                     <span class="required">*</span>
 
                 </label>
-
 
                 <input
                     type="text"
@@ -1342,7 +1163,6 @@
 
                 </label>
 
-
                 <input
                     type="tel"
                     id="mobileNumber"
@@ -1365,7 +1185,6 @@
 
                 </label>
 
-
                 <input
                     type="date"
                     id="bookingDate"
@@ -1386,7 +1205,6 @@
                     <span class="required">*</span>
 
                 </label>
-
 
                 <input
                     type="date"
@@ -1409,12 +1227,12 @@
 
                 </label>
 
-
                 <input
                     type="number"
                     id="totalAmount"
                     class="bubble-input"
                     placeholder="0.00"
+                    step="any"
                     oninput="calculateRemaining()"
                     required>
 
@@ -1433,12 +1251,12 @@
 
                 </label>
 
-
                 <input
                     type="number"
                     id="paidAmount"
                     class="bubble-input"
                     placeholder="0.00"
+                    step="any"
                     oninput="calculateRemaining()"
                     required>
 
@@ -1456,7 +1274,6 @@
                     <span class="required">*</span>
 
                 </label>
-
 
                 <input
                     type="number"
@@ -1481,12 +1298,12 @@
 
                 </label>
 
-
                 <input
                     type="number"
                     id="commission"
                     class="bubble-input"
                     placeholder="0.00"
+                    step="any"
                     required>
 
             </div>
@@ -1505,7 +1322,6 @@
                     </span>
 
                 </label>
-
 
                 <input
                     type="text"
@@ -1528,9 +1344,7 @@
 
             </button>
 
-
         </form>
-
 
     </main>
 
@@ -1552,7 +1366,6 @@
 
             <div class="search-header">
 
-
                 <div class="search-title">
 
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -1571,12 +1384,10 @@
 
                 </button>
 
-
             </div>
 
 
             <div class="search-box">
-
 
                 <input
                     type="text"
@@ -1598,7 +1409,6 @@
 
                 </button>
 
-
             </div>
 
 
@@ -1614,12 +1424,9 @@
             <div
                 id="searchResults"
                 class="search-results">
-
             </div>
 
-
         </div>
-
 
     </div>
 
@@ -1630,9 +1437,7 @@
 
     <footer class="footer">
 
-
         <div class="footer-container">
-
 
             <div>
 
@@ -1657,9 +1462,8 @@
                     style="color:#a78bfa;">
                 </i>
 
-
                 <a
-                    href="https://facebook.com"
+                    href="https://www.facebook.com/share/1BaiuDESTS/"
                     target="_blank">
 
                     صفحتنا على فيسبوك
@@ -1678,7 +1482,6 @@
 
                 تصميم وتطوير:
 
-
                 <span class="designer-name">
 
                     ENG / AHMED ELSHEMEE MAHMOUD
@@ -1687,9 +1490,7 @@
 
             </div>
 
-
         </div>
-
 
     </footer>
 
@@ -1700,13 +1501,95 @@
 
     <script>
 
-
         // =====================================================
         // رابط Google Apps Script
         // =====================================================
 
         const GOOGLE_SHEET_URL =
-            "https://script.google.com/macros/s/AKfycbyJWg5K_Ld3_tySJUD9RkHm_C8pndvFZWacuEOvjOlt66qr7q0pHY1QTrGfffCNt7W0gA/exec";
+            "https://script.google.com/macros/s/AKfycbz_gXvUwKQeqIAt32zhfKJ_x_myC3Tdig5dhCjC8VpKZwmQwQw2ctGPmjEpobkFSRKSxQ/exec";
+
+
+        // =====================================================
+        // رقم الصف الحالي أثناء التعديل
+        //
+        // null = إضافة حجز جديد
+        // رقم = تعديل حجز موجود
+        // =====================================================
+
+        let currentEditingRow = null;
+
+
+        // =====================================================
+        // الحصول على الموظف الحالي
+        // =====================================================
+
+        function getCurrentUser() {
+
+            const user =
+                localStorage.getItem("currentUser");
+
+            return user || "غير معروف";
+        }
+
+
+        // =====================================================
+        // التأكد من تسجيل الدخول
+        // =====================================================
+
+        function checkLogin() {
+
+            const loggedIn =
+                localStorage.getItem("loggedIn");
+
+            const user =
+                localStorage.getItem("currentUser");
+
+
+            if (
+                loggedIn !== "true" ||
+                !user
+            ) {
+
+                window.location.href =
+                    "index.html";
+
+                return false;
+            }
+
+
+            return true;
+        }
+
+
+        // =====================================================
+        // تسجيل الخروج
+        // =====================================================
+
+        function logoutUser() {
+
+            localStorage.removeItem("loggedIn");
+
+            localStorage.removeItem("currentUser");
+
+            localStorage.removeItem("loginTime");
+
+
+            window.location.href =
+                "index.html";
+        }
+
+
+        // =====================================================
+        // التحقق عند فتح الصفحة
+        // =====================================================
+
+        if (!checkLogin()) {
+
+            throw new Error(
+                "User is not logged in."
+            );
+
+        }
 
 
         // =====================================================
@@ -1714,7 +1597,6 @@
         // =====================================================
 
         function calculateRemaining() {
-
 
             const total =
                 parseFloat(
@@ -1742,16 +1624,14 @@
                 remaining >= 0
                     ? remaining
                     : 0;
-
         }
 
 
         // =====================================================
-        // فتح نافذة البحث
+        // فتح البحث
         // =====================================================
 
         function openSearch() {
-
 
             const overlay =
                 document.getElementById(
@@ -1776,16 +1656,14 @@
                 },
                 150
             );
-
         }
 
 
         // =====================================================
-        // إغلاق نافذة البحث
+        // إغلاق البحث
         // =====================================================
 
         function closeSearch() {
-
 
             document
                 .getElementById(
@@ -1817,15 +1695,27 @@
                 .textContent =
                 "اكتب اسم المسافر أو رقم الحجز للبحث";
 
+
+            const searchButton =
+                document.getElementById(
+                    "searchButton"
+                );
+
+
+            searchButton.disabled =
+                false;
+
+
+            searchButton.innerHTML =
+                '<i class="fa-solid fa-search"></i> بحث';
         }
 
 
         // =====================================================
-        // إغلاق عند الضغط خارج النافذة
+        // إغلاق البحث عند الضغط خارج النافذة
         // =====================================================
 
         function closeSearchFromOverlay(event) {
-
 
             if (
                 event.target.id ===
@@ -1833,18 +1723,15 @@
             ) {
 
                 closeSearch();
-
             }
-
         }
 
 
         // =====================================================
-        // البحث
+        // البحث عن المسافر
         // =====================================================
 
         function searchPassenger() {
-
 
             const input =
                 document.getElementById(
@@ -1875,7 +1762,7 @@
 
 
             // =================================================
-            // التحقق من البحث
+            // التحقق
             // =================================================
 
             if (!query) {
@@ -1889,7 +1776,6 @@
                 input.focus();
 
                 return;
-
             }
 
 
@@ -1914,7 +1800,7 @@
 
 
             // =================================================
-            // اسم Callback
+            // إنشاء Callback
             // =================================================
 
             const callbackName =
@@ -1927,14 +1813,21 @@
 
 
             // =================================================
-            // إنشاء الدالة
+            // دالة استقبال النتائج
             // =================================================
 
             window[callbackName] =
                 function(response) {
 
-
                     try {
+
+                        searchButton.disabled =
+                            false;
+
+
+                        searchButton.innerHTML =
+                            '<i class="fa-solid fa-search"></i> بحث';
+
 
                         if (
                             !response ||
@@ -1948,18 +1841,16 @@
                                     : "حدث خطأ أثناء البحث.";
 
                             return;
-
                         }
 
 
                         const results =
-                            response.results ||
-                            [];
+                            response.results || [];
 
 
-                        // =================================================
+                        // =============================================
                         // لا توجد نتائج
-                        // =================================================
+                        // =============================================
 
                         if (
                             results.length === 0
@@ -1969,13 +1860,12 @@
                                 "❌ لم يتم العثور على مسافر بهذا الاسم أو رقم الحجز.";
 
                             return;
-
                         }
 
 
-                        // =================================================
+                        // =============================================
                         // عدد النتائج
-                        // =================================================
+                        // =============================================
 
                         status.textContent =
                             "تم العثور على " +
@@ -1983,9 +1873,9 @@
                             " نتيجة. اضغط على المسافر لعرض بياناته.";
 
 
-                        // =================================================
+                        // =============================================
                         // عرض النتائج
-                        // =================================================
+                        // =============================================
 
                         results.forEach(
                             function(item) {
@@ -2051,6 +1941,17 @@
                                 `;
 
 
+                                // =================================================
+                                // الإصلاح المهم:
+                                //
+                                // لا نستخدم:
+                                // function fillPassengerData(data)
+                                //
+                                // لأن data ستكون Event
+                                //
+                                // نرسل item نفسه
+                                // =================================================
+
                                 result.onclick =
                                     function() {
 
@@ -2069,19 +1970,28 @@
                         );
 
 
+                    } catch (error) {
+
+                        console.error(
+                            "Search callback error:",
+                            error
+                        );
+
+                        status.textContent =
+                            "❌ حدث خطأ أثناء معالجة نتائج البحث.";
+
                     } finally {
 
-                        searchButton.disabled =
-                            false;
+                        setTimeout(
+                            function() {
 
+                                delete window[
+                                    callbackName
+                                ];
 
-                        searchButton.innerHTML =
-                            '<i class="fa-solid fa-search"></i> بحث';
-
-
-                        delete window[
-                            callbackName
-                        ];
+                            },
+                            1000
+                        );
 
                     }
 
@@ -2122,7 +2032,7 @@
 
 
             // =================================================
-            // في حالة الخطأ
+            // خطأ الاتصال
             // =================================================
 
             script.onerror =
@@ -2131,30 +2041,35 @@
                     status.textContent =
                         "❌ حدث خطأ أثناء الاتصال بقاعدة البيانات.";
 
+
                     searchButton.disabled =
                         false;
 
+
                     searchButton.innerHTML =
                         '<i class="fa-solid fa-search"></i> بحث';
+
 
                     delete window[
                         callbackName
                     ];
 
-                    script.remove();
 
+                    script.remove();
                 };
 
 
-            document
-                .body
-                .appendChild(
-                    script
-                );
+            // =================================================
+            // إضافة Script للصفحة
+            // =================================================
+
+            document.body.appendChild(
+                script
+            );
 
 
             // =================================================
-            // تنظيف Script بعد التحميل
+            // تنظيف Script
             // =================================================
 
             script.onload =
@@ -2175,7 +2090,7 @@
 
 
         // =====================================================
-        // الضغط Enter للبحث
+        // الضغط على Enter للبحث
         // =====================================================
 
         document
@@ -2194,7 +2109,6 @@
                         event.preventDefault();
 
                         searchPassenger();
-
                     }
 
                 }
@@ -2202,13 +2116,24 @@
 
 
         // =====================================================
-        // تعبئة بيانات المسافر
+        // تعبئة بيانات الحجز من نتيجة البحث
         // =====================================================
 
-        function fillPassengerData(
-            data
-        ) {
+        function fillPassengerData(data) {
 
+            // =================================================
+            // حفظ رقم الصف
+            //
+            // مهم جدًا للتعديل
+            // =================================================
+
+            currentEditingRow =
+                data.rowNumber || null;
+
+
+            // =================================================
+            // تعبئة البيانات
+            // =================================================
 
             document.getElementById(
                 "passengerName"
@@ -2267,8 +2192,7 @@
             document.getElementById(
                 "companyName"
             ).value =
-                data.companyName ===
-                    "لا يوجد"
+                data.companyName === "لا يوجد"
                     ? ""
                     : (
                         data.companyName ||
@@ -2277,14 +2201,14 @@
 
 
             // =================================================
-            // إغلاق نافذة البحث
+            // إغلاق البحث
             // =================================================
 
             closeSearch();
 
 
             // =================================================
-            // رسالة داخل العنوان بدون Popup
+            // تغيير عنوان الصفحة
             // =================================================
 
             const title =
@@ -2298,7 +2222,14 @@
 
 
             title.innerHTML =
-                '<i class="fa-solid fa-circle-check" style="color:#86efac;"></i> تم تحميل بيانات المسافر';
+                `
+                <i
+                    class="fa-solid fa-pen-to-square"
+                    style="color:#facc15;">
+                </i>
+
+                تم تحميل الحجز للتعديل
+                `;
 
 
             setTimeout(
@@ -2320,7 +2251,7 @@
 
 
             // =================================================
-            // نقل المستخدم لأول خانة
+            // الانتقال لأول خانة
             // =================================================
 
             document
@@ -2333,12 +2264,10 @@
 
 
         // =====================================================
-        // حماية عرض النصوص داخل HTML
+        // حماية النصوص عند عرضها داخل HTML
         // =====================================================
 
-        function escapeHtml(
-            value
-        ) {
+        function escapeHtml(value) {
 
             const div =
                 document.createElement(
@@ -2354,21 +2283,26 @@
 
 
             return div.innerHTML;
-
         }
 
 
         // =====================================================
         // حفظ البيانات في Google Sheets
-        // بدون تنزيل Excel
-        // وبدون Popup
         // =====================================================
 
-        async function exportToGoogleSheets(
-            e
-        ) {
+        async function exportToGoogleSheets(e) {
 
             e.preventDefault();
+
+
+            // =================================================
+            // التأكد من تسجيل الدخول
+            // =================================================
+
+            if (!checkLogin()) {
+
+                return;
+            }
 
 
             const form =
@@ -2383,96 +2317,192 @@
                 );
 
 
-            const passengerName =
-                document.getElementById(
-                    "passengerName"
-                ).value.trim();
+            // =================================================
+            // اسم الموظف الحالي
+            //
+            // لا يوجد input في الصفحة
+            // الموظف لا يستطيع تغييره من الصفحة
+            // =================================================
 
+            const employeeName =
+                getCurrentUser();
+
+
+            // =================================================
+            // تحديد نوع العملية
+            //
+            // null = إضافة
+            // رقم الصف = تعديل
+            // =================================================
+
+            const operationType =
+                currentEditingRow
+                    ? "تعديل"
+                    : "إضافة";
+
+
+            // =================================================
+            // تجهيز البيانات
+            // =================================================
 
             const data = {
 
+                action:
+                    "savePassengerBooking",
+
+
+                // =============================================
+                // بيانات المسافر
+                // =============================================
+
                 passengerName:
-                    passengerName,
+                    document
+                        .getElementById(
+                            "passengerName"
+                        )
+                        .value
+                        .trim(),
+
 
                 bookingNumber:
-                    document.getElementById(
-                        "bookingNumber"
-                    ).value.trim(),
+                    document
+                        .getElementById(
+                            "bookingNumber"
+                        )
+                        .value
+                        .trim(),
+
 
                 mobileNumber:
-                    document.getElementById(
-                        "mobileNumber"
-                    ).value.trim(),
+                    document
+                        .getElementById(
+                            "mobileNumber"
+                        )
+                        .value
+                        .trim(),
+
 
                 bookingDate:
-                    document.getElementById(
-                        "bookingDate"
-                    ).value,
+                    document
+                        .getElementById(
+                            "bookingDate"
+                        )
+                        .value,
+
 
                 travelDate:
-                    document.getElementById(
-                        "travelDate"
-                    ).value,
+                    document
+                        .getElementById(
+                            "travelDate"
+                        )
+                        .value,
+
+
+                // =============================================
+                // الحسابات
+                // =============================================
 
                 totalAmount:
                     parseFloat(
-                        document.getElementById(
-                            "totalAmount"
-                        ).value
+                        document
+                            .getElementById(
+                                "totalAmount"
+                            )
+                            .value
                     ) || 0,
+
 
                 paidAmount:
                     parseFloat(
-                        document.getElementById(
-                            "paidAmount"
-                        ).value
+                        document
+                            .getElementById(
+                                "paidAmount"
+                            )
+                            .value
                     ) || 0,
+
 
                 remainingAmount:
                     parseFloat(
-                        document.getElementById(
-                            "remainingAmount"
-                        ).value
+                        document
+                            .getElementById(
+                                "remainingAmount"
+                            )
+                            .value
                     ) || 0,
+
 
                 commission:
                     parseFloat(
-                        document.getElementById(
-                            "commission"
-                        ).value
+                        document
+                            .getElementById(
+                                "commission"
+                            )
+                            .value
                     ) || 0,
 
+
                 companyName:
-                    document.getElementById(
-                        "companyName"
-                    ).value.trim() ||
-                    "لا يوجد"
+                    document
+                        .getElementById(
+                            "companyName"
+                        )
+                        .value
+                        .trim() ||
+                    "لا يوجد",
+
+
+                // =============================================
+                // معلومات الموظف
+                //
+                // هذه البيانات لا تظهر في الصفحة
+                // =============================================
+
+                employeeName:
+                    employeeName,
+
+
+                operationType:
+                    operationType,
+
+
+                // =============================================
+                // رقم الصف
+                //
+                // مهم في حالة التعديل
+                // =============================================
+
+                rowNumber:
+                    currentEditingRow || null
 
             };
 
 
+            // =================================================
+            // حالة التحميل
+            // =================================================
+
+            submitButton.disabled =
+                true;
+
+
+            submitButton.innerHTML = `
+
+                <span class="loading-spinner"></span>
+
+                ${
+                    operationType === "تعديل"
+                        ? "جاري تعديل البيانات..."
+                        : "جاري حفظ البيانات..."
+                }
+
+            `;
+
+
             try {
 
-
                 // =================================================
-                // تحميل
-                // =================================================
-
-                submitButton.disabled =
-                    true;
-
-
-                submitButton.innerHTML = `
-
-                    <span class="loading-spinner"></span>
-
-                    جاري حفظ البيانات...
-
-                `;
-
-
-                // =================================================
-                // إرسال Google Sheets
+                // إرسال البيانات إلى Google Apps Script
                 // =================================================
 
                 await fetch(
@@ -2505,7 +2535,7 @@
 
 
                 // =================================================
-                // بدون Alert
+                // اعتبار العملية ناجحة
                 // =================================================
 
                 submitButton.innerHTML = `
@@ -2515,7 +2545,11 @@
                         style="color:#86efac;">
                     </i>
 
-                    تم الحفظ بنجاح
+                    ${
+                        operationType === "تعديل"
+                            ? "تم تعديل البيانات بنجاح"
+                            : "تم حفظ البيانات بنجاح"
+                    }
 
                 `;
 
@@ -2533,6 +2567,19 @@
 
 
                 // =================================================
+                // مهم جدًا
+                //
+                // بعد الحفظ:
+                //
+                // الحجز التالي يعتبر إضافة جديدة
+                // وليس تعديل
+                // =================================================
+
+                currentEditingRow =
+                    null;
+
+
+                // =================================================
                 // إعادة الزر
                 // =================================================
 
@@ -2542,9 +2589,12 @@
                         submitButton.disabled =
                             false;
 
+
                         submitButton.innerHTML = `
 
-                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            <i
+                                class="fa-solid fa-cloud-arrow-up">
+                            </i>
 
                             حفظ البيانات
 
@@ -2557,8 +2607,8 @@
 
             } catch (error) {
 
-
                 console.error(
+                    "Save error:",
                     error
                 );
 
@@ -2569,7 +2619,9 @@
 
                 submitButton.innerHTML = `
 
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <i
+                        class="fa-solid fa-cloud-arrow-up">
+                    </i>
 
                     حفظ البيانات
 
@@ -2579,9 +2631,7 @@
 
         }
 
-
     </script>
-
 
 </body>
 
