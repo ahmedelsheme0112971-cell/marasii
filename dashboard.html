@@ -1360,7 +1360,300 @@
             }
         }
 
-    </style>
+    
+
+        /* =====================================================
+           معلومات المستخدم + عداد الجلسة
+        ===================================================== */
+
+        .session-top-bar {
+            width: min(1050px, 95%);
+            z-index: 20;
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            direction: rtl;
+        }
+
+        .session-user-wrap,
+        .session-timer {
+            min-height: 48px;
+            padding: 7px 14px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.20);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            font-weight: 800;
+        }
+
+        .session-user-wrap {
+            cursor: default;
+        }
+
+        .session-user-circle {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #7c3aed, #4c1d95);
+            border: 1px solid rgba(255,255,255,0.35);
+            box-shadow: 0 5px 16px rgba(124,58,237,0.40);
+            color: #ffffff;
+            flex: 0 0 auto;
+        }
+
+        .session-user-name {
+            color: #ffffff;
+            font-size: 0.95rem;
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .session-timer {
+            direction: rtl;
+        }
+
+        .session-timer > i {
+            color: #86efac;
+        }
+
+        .session-time-value {
+            direction: ltr;
+            min-width: 54px;
+            text-align: center;
+            color: #86efac;
+            font-size: 1.05rem;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        .session-timer.warning {
+            border-color: rgba(250,204,21,0.60);
+            box-shadow: 0 8px 25px rgba(250,204,21,0.16);
+        }
+
+        .session-timer.warning .session-time-value,
+        .session-timer.warning > i {
+            color: #facc15;
+        }
+
+        .session-timer.danger {
+            border-color: rgba(239,68,68,0.70);
+            box-shadow: 0 8px 25px rgba(239,68,68,0.20);
+            animation: sessionPulse 1s infinite;
+        }
+
+        .session-timer.danger .session-time-value,
+        .session-timer.danger > i {
+            color: #f87171;
+        }
+
+        @keyframes sessionPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.025); }
+        }
+
+        /* =====================================================
+           نافذة تحذير انتهاء الجلسة
+        ===================================================== */
+
+        .session-warning-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5,2,12,0.78);
+            backdrop-filter: blur(11px);
+            -webkit-backdrop-filter: blur(11px);
+            z-index: 20000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .session-warning-overlay.active {
+            display: flex;
+        }
+
+        .session-warning-modal {
+            width: min(460px, 100%);
+            padding: 30px 25px;
+            border-radius: 30px;
+            text-align: center;
+            background: rgba(25,10,45,0.98);
+            border: 1px solid rgba(250,204,21,0.35);
+            box-shadow: 0 30px 90px rgba(0,0,0,0.75);
+            animation: sessionModalIn 0.25s ease;
+        }
+
+        .session-warning-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(250,204,21,0.14);
+            border: 1px solid rgba(250,204,21,0.35);
+            color: #facc15;
+            font-size: 1.8rem;
+        }
+
+        .session-warning-title {
+            color: #ffffff;
+            font-size: 1.45rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .session-warning-text {
+            color: #cbd5e1;
+            font-size: 0.98rem;
+            line-height: 1.9;
+        }
+
+        .session-warning-countdown {
+            margin: 18px auto;
+            color: #f87171;
+            font-size: 2.7rem;
+            line-height: 1;
+            font-weight: 900;
+            direction: ltr;
+            text-shadow: 0 0 25px rgba(248,113,113,0.35);
+        }
+
+        .session-warning-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .session-continue-btn,
+        .session-logout-btn {
+            border: none;
+            border-radius: 18px;
+            padding: 13px 12px;
+            color: #ffffff;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.98rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .session-continue-btn {
+            background: linear-gradient(135deg, #7c3aed, #4c1d95);
+            box-shadow: 0 8px 22px rgba(124,58,237,0.30);
+        }
+
+        .session-logout-btn {
+            background: rgba(239,68,68,0.18);
+            border: 1px solid rgba(239,68,68,0.35);
+        }
+
+        .session-continue-btn:hover,
+        .session-logout-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @keyframes sessionModalIn {
+            from { opacity: 0; transform: translateY(15px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+
+
+/* =====================================================
+   تعديل نهائي لمكان اسم المستخدم والعداد
+   نفس سطر الشريط العلوي:
+   المستخدم يمين الشاشة - العداد يسار الشاشة
+===================================================== */
+
+.session-top-bar {
+    position: absolute !important;
+    top: 25px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 20px !important;
+    z-index: 30 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    direction: rtl !important;
+    pointer-events: none !important;
+}
+
+.session-user-wrap,
+.session-timer {
+    pointer-events: auto !important;
+    flex: 0 0 auto !important;
+}
+
+.session-user-wrap {
+    order: 1 !important;
+}
+
+.session-timer {
+    order: 2 !important;
+}
+
+/* عند الشاشات المتوسطة والصغيرة يتم وضعهما بشكل مرتب أسفل الشريط
+   حتى لا يحدث أي تداخل مع أزرار الشريط. */
+@media (max-width: 1100px) {
+    .session-top-bar {
+        position: static !important;
+        width: 95% !important;
+        max-width: 1050px !important;
+        margin-top: 12px !important;
+        padding: 0 !important;
+        flex-wrap: wrap !important;
+        justify-content: space-between !important;
+        pointer-events: auto !important;
+    }
+
+    .session-user-wrap,
+    .session-timer {
+        width: auto !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .session-top-bar {
+        width: 95% !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+    }
+
+    .session-user-wrap,
+    .session-timer {
+        min-height: 44px !important;
+        padding: 6px 10px !important;
+        font-size: 0.85rem !important;
+    }
+
+    .session-user-name {
+        max-width: 130px !important;
+    }
+}
+
+</style>
 
 </head>
 
@@ -1467,6 +1760,84 @@
         </a>
 
     </nav>
+
+    <!-- =====================================================
+         المستخدم الحالي + عداد عدم النشاط
+    ====================================================== -->
+
+    <div class="session-top-bar">
+
+        <div class="session-user-wrap" title="المستخدم الحالي">
+            <span class="session-user-circle">
+                <i class="fa-solid fa-user"></i>
+            </span>
+            <span id="sessionUserName" class="session-user-name">
+                ...
+            </span>
+        </div>
+
+        <div id="sessionTimer"
+             class="session-timer"
+             title="الوقت المتبقي قبل تسجيل الخروج بسبب عدم النشاط">
+            <i class="fa-solid fa-clock"></i>
+            <span>متبقي</span>
+            <span id="sessionTimeValue" class="session-time-value">
+                15:00
+            </span>
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         نافذة تحذير انتهاء الجلسة
+    ====================================================== -->
+
+    <div id="sessionWarningOverlay" class="session-warning-overlay">
+
+        <div class="session-warning-modal">
+
+            <div class="session-warning-icon">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+
+            <div class="session-warning-title">
+                تنبيه انتهاء الجلسة
+            </div>
+
+            <div class="session-warning-text">
+                لم يتم اكتشاف أي نشاط لفترة طويلة.
+                <br>
+                سيتم تسجيل خروجك تلقائيًا خلال:
+            </div>
+
+            <div id="sessionWarningCountdown" class="session-warning-countdown">
+                01:00
+            </div>
+
+            <div class="session-warning-actions">
+
+                <button
+                    type="button"
+                    class="session-continue-btn"
+                    onclick="continueSession()">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    استمرار العمل
+                </button>
+
+                <button
+                    type="button"
+                    class="session-logout-btn"
+                    onclick="logoutUser()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    تسجيل الخروج
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
 
 
     <!-- =====================================================
@@ -2002,12 +2373,12 @@
 
         function logoutUser() {
 
+            clearSessionTimers();
+
             localStorage.removeItem("loggedIn");
-
             localStorage.removeItem("currentUser");
-
             localStorage.removeItem("loginTime");
-
+            localStorage.removeItem("sessionLastActivity");
 
             window.location.href =
                 "index.html";
@@ -3694,7 +4065,326 @@ function normalizeWhatsAppNumber(number) {
 
         }
 
-    </script>
+    
+
+        /* =====================================================
+           نظام الجلسة وعدم النشاط - 15 دقيقة
+        ===================================================== */
+
+        const SESSION_IDLE_LIMIT = 15 * 60 * 1000;
+        const SESSION_WARNING_TIME = 60 * 1000;
+
+        let sessionIdleTimer = null;
+        let sessionWarningTimer = null;
+        let sessionLastActivity = 0;
+        let sessionWarningOpen = false;
+        let sessionLoggingOut = false;
+        let lastActivityWrite = 0;
+
+        function saveSessionActivity(timestamp) {
+            sessionLastActivity = Number(timestamp) || Date.now();
+            localStorage.setItem(
+                "sessionLastActivity",
+                String(sessionLastActivity)
+            );
+        }
+
+        function getSessionLastActivity() {
+            const stored = Number(
+                localStorage.getItem("sessionLastActivity")
+            );
+
+            if (Number.isFinite(stored) && stored > 0) {
+                return stored;
+            }
+
+            return Date.now();
+        }
+
+        function initSessionUser() {
+            const user =
+                localStorage.getItem("currentUser") ||
+                "غير معروف";
+
+            const userElement =
+                document.getElementById("sessionUserName");
+
+            if (userElement) {
+                userElement.textContent = user;
+            }
+        }
+
+        function clearSessionTimers() {
+            if (sessionIdleTimer) {
+                clearInterval(sessionIdleTimer);
+                sessionIdleTimer = null;
+            }
+
+            if (sessionWarningTimer) {
+                clearInterval(sessionWarningTimer);
+                sessionWarningTimer = null;
+            }
+        }
+
+        function closeSessionWarning() {
+            sessionWarningOpen = false;
+
+            const overlay =
+                document.getElementById("sessionWarningOverlay");
+
+            if (overlay) {
+                overlay.classList.remove("active");
+            }
+
+            if (sessionWarningTimer) {
+                clearInterval(sessionWarningTimer);
+                sessionWarningTimer = null;
+            }
+        }
+
+        function registerSessionActivity(force = false) {
+            if (
+                sessionLoggingOut ||
+                localStorage.getItem("loggedIn") !== "true"
+            ) {
+                return;
+            }
+
+            const now = Date.now();
+
+            if (!force && now - lastActivityWrite < 1000) {
+                return;
+            }
+
+            lastActivityWrite = now;
+            saveSessionActivity(now);
+
+            if (sessionWarningOpen) {
+                closeSessionWarning();
+            }
+
+            updateSessionTimer();
+        }
+
+        function updateSessionTimer() {
+            const timer =
+                document.getElementById("sessionTimer");
+
+            const value =
+                document.getElementById("sessionTimeValue");
+
+            if (!timer || !value) {
+                return;
+            }
+
+            const remaining = Math.max(
+                0,
+                SESSION_IDLE_LIMIT -
+                (Date.now() - sessionLastActivity)
+            );
+
+            const totalSeconds = Math.ceil(remaining / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+
+            value.textContent =
+                String(minutes).padStart(2, "0") +
+                ":" +
+                String(seconds).padStart(2, "0");
+
+            timer.classList.remove("warning", "danger");
+
+            if (remaining <= 60 * 1000) {
+                timer.classList.add("danger");
+            } else if (remaining <= 3 * 60 * 1000) {
+                timer.classList.add("warning");
+            }
+        }
+
+        function openSessionWarning() {
+            if (sessionWarningOpen || sessionLoggingOut) {
+                return;
+            }
+
+            sessionWarningOpen = true;
+
+            const overlay =
+                document.getElementById("sessionWarningOverlay");
+
+            if (overlay) {
+                overlay.classList.add("active");
+            }
+
+            updateSessionWarningCountdown();
+
+            if (sessionWarningTimer) {
+                clearInterval(sessionWarningTimer);
+            }
+
+            sessionWarningTimer = setInterval(
+                updateSessionWarningCountdown,
+                1000
+            );
+        }
+
+        function updateSessionWarningCountdown() {
+            if (!sessionWarningOpen) {
+                return;
+            }
+
+            const remaining = Math.max(
+                0,
+                SESSION_IDLE_LIMIT -
+                (Date.now() - sessionLastActivity)
+            );
+
+            const totalSeconds = Math.ceil(remaining / 1000);
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+
+            const element =
+                document.getElementById("sessionWarningCountdown");
+
+            if (element) {
+                element.textContent =
+                    String(minutes).padStart(2, "0") +
+                    ":" +
+                    String(seconds).padStart(2, "0");
+            }
+
+            if (remaining <= 0) {
+                automaticLogout();
+            }
+        }
+
+        function continueSession() {
+            if (sessionLoggingOut) {
+                return;
+            }
+
+            registerSessionActivity(true);
+        }
+
+        function automaticLogout() {
+            if (sessionLoggingOut) {
+                return;
+            }
+
+            sessionLoggingOut = true;
+            clearSessionTimers();
+
+            localStorage.removeItem("loggedIn");
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("loginTime");
+            localStorage.removeItem("sessionLastActivity");
+
+            window.location.href = "index.html";
+        }
+
+        function checkSessionTimeout() {
+            if (
+                localStorage.getItem("loggedIn") !== "true"
+            ) {
+                clearSessionTimers();
+                return;
+            }
+
+            sessionLastActivity = getSessionLastActivity();
+
+            const inactiveFor =
+                Date.now() - sessionLastActivity;
+
+            const remaining =
+                SESSION_IDLE_LIMIT - inactiveFor;
+
+            updateSessionTimer();
+
+            if (
+                remaining <= 0
+            ) {
+                automaticLogout();
+                return;
+            }
+
+            if (
+                remaining <= SESSION_WARNING_TIME &&
+                !sessionWarningOpen
+            ) {
+                openSessionWarning();
+            }
+        }
+
+        [
+            "click",
+            "keydown",
+            "mousedown",
+            "touchstart",
+            "scroll",
+            "input",
+            "change",
+            "submit"
+        ].forEach(function(eventName) {
+            document.addEventListener(
+                eventName,
+                function() {
+                    registerSessionActivity(false);
+                },
+                { passive: true }
+            );
+        });
+
+        document.addEventListener(
+            "mousemove",
+            function() {
+                registerSessionActivity(false);
+            },
+            { passive: true }
+        );
+
+        window.addEventListener(
+            "pageshow",
+            function() {
+                if (
+                    localStorage.getItem("loggedIn") === "true"
+                ) {
+                    initSessionUser();
+                    sessionLastActivity = getSessionLastActivity();
+                    checkSessionTimeout();
+                }
+            }
+        );
+
+        function startSessionManager() {
+            if (
+                localStorage.getItem("loggedIn") !== "true"
+            ) {
+                return;
+            }
+
+            initSessionUser();
+
+            const storedActivity =
+                Number(localStorage.getItem("sessionLastActivity"));
+
+            if (Number.isFinite(storedActivity) && storedActivity > 0) {
+                sessionLastActivity = storedActivity;
+            } else {
+                sessionLastActivity = Date.now();
+                saveSessionActivity(sessionLastActivity);
+            }
+
+            clearSessionTimers();
+            checkSessionTimeout();
+
+            sessionIdleTimer = setInterval(
+                checkSessionTimeout,
+                1000
+            );
+        }
+
+        startSessionManager();
+
+</script>
 
 </body>
 
