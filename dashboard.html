@@ -102,9 +102,23 @@
 
             width: 1050px;
 
-            justify-content: space-around;
+            justify-content: flex-start;
 
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
+
+            overflow-x: auto;
+
+            overflow-y: hidden;
+
+            white-space: nowrap;
+
+            scrollbar-width: none;
+
+            -ms-overflow-style: none;
+        }
+
+        .header-nav::-webkit-scrollbar {
+            display: none;
         }
 
         .nav-btn {
@@ -128,6 +142,10 @@
             border: 1px solid rgba(255,255,255,0.15);
 
             cursor: pointer;
+
+            white-space: nowrap;
+
+            flex: 0 0 auto;
         }
 
         .nav-btn:hover {
@@ -144,6 +162,220 @@
             box-shadow:
                 0 8px 20px
                 rgba(124,58,237,0.4);
+        }
+
+        /* =====================================================
+           نظام التنبيهات
+        ===================================================== */
+
+        .notification-btn {
+            position: relative;
+        }
+
+        .notification-icon-wrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 5px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            min-width: 21px;
+            height: 21px;
+            padding: 0 5px;
+            border-radius: 50px;
+            background: #ef4444;
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 900;
+            line-height: 21px;
+            text-align: center;
+            border: 2px solid #1b0b2d;
+            box-shadow: 0 4px 12px rgba(239,68,68,0.45);
+        }
+
+        .notification-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5,2,12,0.72);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 95px 20px 20px;
+        }
+
+        .notification-overlay.active {
+            display: flex;
+        }
+
+        .notification-modal {
+            width: 100%;
+            max-width: 620px;
+            max-height: 78vh;
+            overflow-y: auto;
+            background: rgba(25,10,45,0.97);
+            border: 1px solid rgba(255,255,255,0.22);
+            border-radius: 30px;
+            padding: 22px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+            animation: modalIn 0.25s ease;
+        }
+
+        .notification-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .notification-title {
+            color: #ffffff;
+            font-size: 1.45rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .notification-title i {
+            color: #facc15;
+        }
+
+        .close-notifications {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: 0.3s;
+        }
+
+        .close-notifications:hover {
+            background: rgba(239,68,68,0.5);
+            transform: rotate(90deg);
+        }
+
+        .notification-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .notification-summary-card {
+            padding: 12px;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            text-align: center;
+            color: #cbd5e1;
+            cursor: pointer;
+            user-select: none;
+            transition: 0.25s ease;
+        }
+
+        .notification-summary-card:hover {
+            background: rgba(255,255,255,0.09);
+            border-color: rgba(255,255,255,0.28);
+            transform: translateY(-2px);
+        }
+
+        .notification-summary-card.active {
+            background: rgba(139,92,246,0.20);
+            border-color: rgba(167,139,250,0.75);
+            box-shadow: 0 8px 25px rgba(139,92,246,0.18);
+        }
+
+        .notification-summary-number {
+            display: block;
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 900;
+            margin-bottom: 3px;
+        }
+
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .notification-item {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.13);
+            background: rgba(255,255,255,0.045);
+            border-radius: 20px;
+            padding: 15px;
+            color: #ffffff;
+            text-align: right;
+        }
+
+        .notification-item.due {
+            border-color: rgba(249,115,22,0.35);
+        }
+
+        .notification-item.remaining {
+            border-color: rgba(239,68,68,0.35);
+        }
+
+        .notification-item.incomplete {
+            border-color: rgba(250,204,21,0.35);
+        }
+
+        .notification-item-title {
+            font-weight: 900;
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .notification-item-details {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .notification-empty {
+            text-align: center;
+            color: #86efac;
+            padding: 30px 10px;
+            font-weight: 800;
+        }
+
+        .notification-loading {
+            text-align: center;
+            color: #cbd5e1;
+            padding: 30px 10px;
+        }
+
+        @media (max-width:768px) {
+            .notification-overlay {
+                padding: 80px 12px 12px;
+            }
+
+            .notification-modal {
+                max-height: 82vh;
+                padding: 17px;
+                border-radius: 24px;
+            }
+
+            .notification-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .notification-btn {
+                min-width: 120px;
+            }
         }
 
         /* =====================================================
@@ -948,11 +1180,35 @@
                 width:
                     95%;
 
+                max-width:
+                    95%;
+
                 padding:
-                    12px;
+                    10px;
+
+                gap:
+                    8px;
 
                 border-radius:
                     30px;
+
+                justify-content:
+                    flex-start;
+
+                flex-wrap:
+                    nowrap;
+
+                overflow-x:
+                    auto;
+
+                overflow-y:
+                    hidden;
+
+                white-space:
+                    nowrap;
+
+                -webkit-overflow-scrolling:
+                    touch;
             }
 
             .nav-btn {
@@ -962,6 +1218,12 @@
 
                 padding:
                     10px 14px;
+
+                flex:
+                    0 0 auto;
+
+                white-space:
+                    nowrap;
             }
 
             .form-grid {
@@ -1022,6 +1284,32 @@
     ====================================================== -->
 
     <nav class="header-nav">
+
+        <!-- التنبيهات -->
+
+        <button
+            type="button"
+            class="nav-btn notification-btn"
+            onclick="openNotifications()"
+            aria-label="التنبيهات">
+
+            <span class="notification-icon-wrap">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <span
+                    id="notificationBadge"
+                    class="notification-badge"
+                    style="display:none;">
+                    0
+                </span>
+
+            </span>
+
+            التنبيهات
+
+        </button>
+
 
         <!-- تسجيل الخروج -->
 
@@ -1350,6 +1638,60 @@
 
 
     <!-- =====================================================
+         نافذة التنبيهات
+    ====================================================== -->
+
+    <div
+        id="notificationOverlay"
+        class="notification-overlay"
+        onclick="closeNotificationsFromOverlay(event)">
+
+        <div
+            class="notification-modal"
+            onclick="event.stopPropagation()">
+
+            <div class="notification-header">
+
+                <div class="notification-title">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                    التنبيهات
+
+                </div>
+
+                <button
+                    type="button"
+                    class="close-notifications"
+                    onclick="closeNotifications()">
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                </button>
+
+            </div>
+
+            <div
+                id="notificationSummary"
+                class="notification-summary">
+            </div>
+
+            <div
+                id="notificationList"
+                class="notification-list">
+
+                <div class="notification-loading">
+                    جاري تحميل التنبيهات...
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
          نافذة البحث
     ====================================================== -->
 
@@ -1592,6 +1934,10 @@
         }
 
 
+        // تحميل عدد التنبيهات بعد التأكد من تسجيل الدخول
+        refreshNotificationBadge();
+
+
         // =====================================================
         // حساب المبلغ المتبقي
         // =====================================================
@@ -1626,6 +1972,392 @@
                     : 0;
         }
 
+
+        // =====================================================
+        // نظام التنبيهات
+        // =====================================================
+
+        let notificationData = {
+            total: 0,
+            remaining: [],
+            dueSoon: [],
+            incomplete: []
+        };
+
+        function openNotifications() {
+
+            const overlay =
+                document.getElementById("notificationOverlay");
+
+            overlay.classList.add("active");
+
+            document.getElementById("notificationList").innerHTML =
+                '<div class="notification-loading">جاري تحميل التنبيهات...</div>';
+
+            document.getElementById("notificationSummary").innerHTML = "";
+
+            loadNotifications();
+        }
+
+        function closeNotifications() {
+
+            document
+                .getElementById("notificationOverlay")
+                .classList.remove("active");
+        }
+
+        function closeNotificationsFromOverlay(event) {
+
+            if (event.target.id === "notificationOverlay") {
+                closeNotifications();
+            }
+        }
+
+        function updateNotificationBadge(total) {
+
+            const badge =
+                document.getElementById("notificationBadge");
+
+            const count = Number(total) || 0;
+
+            if (count <= 0) {
+                badge.style.display = "none";
+                badge.textContent = "0";
+                return;
+            }
+
+            badge.style.display = "inline-block";
+            badge.textContent = count > 99 ? "99+" : String(count);
+        }
+
+        function loadNotifications() {
+
+            const callbackName =
+                "notificationCallback_" +
+                Date.now() +
+                "_" +
+                Math.floor(Math.random() * 100000);
+
+            window[callbackName] = function(response) {
+
+                try {
+
+                    if (!response || !response.success) {
+
+                        updateNotificationBadge(0);
+
+                        document.getElementById("notificationList").innerHTML =
+                            '<div class="notification-loading">❌ تعذر تحميل التنبيهات.</div>';
+
+                        return;
+                    }
+
+                    notificationData = response;
+
+                    updateNotificationBadge(response.total);
+
+                    renderNotifications(response);
+
+                } catch (error) {
+
+                    console.error("Notification error:", error);
+
+                    document.getElementById("notificationList").innerHTML =
+                        '<div class="notification-loading">❌ حدث خطأ أثناء عرض التنبيهات.</div>';
+
+                } finally {
+
+                    setTimeout(function() {
+                        delete window[callbackName];
+                    }, 1000);
+
+                }
+            };
+
+            const script = document.createElement("script");
+
+            const url =
+                GOOGLE_SHEET_URL +
+                "?action=getNotifications" +
+                "&callback=" +
+                encodeURIComponent(callbackName) +
+                "&_=" +
+                Date.now();
+
+            script.src = url;
+            script.async = true;
+
+            script.onerror = function() {
+
+                updateNotificationBadge(0);
+
+                document.getElementById("notificationList").innerHTML =
+                    '<div class="notification-loading">❌ حدث خطأ أثناء الاتصال بقاعدة البيانات.</div>';
+
+                delete window[callbackName];
+
+                script.remove();
+            };
+
+            document.body.appendChild(script);
+
+            script.onload = function() {
+
+                setTimeout(function() {
+                    script.remove();
+                }, 100);
+            };
+        }
+
+        function renderNotifications(data) {
+
+    const summary =
+        document.getElementById("notificationSummary");
+
+    summary.innerHTML = `
+
+        <div
+            class="notification-summary-card active"
+            data-notification-filter="all"
+            onclick="filterNotifications('all')">
+
+            <span class="notification-summary-number">
+                ${Number(data.total || 0)}
+            </span>
+
+            كل التنبيهات
+
+        </div>
+
+        <div
+            class="notification-summary-card"
+            data-notification-filter="remaining"
+            onclick="filterNotifications('remaining')">
+
+            <span class="notification-summary-number">
+                ${Number(data.remainingCount || 0)}
+            </span>
+
+            مبالغ متبقية
+
+        </div>
+
+        <div
+            class="notification-summary-card"
+            data-notification-filter="dueSoon"
+            onclick="filterNotifications('dueSoon')">
+
+            <span class="notification-summary-number">
+                ${Number(data.dueSoonCount || 0)}
+            </span>
+
+            مواعيد قريبة
+
+        </div>
+
+        <div
+            class="notification-summary-card"
+            data-notification-filter="incomplete"
+            onclick="filterNotifications('incomplete')">
+
+            <span class="notification-summary-number">
+                ${Number(data.incompleteCount || 0)}
+            </span>
+
+            بيانات ناقصة
+
+        </div>
+
+    `;
+
+    renderNotificationList(data, "all");
+}
+
+
+/* =====================================================
+   فلترة التنبيهات حسب النوع
+===================================================== */
+
+function filterNotifications(type) {
+
+    if (
+        !notificationData ||
+        !notificationData.success
+    ) {
+        return;
+    }
+
+    document
+        .querySelectorAll("[data-notification-filter]")
+        .forEach(function(card) {
+
+            card.classList.toggle(
+                "active",
+                card.dataset.notificationFilter === type
+            );
+
+        });
+
+    renderNotificationList(
+        notificationData,
+        type
+    );
+}
+
+
+/* =====================================================
+   عرض قائمة التنبيهات حسب الفلتر
+===================================================== */
+
+function renderNotificationList(data, type) {
+
+    const list =
+        document.getElementById("notificationList");
+
+    let notifications = [];
+
+    if (type === "remaining") {
+
+        notifications = data.remaining || [];
+
+    } else if (type === "dueSoon") {
+
+        notifications = data.dueSoon || [];
+
+    } else if (type === "incomplete") {
+
+        notifications = data.incomplete || [];
+
+    } else {
+
+        notifications = [
+            ...(data.remaining || []),
+            ...(data.dueSoon || []),
+            ...(data.incomplete || [])
+        ];
+
+    }
+
+    if (notifications.length === 0) {
+
+        let emptyText =
+            "✓ لا توجد تنبيهات حاليًا";
+
+        if (type === "remaining") {
+            emptyText =
+                "✓ لا توجد مبالغ متبقية حاليًا";
+        } else if (type === "dueSoon") {
+            emptyText =
+                "✓ لا توجد مواعيد سفر قريبة حاليًا";
+        } else if (type === "incomplete") {
+            emptyText =
+                "✓ لا توجد بيانات ناقصة حاليًا";
+        }
+
+        list.innerHTML =
+            '<div class="notification-empty">' +
+            emptyText +
+            '</div>';
+
+        return;
+    }
+
+    list.innerHTML = "";
+
+    notifications.forEach(function(item) {
+
+        const element =
+            document.createElement("div");
+
+        element.className =
+            "notification-item " +
+            (
+                item.type === "remaining"
+                    ? "remaining"
+                    : item.type === "dueSoon"
+                        ? "due"
+                        : "incomplete"
+            );
+
+        element.innerHTML = `
+
+            <div class="notification-item-title">
+                ${escapeHtml(
+                    item.title || "تنبيه"
+                )}
+            </div>
+
+            <div class="notification-item-details">
+                ${escapeHtml(
+                    item.details || ""
+                )}
+            </div>
+
+        `;
+
+        list.appendChild(element);
+
+    });
+}
+
+
+        function refreshNotificationBadge() {
+
+            const callbackName =
+                "notificationBadgeCallback_" +
+                Date.now() +
+                "_" +
+                Math.floor(Math.random() * 100000);
+
+            window[callbackName] = function(response) {
+
+                try {
+
+                    if (response && response.success) {
+                        updateNotificationBadge(response.total);
+                    } else {
+                        updateNotificationBadge(0);
+                    }
+
+                } finally {
+
+                    setTimeout(function() {
+                        delete window[callbackName];
+                    }, 1000);
+
+                }
+            };
+
+            const script = document.createElement("script");
+
+            script.src =
+                GOOGLE_SHEET_URL +
+                "?action=getNotifications" +
+                "&callback=" +
+                encodeURIComponent(callbackName) +
+                "&_=" +
+                Date.now();
+
+            script.async = true;
+
+            script.onerror = function() {
+
+                updateNotificationBadge(0);
+
+                delete window[callbackName];
+
+                script.remove();
+            };
+
+            document.body.appendChild(script);
+
+            script.onload = function() {
+
+                setTimeout(function() {
+                    script.remove();
+                }, 100);
+            };
+        }
 
         // =====================================================
         // فتح البحث
