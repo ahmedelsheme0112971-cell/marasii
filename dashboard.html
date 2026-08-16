@@ -352,6 +352,99 @@
             font-weight: 800;
         }
 
+        .notification-send-wrap {
+            position: relative;
+            margin-top: 12px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .notification-send-btn {
+            border: none;
+            border-radius: 14px;
+            padding: 9px 15px;
+            background: linear-gradient(135deg, #7c3aed, #4c1d95);
+            color: #ffffff;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            box-shadow: 0 6px 18px rgba(124,58,237,0.25);
+            transition: 0.25s ease;
+        }
+
+        .notification-send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 24px rgba(124,58,237,0.4);
+        }
+
+        .notification-message-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            z-index: 30;
+            width: min(330px, 100%);
+            padding: 10px;
+            border-radius: 18px;
+            background: rgba(25,10,45,0.99);
+            border: 1px solid rgba(255,255,255,0.18);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.55);
+        }
+
+        .notification-message-menu.active {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .notification-message-option {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 11px 12px;
+            background: rgba(255,255,255,0.06);
+            color: #ffffff;
+            text-align: right;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .notification-message-option:hover {
+            background: rgba(124,58,237,0.28);
+            border-color: rgba(192,132,252,0.55);
+            transform: translateY(-1px);
+        }
+
+        .notification-message-option i {
+            color: #a78bfa;
+            margin-left: 6px;
+        }
+
+        @media (max-width:768px) {
+            .notification-message-menu {
+                position: static;
+                width: 100%;
+                margin-top: 8px;
+            }
+
+            .notification-send-wrap {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .notification-send-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+
         .notification-loading {
             text-align: center;
             color: #cbd5e1;
@@ -2295,9 +2388,219 @@ function renderNotificationList(data, type) {
 
         `;
 
+        /*
+         * زر إرسال يظهر فقط مع تنبيهات
+         * مواعيد السفر القريبة.
+         */
+        if (item.type === "dueSoon") {
+
+            const sendWrap =
+                document.createElement("div");
+
+            sendWrap.className =
+                "notification-send-wrap";
+
+            const sendButton =
+                document.createElement("button");
+
+            sendButton.type = "button";
+            sendButton.className =
+                "notification-send-btn";
+
+            sendButton.innerHTML =
+                '<i class="fa-brands fa-whatsapp"></i> إرسال';
+
+            const menu =
+                document.createElement("div");
+
+            menu.className =
+                "notification-message-menu";
+
+            const reminderButton =
+                document.createElement("button");
+
+            reminderButton.type = "button";
+            reminderButton.className =
+                "notification-message-option";
+
+            reminderButton.innerHTML =
+                '<i class="fa-solid fa-bell"></i> رسالة تذكير بموعد الرحلة';
+
+            reminderButton.onclick = function(event) {
+
+                event.stopPropagation();
+
+                openWhatsAppNotification(
+                    item,
+                    "reminder"
+                );
+
+                menu.classList.remove("active");
+
+            };
+
+            const changedButton =
+                document.createElement("button");
+
+            changedButton.type = "button";
+            changedButton.className =
+                "notification-message-option";
+
+            changedButton.innerHTML =
+                '<i class="fa-solid fa-plane-circle-exclamation"></i> رسالة تعديل موعد الرحلة';
+
+            changedButton.onclick = function(event) {
+
+                event.stopPropagation();
+
+                openWhatsAppNotification(
+                    item,
+                    "changed"
+                );
+
+                menu.classList.remove("active");
+
+            };
+
+            menu.appendChild(reminderButton);
+            menu.appendChild(changedButton);
+
+            sendButton.onclick = function(event) {
+
+                event.stopPropagation();
+
+                document
+                    .querySelectorAll(".notification-message-menu.active")
+                    .forEach(function(otherMenu) {
+
+                        if (otherMenu !== menu) {
+                            otherMenu.classList.remove("active");
+                        }
+
+                    });
+
+                menu.classList.toggle("active");
+
+            };
+
+            sendWrap.appendChild(sendButton);
+            sendWrap.appendChild(menu);
+
+            element.appendChild(sendWrap);
+
+        }
+
         list.appendChild(element);
 
     });
+
+}
+
+
+/* =====================================================
+   إرسال رسالة التنبيه على واتساب
+===================================================== */
+
+function openWhatsAppNotification(item, messageType) {
+
+    const mobileNumber =
+        normalizeWhatsAppNumber(
+            item.mobileNumber || ""
+        );
+
+    if (!mobileNumber) {
+
+        alert(
+            "⚠️ لا يوجد رقم موبايل صالح مسجل لهذا العميل."
+        );
+
+        return;
+    }
+
+    let message = "";
+
+    if (messageType === "reminder") {
+
+        const travelDate =
+            item.travelDateFormatted ||
+            item.travelDate ||
+            "";
+
+        message =
+            "أهلاً وسهلاً بحضرتك، بنحب نفكر حضرتك بميعاد الرحلة بتاريخ " +
+            travelDate +
+            "، ونبلغ حضرتك الرجاء الاستعداد للسفر.";
+
+    } else {
+
+        message =
+            "الرجاء العلم أنه تم تعديل ميعاد الرحلة، الرجاء التواصل بنا لمعرفة الميعاد الجديد.";
+
+    }
+
+    const whatsappUrl =
+        "https://wa.me/" +
+        mobileNumber +
+        "?text=" +
+        encodeURIComponent(message);
+
+    window.open(
+        whatsappUrl,
+        "_blank"
+    );
+}
+
+
+/* =====================================================
+   تجهيز رقم الهاتف لواتساب
+===================================================== */
+
+function normalizeWhatsAppNumber(number) {
+
+    let value =
+        String(number || "")
+        .trim()
+        .replace(/[^\d+]/g, "");
+
+    if (!value) {
+        return "";
+    }
+
+    /*
+     * أرقام مصر المحلية:
+     * 01005389471
+     * 011xxxxxxxx
+     * تتحول إلى:
+     * 201005389471
+     */
+    if (value.startsWith("+")) {
+        value = value.substring(1);
+    }
+
+    if (value.startsWith("00")) {
+        value = value.substring(2);
+    }
+
+    if (value.startsWith("20")) {
+        return value;
+    }
+
+    if (value.startsWith("0")) {
+        return "20" + value.substring(1);
+    }
+
+    /*
+     * لو الرقم محفوظ بدون 0 وبصيغة مصرية 10 أو 11 رقم،
+     * نضيف كود مصر.
+     */
+    if (
+        value.length === 10 &&
+        /^[1-9]\d{9}$/.test(value)
+    ) {
+        return "20" + value;
+    }
+
+    return value;
 }
 
 
@@ -2819,6 +3122,34 @@ function renderNotificationList(data, type) {
                 };
 
         }
+
+
+        // =====================================================
+        // إغلاق قوائم رسائل واتساب عند الضغط خارجها
+        // =====================================================
+
+        document.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    !event.target.closest(".notification-send-wrap")
+                ) {
+
+                    document
+                        .querySelectorAll(
+                            ".notification-message-menu.active"
+                        )
+                        .forEach(function(menu) {
+
+                            menu.classList.remove("active");
+
+                        });
+
+                }
+
+            }
+        );
 
 
         // =====================================================
