@@ -268,7 +268,7 @@
 
         .notification-summary {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 10px;
             margin-bottom: 15px;
         }
@@ -331,6 +331,34 @@
 
         .notification-item.incomplete {
             border-color: rgba(250,204,21,0.35);
+        }
+
+        .notification-item.flight-change {
+            border-color: rgba(96,165,250,0.45);
+            background: rgba(59,130,246,0.07);
+        }
+
+        .notification-email-btn {
+            margin-top: 12px;
+            border: none;
+            border-radius: 14px;
+            padding: 9px 15px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #ffffff;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            box-shadow: 0 6px 18px rgba(37,99,235,0.25);
+            transition: 0.25s ease;
+        }
+
+        .notification-email-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 24px rgba(37,99,235,0.4);
         }
 
         .notification-item-title {
@@ -2401,6 +2429,15 @@
         // تحميل عدد التنبيهات بعد التأكد من تسجيل الدخول
         refreshNotificationBadge();
 
+        /*
+         * تحديث عداد التنبيهات تلقائيًا كل دقيقة،
+         * حتى تظهر تعديلات Gmail الجديدة بدون الحاجة لإعادة تحميل الصفحة.
+         */
+        setInterval(
+            refreshNotificationBadge,
+            60 * 1000
+        );
+
 
         // =====================================================
         // حساب المبلغ المتبقي
@@ -2445,7 +2482,8 @@
             total: 0,
             remaining: [],
             dueSoon: [],
-            incomplete: []
+            incomplete: [],
+            flightChanges: []
         };
 
         function openNotifications() {
@@ -2632,6 +2670,19 @@
 
         </div>
 
+        <div
+            class="notification-summary-card"
+            data-notification-filter="flightChange"
+            onclick="filterNotifications('flightChange')">
+
+            <span class="notification-summary-number">
+                ${Number(data.flightChangesCount || 0)}
+            </span>
+
+            ✈️ تعديلات
+
+        </div>
+
     `;
 
     renderNotificationList(data, "all");
@@ -2692,12 +2743,17 @@ function renderNotificationList(data, type) {
 
         notifications = data.incomplete || [];
 
+    } else if (type === "flightChange") {
+
+        notifications = data.flightChanges || [];
+
     } else {
 
         notifications = [
             ...(data.remaining || []),
             ...(data.dueSoon || []),
-            ...(data.incomplete || [])
+            ...(data.incomplete || []),
+            ...(data.flightChanges || [])
         ];
 
     }
@@ -2716,6 +2772,9 @@ function renderNotificationList(data, type) {
         } else if (type === "incomplete") {
             emptyText =
                 "✓ لا توجد بيانات ناقصة حاليًا";
+        } else if (type === "flightChange") {
+            emptyText =
+                "✓ لا توجد تعديلات رحلات حاليًا";
         }
 
         list.innerHTML =
@@ -2740,7 +2799,9 @@ function renderNotificationList(data, type) {
                     ? "remaining"
                     : item.type === "dueSoon"
                         ? "due"
-                        : "incomplete"
+                        : item.type === "flightChange"
+                            ? "flight-change"
+                            : "incomplete"
             );
 
         element.innerHTML = `
@@ -2756,6 +2817,16 @@ function renderNotificationList(data, type) {
                     item.details || ""
                 )}
             </div>
+
+            ${
+                item.type === "flightChange" && item.bodyPreview
+                    ? `
+                        <div class="notification-item-details" style="margin-top:8px; white-space:pre-line;">
+                            ${escapeHtml(item.bodyPreview)}
+                        </div>
+                      `
+                    : ""
+            }
 
         `;
 
@@ -2858,6 +2929,40 @@ function renderNotificationList(data, type) {
             sendWrap.appendChild(menu);
 
             element.appendChild(sendWrap);
+
+        }
+
+        /*
+         * زر فتح الإيميل الأصلي يظهر فقط مع تعديلات الرحلات.
+         */
+        if (
+            item.type === "flightChange" &&
+            item.emailUrl
+        ) {
+
+            const emailButton =
+                document.createElement("button");
+
+            emailButton.type = "button";
+            emailButton.className =
+                "notification-email-btn";
+
+            emailButton.innerHTML =
+                '<i class="fa-solid fa-envelope-open-text"></i> فتح الإيميل الأصلي';
+
+            emailButton.onclick = function(event) {
+
+                event.stopPropagation();
+
+                window.open(
+                    item.emailUrl,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            };
+
+            element.appendChild(emailButton);
 
         }
 
