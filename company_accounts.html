@@ -1,2710 +1,663 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>سافر ترافيل - حسابات الشركة</title>
 
-<link
-href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap"
-rel="stylesheet">
-
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<script
-src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
-</script>
-
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Tajawal',sans-serif}
+body{min-height:100vh;background:#0f051d;color:#fff;overflow-x:hidden;position:relative}
+.blur-circle-1,.blur-circle-2{position:fixed;border-radius:50%;filter:blur(160px);pointer-events:none;z-index:0}
+.blur-circle-1{width:600px;height:600px;background:#5b21b6;top:0;left:0;opacity:.45}
+.blur-circle-2{width:550px;height:550px;background:#7c3aed;bottom:0;right:0;opacity:.35}
 
-* {
+.header-nav{
+ position:relative;z-index:20;margin:25px auto 0;width:min(1250px,95%);
+ padding:15px 25px;border-radius:55px;background:rgba(255,255,255,.08);
+ border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(16px);
+ display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:nowrap;
+ overflow-x:auto;scrollbar-width:none
+}
+.header-nav::-webkit-scrollbar{display:none}
+.nav-btn{
+ flex:0 0 auto;border:1px solid rgba(255,255,255,.14);border-radius:50px;
+ padding:11px 20px;background:rgba(255,255,255,.05);color:#fff;text-decoration:none;
+ font-weight:800;font-size:.98rem;cursor:pointer;transition:.25s;white-space:nowrap
+}
+.nav-btn:hover{transform:translateY(-2px);background:rgba(124,58,237,.22);border-color:#a78bfa}
 
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.session-top-bar{
+ position:relative;z-index:20;width:min(1250px,95%);margin:12px auto;
+ display:flex;justify-content:space-between;align-items:center;gap:12px
+}
+.session-user-wrap,.session-timer{
+ min-height:48px;padding:7px 14px;border-radius:30px;background:rgba(255,255,255,.08);
+ border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(14px);display:inline-flex;
+ align-items:center;gap:9px;font-weight:800;box-shadow:0 10px 25px rgba(0,0,0,.22)
+}
+.session-user-wrap{position:relative;cursor:pointer;user-select:none}
+.session-user-circle{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#7c3aed,#4c1d95)}
+.session-user-name{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.session-user-arrow{font-size:.7rem;color:#c4b5fd;transition:.2s}
+.session-user-wrap.menu-open .session-user-arrow{transform:rotate(180deg)}
+.session-timer i,.session-time-value{color:#86efac}
+.session-time-value{direction:ltr;min-width:55px;text-align:center;font-weight:900}
+.user-dropdown-menu{
+ position:absolute;top:calc(100% + 12px);right:0;width:300px;padding:10px;border-radius:20px;
+ background:rgba(24,10,43,.97);border:1px solid rgba(255,255,255,.18);
+ box-shadow:0 25px 60px rgba(0,0,0,.5);opacity:0;visibility:hidden;
+ transform:translateY(-8px) scale(.97);transition:.2s;z-index:100;pointer-events:none
+}
+.session-user-wrap.menu-open .user-dropdown-menu{opacity:1;visibility:visible;transform:none;pointer-events:auto}
+.user-dropdown-title{padding:8px 10px 12px;color:#ddd6fe;font-size:.82rem;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:8px}
+.user-dropdown-option{
+ width:100%;border:1px solid rgba(74,222,128,.25);border-radius:15px;padding:11px;
+ display:flex;align-items:center;gap:10px;background:rgba(34,197,94,.1);color:#fff;cursor:pointer;text-align:right
+}
+.user-dropdown-option:hover{background:rgba(34,197,94,.2)}
+.user-dropdown-option-icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:rgba(34,197,94,.16);color:#86efac}
+.user-dropdown-option-text{flex:1;display:flex;flex-direction:column;gap:2px}
+.user-dropdown-option-text strong{font-size:.88rem}
+.user-dropdown-option-text small{font-size:.7rem;color:#a7f3d0}
+.user-dropdown-option-arrow{color:#86efac}
 
-    font-family:
-        'Tajawal',
-        sans-serif;
+.container{position:relative;z-index:5;width:min(1250px,95%);margin:25px auto 50px}
+.title{text-align:center;font-size:2.2rem;margin:15px 0 25px}
+.title i{color:#c084fc}
 
+.card{
+ background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.14);
+ border-radius:28px;padding:25px;backdrop-filter:blur(18px);
+ box-shadow:0 20px 60px rgba(0,0,0,.25)
+}
+.card-title{font-size:1.25rem;margin-bottom:20px;display:flex;align-items:center;gap:9px}
+.card-title i{color:#c084fc}
+
+.form-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:15px}
+.field label{display:block;color:#ddd6fe;font-weight:800;margin-bottom:8px}
+.input,.select{
+ width:100%;padding:14px 15px;border-radius:16px;border:1px solid rgba(255,255,255,.15);
+ background:rgba(0,0,0,.16);color:#fff;outline:none;font:700 15px 'Tajawal'
+}
+.input:focus,.select:focus{border-color:#a78bfa;box-shadow:0 0 18px rgba(167,139,250,.18)}
+.select option{background:#21102f;color:#fff}
+.notes{grid-column:span 2}
+.form-actions{grid-column:span 2;display:flex;gap:10px}
+.btn{
+ flex:1;border:0;border-radius:17px;padding:14px;color:#fff;cursor:pointer;
+ font:900 15px 'Tajawal';transition:.25s
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:linear-gradient(135deg,#7c3aed,#4c1d95)}
+.btn-transfer{background:linear-gradient(135deg,#0891b2,#164e63)}
+.btn-excel{background:linear-gradient(135deg,#16a34a,#166534)}
+.btn-danger{background:linear-gradient(135deg,#dc2626,#7f1d1d)}
+
+.summary{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:20px}
+.summary-card{
+ padding:19px;border:1px solid rgba(255,255,255,.12);border-radius:22px;
+ background:rgba(255,255,255,.045);text-align:center
+}
+.summary-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;margin:auto;background:rgba(124,58,237,.18);color:#c4b5fd}
+.summary-card small{display:block;color:#cbd5e1;margin-top:9px}
+.summary-card strong{display:block;font-size:1.3rem;margin-top:4px}
+
+.accounts{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:20px}
+.account-card{
+ padding:18px;border:1px solid rgba(255,255,255,.12);border-radius:22px;
+ background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025))
+}
+.account-head{display:flex;align-items:center;gap:9px;font-weight:900}
+.account-head i{color:#a78bfa}
+.account-balance{font-size:1.5rem;font-weight:900;margin:14px 0}
+.account-line{display:flex;justify-content:space-between;color:#cbd5e1;font-size:.84rem;margin:4px 0}
+.account-card button{
+ width:100%;margin-top:12px;padding:10px;border-radius:13px;border:1px solid rgba(255,255,255,.12);
+ background:rgba(255,255,255,.05);color:#fff;font:800 13px 'Tajawal';cursor:pointer
 }
 
-
-body {
-
-    min-height: 100vh;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    background:
-        #0f051d;
-
-    overflow-x: hidden;
-
-    position: relative;
-
-    color: white;
-
+.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+.quick-btn{
+ padding:18px;border:1px solid rgba(255,255,255,.12);border-radius:20px;
+ background:rgba(255,255,255,.05);color:#fff;cursor:pointer;font:900 14px 'Tajawal'
 }
+.quick-btn i{display:block;font-size:23px;color:#c4b5fd;margin-bottom:8px}
+.quick-btn:hover{background:rgba(124,58,237,.15);transform:translateY(-2px)}
 
-
-/* =========================
-   الخلفيات
-========================= */
-
-.blur-circle-1 {
-
-    position: fixed;
-
-    width: 600px;
-    height: 600px;
-
-    background:
-        #5b21b6;
-
-    border-radius: 50%;
-
-    filter:
-        blur(160px);
-
-    top: 5%;
-    left: 5%;
-
-    opacity: 0.5;
-
-    z-index: 1;
-
-    pointer-events: none;
-
+.modal{
+ position:fixed;inset:0;background:rgba(5,2,12,.78);backdrop-filter:blur(9px);
+ display:none;align-items:center;justify-content:center;padding:18px;z-index:999
 }
-
-
-.blur-circle-2 {
-
-    position: fixed;
-
-    width: 550px;
-    height: 550px;
-
-    background:
-        #7c3aed;
-
-    border-radius: 50%;
-
-    filter:
-        blur(170px);
-
-    bottom: 5%;
-    right: 5%;
-
-    opacity: 0.4;
-
-    z-index: 1;
-
-    pointer-events: none;
-
+.modal.active{display:flex}
+.modal-box{
+ width:min(1050px,100%);max-height:90vh;overflow:auto;background:#190a2d;
+ border:1px solid rgba(255,255,255,.18);border-radius:28px;padding:25px;box-shadow:0 30px 90px #000
 }
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.modal-head h2{font-size:1.3rem}
+.close-btn{width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;cursor:pointer}
+.modal-filter{display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:12px;align-items:end}
+.table-wrap{overflow:auto;margin-top:18px}
+table{width:100%;border-collapse:collapse;min-width:800px}
+th,td{padding:11px;border-bottom:1px solid rgba(255,255,255,.08);text-align:center}
+th{color:#c4b5fd;background:rgba(124,58,237,.1)}
+.empty{text-align:center;color:#94a3b8;padding:35px}
+.report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.report-box{padding:16px;border-radius:18px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
+.report-box small{color:#cbd5e1}.report-box strong{display:block;font-size:1.35rem;margin-top:5px}
 
-
-/* =========================
-   القائمة
-========================= */
-
-.header-nav {
-
-    margin-top: 30px;
-
-    z-index: 10;
-
-    background:
-        rgba(255,255,255,0.08);
-
-    backdrop-filter:
-        blur(16px);
-
-    border:
-        1px solid rgba(255,255,255,0.25);
-
-    padding:
-        20px 50px;
-
-    border-radius:
-        60px;
-
-    display:
-        flex;
-
-    gap:
-        25px;
-
-    align-items:
-        center;
-
-    box-shadow:
-        0 15px 35px rgba(0,0,0,0.4);
-
-    max-width:
-        95%;
-
-    width:
-        950px;
-
-    justify-content:
-        space-around;
-
-    flex-wrap:
-        wrap;
-
+.session-warning-overlay{
+ position:fixed;inset:0;background:rgba(5,2,12,.82);backdrop-filter:blur(10px);
+ display:none;align-items:center;justify-content:center;z-index:2000;padding:20px
 }
+.session-warning-overlay.active{display:flex}
+.session-warning-modal{width:min(480px,100%);padding:30px;border-radius:28px;text-align:center;background:#1a0b2d;border:1px solid rgba(255,255,255,.18);box-shadow:0 30px 90px #000}
+.session-warning-icon{font-size:42px;color:#facc15}.session-warning-title{font-size:1.4rem;font-weight:900;margin:10px 0}.session-warning-text{color:#cbd5e1;line-height:1.8}.session-warning-countdown{font-size:2rem;font-weight:900;color:#f87171;margin:15px}
+.session-warning-actions{display:flex;gap:10px}.session-warning-actions button{flex:1;padding:12px;border:0;border-radius:14px;color:#fff;font:900 14px 'Tajawal';cursor:pointer}
+.session-continue-btn{background:#16a34a}.session-logout-btn{background:#dc2626}
 
-
-.nav-btn {
-
-    color:
-        #ffffff;
-
-    text-decoration:
-        none;
-
-    padding:
-        14px 32px;
-
-    border-radius:
-        50px;
-
-    font-weight:
-        700;
-
-    font-size:
-        1.2rem;
-
-    transition:
-        all 0.3s ease;
-
-    background:
-        rgba(255,255,255,0.05);
-
-    border:
-        1px solid rgba(255,255,255,0.15);
-
+@media(max-width:1050px){
+ .summary{grid-template-columns:repeat(3,1fr)}.accounts{grid-template-columns:repeat(2,1fr)}
+ .form-grid{grid-template-columns:1fr 1fr}.notes,.form-actions{grid-column:span 2}.quick-actions{grid-template-columns:repeat(2,1fr)}
 }
-
-
-.nav-btn:hover {
-
-    background:
-        rgba(124,58,237,0.4);
-
-    border-color:
-        rgba(192,132,252,0.6);
-
-    transform:
-        translateY(-3px);
-
-    box-shadow:
-        0 8px 20px rgba(124,58,237,0.4);
-
+@media(max-width:700px){
+ .session-top-bar{flex-direction:column;align-items:stretch}.session-user-wrap,.session-timer{justify-content:center}
+ .form-grid{grid-template-columns:1fr}.notes,.form-actions{grid-column:span 1}.form-actions{flex-direction:column}
+ .summary{grid-template-columns:1fr 1fr}.accounts{grid-template-columns:1fr}.quick-actions{grid-template-columns:1fr}
+ .modal-filter{grid-template-columns:1fr}.title{font-size:1.75rem}
 }
-
-
-/* =========================
-   العنوان
-========================= */
-
-.page-header {
-
-    z-index: 10;
-
-    text-align:
-        center;
-
-    margin-top:
-        35px;
-
-}
-
-
-.page-title {
-
-    font-size:
-        3.2rem;
-
-    font-weight:
-        900;
-
-    text-shadow:
-        0 4px 25px rgba(124,58,237,0.7);
-
-}
-
-
-/* =========================
-   الكروت
-========================= */
-
-.cards-container {
-
-    position:
-        relative;
-
-    z-index:
-        10;
-
-    display:
-        grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(
-                450px,
-                1fr
-            )
-        );
-
-    gap:
-        35px;
-
-    width:
-        95%;
-
-    max-width:
-        1550px;
-
-    margin:
-        40px 0;
-
-}
-
-
-.bubble-card {
-
-    background:
-        rgba(255,255,255,0.06);
-
-    backdrop-filter:
-        blur(22px);
-
-    border:
-        1.5px solid rgba(255,255,255,0.25);
-
-    border-radius:
-        45px;
-
-    padding:
-        2.8rem;
-
-    box-shadow:
-        0 25px 50px rgba(0,0,0,0.45);
-
-    transition:
-        all 0.4s ease;
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    gap:
-        22px;
-
-}
-
-
-.bubble-card:hover {
-
-    transform:
-        translateY(-8px);
-
-    background:
-        rgba(255,255,255,0.1);
-
-    border-color:
-        rgba(167,139,250,0.6);
-
-    box-shadow:
-        0 30px 60px rgba(124,58,237,0.4);
-
-}
-
-
-/* =========================
-   عنوان الكارت
-========================= */
-
-.card-title {
-
-    color:
-        #ffffff;
-
-    font-size:
-        1.7rem;
-
-    font-weight:
-        900;
-
-    text-align:
-        center;
-
-    padding-bottom:
-        15px;
-
-    border-bottom:
-        1px solid rgba(255,255,255,0.2);
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    gap:
-        12px;
-
-}
-
-
-.card-title i {
-
-    color:
-        #c084fc;
-
-}
-
-
-/* =========================
-   الحقول
-========================= */
-
-.input-group-field {
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    gap:
-        10px;
-
-}
-
-
-.input-group-field label {
-
-    color:
-        #cbd5e1;
-
-    font-size:
-        1.15rem;
-
-    font-weight:
-        700;
-
-}
-
-
-.bubble-input {
-
-    width:
-        100%;
-
-    padding:
-        1.1rem 1.4rem;
-
-    background:
-        rgba(255,255,255,0.05);
-
-    border:
-        1.5px solid rgba(255,255,255,0.2);
-
-    border-radius:
-        25px;
-
-    color:
-        #ffffff;
-
-    font-size:
-        1.2rem;
-
-    font-weight:
-        700;
-
-    outline:
-        none;
-
-    transition:
-        all 0.3s ease;
-
-}
-
-
-.bubble-input::placeholder {
-
-    color:
-        #64748b;
-
-}
-
-
-.bubble-input:hover,
-.bubble-input:focus {
-
-    background:
-        rgba(255,255,255,0.12);
-
-    border-color:
-        rgba(167,139,250,0.8);
-
-    box-shadow:
-        0 0 20px rgba(167,139,250,0.5);
-
-}
-
-
-input[type="date"]::-webkit-calendar-picker-indicator {
-
-    filter:
-        invert(1);
-
-    cursor:
-        pointer;
-
-    transform:
-        scale(1.3);
-
-}
-
-
-/* =========================
-   زر الحفظ
-========================= */
-
-.save-card-btn {
-
-    margin-top:
-        10px;
-
-    padding:
-        1.2rem;
-
-    font-size:
-        1.3rem;
-
-    font-weight:
-        800;
-
-    color:
-        #ffffff;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7c3aed,
-            #4c1d95
-        );
-
-    border:
-        none;
-
-    border-radius:
-        25px;
-
-    cursor:
-        pointer;
-
-    transition:
-        all 0.3s ease;
-
-    box-shadow:
-        0 6px 20px rgba(124,58,237,0.5);
-
-    display:
-        flex;
-
-    align-items:
-        center;
-
-    justify-content:
-        center;
-
-    gap:
-        12px;
-
-    min-height:
-        65px;
-
-}
-
-
-.save-card-btn:hover {
-
-    transform:
-        translateY(-3px);
-
-    box-shadow:
-        0 10px 30px rgba(124,58,237,0.8);
-
-}
-
-
-.save-card-btn.loading {
-
-    opacity:
-        0.9;
-
-    cursor:
-        wait;
-
-    pointer-events:
-        none;
-
-}
-
-
-.save-card-btn:disabled {
-
-    cursor:
-        wait;
-
-}
-
-
-/* =========================
-   Loading
-========================= */
-
-.loading-spinner {
-
-    width:
-        25px;
-
-    height:
-        25px;
-
-    border:
-        3px solid rgba(255,255,255,0.3);
-
-    border-top-color:
-        #ffffff;
-
-    border-radius:
-        50%;
-
-    display:
-        inline-block;
-
-    animation:
-        loading-spin 0.7s linear infinite;
-
-}
-
-
-@keyframes loading-spin {
-
-    0% {
-
-        transform:
-            rotate(0deg);
-
-    }
-
-    100% {
-
-        transform:
-            rotate(360deg);
-
-    }
-
-}
-
-
-/* =========================
-   Footer
-========================= */
-
-.footer {
-
-    width:
-        100%;
-
-    z-index:
-        10;
-
-    background:
-        rgba(255,255,255,0.02);
-
-    backdrop-filter:
-        blur(10px);
-
-    border-top:
-        1px solid rgba(255,255,255,0.08);
-
-    padding:
-        25px 0;
-
-    margin-top:
-        20px;
-
-}
-
-
-.footer-container {
-
-    max-width:
-        1400px;
-
-    margin:
-        0 auto;
-
-    display:
-        flex;
-
-    justify-content:
-        space-between;
-
-    align-items:
-        center;
-
-    flex-wrap:
-        wrap;
-
-    padding:
-        0 25px;
-
-    gap:
-        15px;
-
-    color:
-        #cbd5e1;
-
-    font-size:
-        1.1rem;
-
-}
-
-
-.footer a {
-
-    color:
-        #a78bfa;
-
-    text-decoration:
-        none;
-
-}
-
-
-.designer-name {
-
-    font-weight:
-        700;
-
-    color:
-        #c084fc;
-
-}
-
-
-/* =========================
-   الهاتف
-========================= */
-
-@media (max-width: 768px) {
-
-    .cards-container {
-
-        grid-template-columns:
-            1fr;
-
-    }
-
-
-    .header-nav {
-
-        padding:
-            15px;
-
-    }
-
-
-    .nav-btn {
-
-        font-size:
-            1rem;
-
-        padding:
-            10px 18px;
-
-    }
-
-
-    .page-title {
-
-        font-size:
-            2.3rem;
-
-    }
-
-
-    .bubble-card {
-
-        padding:
-            1.8rem;
-
-    }
-
-}
-
-
-
-
-        /* =====================================================
-           معلومات المستخدم + عداد الجلسة
-        ===================================================== */
-
-        .session-top-bar {
-            width: min(1050px, 95%);
-            z-index: 20;
-            margin-top: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            direction: rtl;
-        }
-
-        .session-user-wrap,
-        .session-timer {
-            min-height: 48px;
-            padding: 7px 14px;
-            border-radius: 30px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.20);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-            color: #ffffff;
-            display: inline-flex;
-            align-items: center;
-            gap: 9px;
-            font-weight: 800;
-        }
-
-        .session-user-wrap {
-            cursor: default;
-        }
-
-        .session-user-circle {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #7c3aed, #4c1d95);
-            border: 1px solid rgba(255,255,255,0.35);
-            box-shadow: 0 5px 16px rgba(124,58,237,0.40);
-            color: #ffffff;
-            flex: 0 0 auto;
-        }
-
-        .session-user-name {
-            color: #ffffff;
-            font-size: 0.95rem;
-            max-width: 180px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .session-timer {
-            direction: rtl;
-        }
-
-        .session-timer > i {
-            color: #86efac;
-        }
-
-        .session-time-value {
-            direction: ltr;
-            min-width: 54px;
-            text-align: center;
-            color: #86efac;
-            font-size: 1.05rem;
-            font-weight: 900;
-            letter-spacing: 0.5px;
-        }
-
-        .session-timer.warning {
-            border-color: rgba(250,204,21,0.60);
-            box-shadow: 0 8px 25px rgba(250,204,21,0.16);
-        }
-
-        .session-timer.warning .session-time-value,
-        .session-timer.warning > i {
-            color: #facc15;
-        }
-
-        .session-timer.danger {
-            border-color: rgba(239,68,68,0.70);
-            box-shadow: 0 8px 25px rgba(239,68,68,0.20);
-            animation: sessionPulse 1s infinite;
-        }
-
-        .session-timer.danger .session-time-value,
-        .session-timer.danger > i {
-            color: #f87171;
-        }
-
-        @keyframes sessionPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.025); }
-        }
-
-        /* =====================================================
-           نافذة تحذير انتهاء الجلسة
-        ===================================================== */
-
-        .session-warning-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(5,2,12,0.78);
-            backdrop-filter: blur(11px);
-            -webkit-backdrop-filter: blur(11px);
-            z-index: 20000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .session-warning-overlay.active {
-            display: flex;
-        }
-
-        .session-warning-modal {
-            width: min(460px, 100%);
-            padding: 30px 25px;
-            border-radius: 30px;
-            text-align: center;
-            background: rgba(25,10,45,0.98);
-            border: 1px solid rgba(250,204,21,0.35);
-            box-shadow: 0 30px 90px rgba(0,0,0,0.75);
-            animation: sessionModalIn 0.25s ease;
-        }
-
-        .session-warning-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 15px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(250,204,21,0.14);
-            border: 1px solid rgba(250,204,21,0.35);
-            color: #facc15;
-            font-size: 1.8rem;
-        }
-
-        .session-warning-title {
-            color: #ffffff;
-            font-size: 1.45rem;
-            font-weight: 900;
-            margin-bottom: 10px;
-        }
-
-        .session-warning-text {
-            color: #cbd5e1;
-            font-size: 0.98rem;
-            line-height: 1.9;
-        }
-
-        .session-warning-countdown {
-            margin: 18px auto;
-            color: #f87171;
-            font-size: 2.7rem;
-            line-height: 1;
-            font-weight: 900;
-            direction: ltr;
-            text-shadow: 0 0 25px rgba(248,113,113,0.35);
-        }
-
-        .session-warning-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .session-continue-btn,
-        .session-logout-btn {
-            border: none;
-            border-radius: 18px;
-            padding: 13px 12px;
-            color: #ffffff;
-            font-family: 'Tajawal', sans-serif;
-            font-size: 0.98rem;
-            font-weight: 900;
-            cursor: pointer;
-            transition: 0.25s ease;
-        }
-
-        .session-continue-btn {
-            background: linear-gradient(135deg, #7c3aed, #4c1d95);
-            box-shadow: 0 8px 22px rgba(124,58,237,0.30);
-        }
-
-        .session-logout-btn {
-            background: rgba(239,68,68,0.18);
-            border: 1px solid rgba(239,68,68,0.35);
-        }
-
-        .session-continue-btn:hover,
-        .session-logout-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        @keyframes sessionModalIn {
-            from { opacity: 0; transform: translateY(15px) scale(0.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        @media (max-width:768px) {
-            .session-top-bar { width: 95%; justify-content: center; }
-            .session-user-wrap, .session-timer { width: 100%; justify-content: center; }
-            .session-warning-actions { grid-template-columns: 1fr; }
-        }
-
-
-
-/* =====================================================
-   تعديل نهائي لمكان اسم المستخدم والعداد
-   نفس سطر الشريط العلوي:
-   المستخدم يمين الشاشة - العداد يسار الشاشة
-===================================================== */
-
-.session-top-bar {
-    position: absolute !important;
-    top: 25px !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 20px !important;
-    z-index: 30 !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important;
-    direction: rtl !important;
-    pointer-events: none !important;
-}
-
-.session-user-wrap,
-.session-timer {
-    pointer-events: auto !important;
-    flex: 0 0 auto !important;
-}
-
-.session-user-wrap {
-    order: 1 !important;
-}
-
-.session-timer {
-    order: 2 !important;
-}
-
-/* عند الشاشات المتوسطة والصغيرة يتم وضعهما بشكل مرتب أسفل الشريط
-   حتى لا يحدث أي تداخل مع أزرار الشريط. */
-@media (max-width: 1100px) {
-    .session-top-bar {
-        position: static !important;
-        width: 95% !important;
-        max-width: 1050px !important;
-        margin-top: 12px !important;
-        padding: 0 !important;
-        flex-wrap: wrap !important;
-        justify-content: space-between !important;
-        pointer-events: auto !important;
-    }
-
-    .session-user-wrap,
-    .session-timer {
-        width: auto !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .session-top-bar {
-        width: 95% !important;
-        justify-content: space-between !important;
-        gap: 8px !important;
-    }
-
-    .session-user-wrap,
-    .session-timer {
-        min-height: 44px !important;
-        padding: 6px 10px !important;
-        font-size: 0.85rem !important;
-    }
-
-    .session-user-name {
-        max-width: 130px !important;
-    }
-}
-
 </style>
-
 </head>
-
 
 <body>
 
-
 <div class="blur-circle-1"></div>
-
 <div class="blur-circle-2"></div>
 
-
-<!-- =========================
-     القائمة
-========================= -->
-
 <nav class="header-nav">
-
-
-<a
-href="index.html"
-class="nav-btn">
-
-تسجيل الخروج
-
-</a>
-
-
-<a
-href="dashboard.html"
-class="nav-btn">
-
-حجز المسافرين
-
-</a>
-
-
-<a
-href="https://www.facebook.com/share/1BaiuDESTS/"
-class="nav-btn"
-target="_blank">
-
-معلومات حول
-
-</a>
-
-
-<a
-href="https://wa.me/201005389471"
-class="nav-btn"
-target="_blank">
-
-الدعم والتواصل
-
-</a>
-
-
+ <a href="dashboard.html" class="nav-btn"><i class="fa-solid fa-house"></i> الرئيسية</a>
+ <a href="company_accounts.html" class="nav-btn"><i class="fa-solid fa-wallet"></i> الحسابات</a>
+ <button class="nav-btn" onclick="openStatement()"><i class="fa-solid fa-file-invoice-dollar"></i> كشف حساب</button>
+ <button class="nav-btn" onclick="openReports()"><i class="fa-solid fa-chart-column"></i> التقارير</button>
+ <button class="nav-btn" onclick="openTransfer()"><i class="fa-solid fa-right-left"></i> تحويل</button>
+ <button class="nav-btn" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج</button>
 </nav>
 
-    <!-- =====================================================
-         المستخدم الحالي + عداد عدم النشاط
-    ====================================================== -->
+<div class="session-top-bar">
+ <div class="session-user-wrap" id="sessionUserMenuWrap" onclick="toggleUserMenu(event)" aria-expanded="false">
+  <span class="session-user-circle"><i class="fa-solid fa-user"></i></span>
+  <span id="sessionUserName" class="session-user-name">...</span>
+  <i class="fa-solid fa-chevron-down session-user-arrow"></i>
 
-    <div class="session-top-bar">
+  <div class="user-dropdown-menu" onclick="event.stopPropagation()">
+   <div class="user-dropdown-title"><i class="fa-solid fa-user-shield"></i> خيارات الحساب</div>
+   <button id="googleSheetDropdownOption" class="user-dropdown-option" onclick="openGoogleSheetFromMenu(event)" style="display:none">
+    <span class="user-dropdown-option-icon"><i class="fa-solid fa-table-cells-large"></i></span>
+    <span class="user-dropdown-option-text">
+     <strong>الدخول إلى Google Sheets</strong>
+     <small>فتح قاعدة البيانات الرئيسية</small>
+    </span>
+    <i class="fa-solid fa-arrow-up-right-from-square user-dropdown-option-arrow"></i>
+   </button>
+  </div>
+ </div>
 
-        <div class="session-user-wrap" title="المستخدم الحالي">
-            <span class="session-user-circle">
-                <i class="fa-solid fa-user"></i>
-            </span>
-            <span id="sessionUserName" class="session-user-name">
-                ...
-            </span>
-        </div>
-
-        <div id="sessionTimer"
-             class="session-timer"
-             title="الوقت المتبقي قبل تسجيل الخروج بسبب عدم النشاط">
-            <i class="fa-solid fa-clock"></i>
-            <span>متبقي</span>
-            <span id="sessionTimeValue" class="session-time-value">
-                15:00
-            </span>
-        </div>
-
-    </div>
-
-    <!-- =====================================================
-         نافذة تحذير انتهاء الجلسة
-    ====================================================== -->
-
-    <div id="sessionWarningOverlay" class="session-warning-overlay">
-
-        <div class="session-warning-modal">
-
-            <div class="session-warning-icon">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-
-            <div class="session-warning-title">
-                تنبيه انتهاء الجلسة
-            </div>
-
-            <div class="session-warning-text">
-                لم يتم اكتشاف أي نشاط لفترة طويلة.
-                <br>
-                سيتم تسجيل خروجك تلقائيًا خلال:
-            </div>
-
-            <div id="sessionWarningCountdown" class="session-warning-countdown">
-                01:00
-            </div>
-
-            <div class="session-warning-actions">
-
-                <button
-                    type="button"
-                    class="session-continue-btn"
-                    onclick="continueSession()">
-                    <i class="fa-solid fa-rotate-right"></i>
-                    استمرار العمل
-                </button>
-
-                <button
-                    type="button"
-                    class="session-logout-btn"
-                    onclick="logoutUser()">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    تسجيل الخروج
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-<!-- =========================
-     العنوان
-========================= -->
-
-<div class="page-header">
-
-<h1 class="page-title">
-
-حسابات الشـــركة
-
-</h1>
-
+ <div id="sessionTimer" class="session-timer">
+  <i class="fa-solid fa-clock"></i>
+  <span>متبقي</span>
+  <span id="sessionTimeValue" class="session-time-value">15:00</span>
+ </div>
 </div>
 
-
-<!-- =========================
-     الحسابات
-========================= -->
-
-<main class="cards-container">
-
-
-<!-- =========================
-     بنك مصر
-========================= -->
-
-<div
-class="bubble-card"
-id="card-misr">
-
-
-<h2 class="card-title">
-
-<i class="fa-solid fa-building-columns"></i>
-
-حسابات بنكية ( بنك مصر )
-
-</h2>
-
-
-<div class="input-group-field">
-
-<label>
-تسجيل الدخول (دخل المكتب)
-</label>
-
-<input
-type="number"
-step="0.01"
-class="bubble-input input-in"
-placeholder="0.00">
-
+<div id="sessionWarningOverlay" class="session-warning-overlay">
+ <div class="session-warning-modal">
+  <div class="session-warning-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+  <div class="session-warning-title">تنبيه انتهاء الجلسة</div>
+  <div class="session-warning-text">لم يتم اكتشاف أي نشاط لفترة طويلة.<br>سيتم تسجيل خروجك تلقائيًا خلال:</div>
+  <div id="sessionWarningCountdown" class="session-warning-countdown">01:00</div>
+  <div class="session-warning-actions">
+   <button class="session-continue-btn" onclick="continueSession()"><i class="fa-solid fa-rotate-right"></i> استمرار العمل</button>
+   <button class="session-logout-btn" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج</button>
+  </div>
+ </div>
 </div>
 
-
-<div class="input-group-field">
-
-<label>
-تسجيل الخروج (خرج من المكتب)
-</label>
-
-<input
-type="number"
-step="0.01"
-class="bubble-input input-out"
-placeholder="0.00">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-الملاحظات الخاصة بالدخول والخروج
-</label>
-
-<input
-type="text"
-class="bubble-input input-notes"
-placeholder="اكتب أي ملاحظة هنا...">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-التاريخ
-</label>
-
-<input
-type="date"
-class="bubble-input input-date">
-
-</div>
-
-
-<button
-type="button"
-class="save-card-btn"
-onclick="saveAccountTransaction('card-misr','بنك مصر',this)">
-
-<i class="fa-solid fa-file-excel"></i>
-
-<span class="button-text">
-حفظ الحركة وتصدير إكسيل
-</span>
-
-</button>
-
-
-</div>
-
-
-<!-- =========================
-     بنك اسكندرية
-========================= -->
-
-<div
-class="bubble-card"
-id="card-alex">
-
-
-<h2 class="card-title">
-
-<i class="fa-solid fa-building-columns"></i>
-
-حسابات بنكية ( بنك اسكندرية )
-
-</h2>
-
-
-<div class="input-group-field">
-
-<label>
-تسجيل الدخول (دخل المكتب)
-</label>
-
-<input
-type="number"
-step="0.01"
-class="bubble-input input-in"
-placeholder="0.00">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-تسجيل الخروج (خرج من المكتب)
-</label>
-
-<input
-type="number"
-step="0.01"
-class="bubble-input input-out"
-placeholder="0.00">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-الملاحظات الخاصة بالدخول والخروج
-</label>
-
-<input
-type="text"
-class="bubble-input input-notes"
-placeholder="اكتب أي ملاحظة هنا...">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-التاريخ
-</label>
-
-<input
-type="date"
-class="bubble-input input-date">
-
-</div>
-
-
-<button
-type="button"
-class="save-card-btn"
-onclick="saveAccountTransaction('card-alex','بنك اسكندرية',this)">
-
-<i class="fa-solid fa-file-excel"></i>
-
-<span class="button-text">
-حفظ الحركة وتصدير إكسيل
-</span>
-
-</button>
-
-
-</div>
-
-
-<!-- =========================
-     فودافون كاش
-========================= -->
-
-<div
-class="bubble-card"
-id="card-voda">
-
-
-<h2 class="card-title">
-
-<i class="fa-solid fa-mobile-screen-button"></i>
-
-حسابات ( فودافون كاش )
-
-</h2>
-
-
-<div class="input-group-field">
-
-<label>
-تسجيل الدخول (دخل المكتب)
-</label>
-
-<input
-type="number"
-step="0.01"
-class="bubble-input input-in"
-placeholder="0.00">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-تسجيل الخروج (خرج من المكتب)
-</label>
-
-<input
-type="number"
-step="0.01"
-class="bubble-input input-out"
-placeholder="0.00">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-الملاحظات الخاصة بالدخول والخروج
-</label>
-
-<input
-type="text"
-class="bubble-input input-notes"
-placeholder="اكتب أي ملاحظة هنا...">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-التاريخ
-</label>
-
-<input
-type="date"
-class="bubble-input input-date">
-
-</div>
-
-
-<button
-type="button"
-class="save-card-btn"
-onclick="saveAccountTransaction('card-voda','فودافون كاش',this)">
-
-<i class="fa-solid fa-file-excel"></i>
-
-<span class="button-text">
-حفظ الحركة وتصدير إكسيل
-</span>
-
-</button>
-
-
-</div>
-
-
-<!-- =========================
-     البنك الكويتي
-========================= -->
-
-<div
-class="bubble-card"
-id="card-nbk">
-
-
-<h2 class="card-title">
-
-<i class="fa-solid fa-building-columns"></i>
-
-حسابات بنكية ( البنك الكويتي )
-
-</h2>
-
-
-<div class="input-group-field">
-
-<label>
-تسجيل الدخول (دخل المكتب)
-</label>
-
-<input
-type="number"
-step="0.01"
-class="bubble-input input-in"
-placeholder="0.00">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-تسجيل الخروج (خرج من المكتب)
-</label>
-
-<input
-type="number"
-step="0.01"
-class="bubble-input input-out"
-placeholder="0.00">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-الملاحظات الخاصة بالدخول والخروج
-</label>
-
-<input
-type="text"
-class="bubble-input input-notes"
-placeholder="اكتب أي ملاحظة هنا...">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-التاريخ
-</label>
-
-<input
-type="date"
-class="bubble-input input-date">
-
-</div>
-
-
-<button
-type="button"
-class="save-card-btn"
-onclick="saveAccountTransaction('card-nbk','البنك الكويتي',this)">
-
-<i class="fa-solid fa-file-excel"></i>
-
-<span class="button-text">
-حفظ الحركة وتصدير إكسيل
-</span>
-
-</button>
-
-
-</div>
-
-
-<!-- =========================
-     النقدي
-========================= -->
-
-<div
-class="bubble-card"
-id="card-cash">
-
-
-<h2 class="card-title">
-
-<i class="fa-solid fa-money-bill-wave"></i>
-
-حسابات ( النقدي المتاح )
-
-</h2>
-
-
-<div class="input-group-field">
-
-<label>
-تسجيل الدخول (دخل المكتب)
-</label>
-
-<input
-type="number"
-step="0.01"
-class="bubble-input input-in"
-placeholder="0.00">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-تسجيل الخروج (خرج من المكتب)
-</label>
-
-<input
-type="number"
-step="0.01"
-class="bubble-input input-out"
-placeholder="0.00">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-الملاحظات الخاصة بالدخول والخروج
-</label>
-
-<input
-type="text"
-class="bubble-input input-notes"
-placeholder="اكتب أي ملاحظة هنا...">
-
-</div>
-
-
-<div class="input-group-field">
-
-<label>
-التاريخ
-</label>
-
-<input
-type="date"
-class="bubble-input input-date">
-
-</div>
-
-
-<button
-type="button"
-class="save-card-btn"
-onclick="saveAccountTransaction('card-cash','النقدي المتاح',this)">
-
-<i class="fa-solid fa-file-excel"></i>
-
-<span class="button-text">
-حفظ الحركة وتصدير إكسيل
-</span>
-
-</button>
-
-
-</div>
-
+<main class="container">
+
+<h1 class="title"><i class="fa-solid fa-coins"></i> حسابات الشركة</h1>
+
+<section class="card">
+ <h2 class="card-title"><i class="fa-solid fa-circle-plus"></i> تسجيل حركة مالية جديدة</h2>
+
+ <div class="form-grid">
+  <div class="field">
+   <label>الحساب</label>
+   <select id="accountName" class="select">
+    <option value="">اختر الحساب</option>
+    <option>النقدي المتاح</option>
+    <option>بنك مصر</option>
+    <option>بنك اسكندرية</option>
+    <option>البنك الكويتي</option>
+    <option>فودافون كاش</option>
+   </select>
+  </div>
+
+  <div class="field">
+   <label>دخل</label>
+   <input id="amountIn" class="input" type="number" step="0.01" placeholder="0.00">
+  </div>
+
+  <div class="field">
+   <label>خرج</label>
+   <input id="amountOut" class="input" type="number" step="0.01" placeholder="0.00">
+  </div>
+
+  <div class="field">
+   <label>التاريخ</label>
+   <input id="movementDate" class="input" type="date">
+  </div>
+
+  <div class="field notes">
+   <label>الملاحظات</label>
+   <input id="notes" class="input" type="text" placeholder="مثال: تيكت علي">
+  </div>
+
+  <div class="form-actions">
+   <button class="btn btn-primary" onclick="saveMovement()"><i class="fa-solid fa-floppy-disk"></i> تسجيل الحركة</button>
+   <button class="btn btn-transfer" onclick="openTransfer()"><i class="fa-solid fa-right-left"></i> تحويل بين الحسابات</button>
+  </div>
+ </div>
+</section>
+
+<section id="summary" class="summary"></section>
+<section id="accounts" class="accounts"></section>
+
+<section class="quick-actions">
+ <button class="quick-btn" onclick="openStatement()"><i class="fa-solid fa-file-invoice-dollar"></i> كشف الحساب</button>
+ <button class="quick-btn" onclick="openReports()"><i class="fa-solid fa-chart-column"></i> التقرير المالي</button>
+ <button class="quick-btn" onclick="openTransfer()"><i class="fa-solid fa-right-left"></i> تحويل بين الحسابات</button>
+ <button class="quick-btn" onclick="exportCurrentDashboard()"><i class="fa-solid fa-file-excel"></i> تصدير ملخص Excel</button>
+</section>
 
 </main>
 
+<!-- كشف الحساب -->
+<div id="statementModal" class="modal" onclick="if(event.target===this)closeModal('statementModal')">
+ <div class="modal-box">
+  <div class="modal-head">
+   <h2><i class="fa-solid fa-file-invoice-dollar"></i> كشف الحساب</h2>
+   <button class="close-btn" onclick="closeModal('statementModal')"><i class="fa-solid fa-xmark"></i></button>
+  </div>
 
-<!-- =========================
-     Footer
-========================= -->
+  <div class="modal-filter">
+   <div class="field"><label>الحساب</label><select id="statementAccount" class="select"></select></div>
+   <div class="field"><label>من</label><input id="statementFrom" type="date" class="input"></div>
+   <div class="field"><label>إلى</label><input id="statementTo" type="date" class="input"></div>
+   <button class="btn btn-primary" onclick="loadStatement()">عرض</button>
+  </div>
 
-<footer class="footer">
-
-
-<div class="footer-container">
-
-
-<div>
-
-<i
-class="fa-solid fa-phone"
-style="color:#a78bfa;">
-</i>
-
-التواصل:
-
-01005389471 |
-
-01129713352
-
+  <div id="statementResult" class="table-wrap"></div>
+ </div>
 </div>
 
+<!-- التحويل -->
+<div id="transferModal" class="modal" onclick="if(event.target===this)closeModal('transferModal')">
+ <div class="modal-box">
+  <div class="modal-head">
+   <h2><i class="fa-solid fa-right-left"></i> تحويل بين الحسابات</h2>
+   <button class="close-btn" onclick="closeModal('transferModal')"><i class="fa-solid fa-xmark"></i></button>
+  </div>
 
-<div>
+  <div class="modal-filter">
+   <div class="field"><label>من حساب</label><select id="fromAccount" class="select"></select></div>
+   <div class="field"><label>إلى حساب</label><select id="toAccount" class="select"></select></div>
+   <div class="field"><label>المبلغ</label><input id="transferAmount" type="number" step="0.01" class="input"></div>
+   <div class="field"><label>التاريخ</label><input id="transferDate" type="date" class="input"></div>
+  </div>
 
-<i
-class="fa-brands fa-facebook"
-style="color:#a78bfa;">
-</i>
+  <div class="field" style="margin-top:15px">
+   <label>الملاحظات</label>
+   <input id="transferNotes" class="input" placeholder="مثال: تحويل مصاريف">
+  </div>
 
-<a
-href="https://facebook.com"
-target="_blank">
-
-صفحتنا على فيسبوك
-
-</a>
-
+  <button class="btn btn-transfer" style="margin-top:15px;width:100%" onclick="saveTransfer()">
+   <i class="fa-solid fa-check"></i> تأكيد التحويل
+  </button>
+ </div>
 </div>
 
+<!-- التقارير -->
+<div id="reportsModal" class="modal" onclick="if(event.target===this)closeModal('reportsModal')">
+ <div class="modal-box">
+  <div class="modal-head">
+   <h2><i class="fa-solid fa-chart-column"></i> التقارير المالية</h2>
+   <button class="close-btn" onclick="closeModal('reportsModal')"><i class="fa-solid fa-xmark"></i></button>
+  </div>
 
-<div>
+  <div class="modal-filter">
+   <div class="field"><label>من</label><input id="reportFrom" type="date" class="input"></div>
+   <div class="field"><label>إلى</label><input id="reportTo" type="date" class="input"></div>
+   <button class="btn btn-primary" onclick="loadReport()">إظهار التقرير</button>
+   <button class="btn btn-excel" onclick="exportReportExcel()">Excel</button>
+  </div>
 
-<i
-class="fa-solid fa-code"
-style="color:#a78bfa;">
-</i>
-
-تصميم وتطوير:
-
-<span class="designer-name">
-
-ENG / AHMED ELSHEMEE MAHMOUD
-
-</span>
-
+  <div id="reportResult"></div>
+ </div>
 </div>
-
-
-</div>
-
-
-</footer>
-
 
 <script>
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbz_gXvUwKQeqIAt32zhfKJ_x_myC3Tdig5dhCjC8VpKZwmQwQw2ctGPmjEpobkFSRKSxQ/exec";
+const GOOGLE_SHEET_VIEW_URL="https://docs.google.com/spreadsheets/d/1CGmRQQWLDFm0d9t6Kkc7lUnysjPpE8RxuYf2VWw7gsg/edit?gid=0#gid=0";
+const ACCOUNTS=["النقدي المتاح","بنك مصر","بنك اسكندرية","البنك الكويتي","فودافون كاش"];
+let lastReport=null;
+let lastDashboard=null;
 
+const $=id=>document.getElementById(id);
+const todayISO=()=>new Date().toISOString().slice(0,10);
+const money=n=>Number(n||0).toLocaleString("ar-EG",{minimumFractionDigits:2,maximumFractionDigits:2})+" ج.م";
+const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 
-/* =====================================================
-   رابط Google Apps Script
-   ===================================================== */
-
-const GOOGLE_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbz_gXvUwKQeqIAt32zhfKJ_x_myC3Tdig5dhCjC8VpKZwmQwQw2ctGPmjEpobkFSRKSxQ/exec";
-
-
-/* =====================================================
-   إعادة الزر لحالته الأصلية
-   ===================================================== */
-
-function resetButton(
-    button,
-    originalHTML
-) {
-
-    button.disabled =
-        false;
-
-    button.classList.remove(
-        "loading"
-    );
-
-    button.innerHTML =
-        originalHTML;
-
+function checkLogin(){
+ if(localStorage.getItem("loggedIn")!=="true"||!localStorage.getItem("currentUser")){
+  location.href="index.html";return false;
+ }
+ return true;
 }
 
-
-/* =====================================================
-   حفظ حركة الحساب
-   ===================================================== */
-
-async function saveAccountTransaction(
-    cardId,
-    accountTitle,
-    button
-) {
-
-
-    /* ================================================
-       منع الضغط المتكرر
-       ================================================ */
-
-    if (
-        button.disabled ||
-        button.classList.contains(
-            "loading"
-        )
-    ) {
-
-        return;
-
-    }
-
-
-    /* ================================================
-       العثور على الكارت
-       ================================================ */
-
-    const card =
-        document.getElementById(
-            cardId
-        );
-
-
-    if (!card) {
-
-        alert(
-            "❌ لم يتم العثور على الحساب."
-        );
-
-        return;
-
-    }
-
-
-    /* ================================================
-       حفظ شكل الزر
-       ================================================ */
-
-    const originalButtonHTML =
-        button.innerHTML;
-
-
-    /* ================================================
-       تشغيل التحميل
-       ================================================ */
-
-    button.disabled =
-        true;
-
-    button.classList.add(
-        "loading"
-    );
-
-    button.innerHTML = `
-
-        <span class="loading-spinner"></span>
-
-        <span>
-            جاري الحفظ والتصدير...
-        </span>
-
-    `;
-
-
-    /* ================================================
-       قراءة الخانات
-       ================================================ */
-
-    const amountInInput =
-        card.querySelector(
-            ".input-in"
-        );
-
-
-    const amountOutInput =
-        card.querySelector(
-            ".input-out"
-        );
-
-
-    const notesInput =
-        card.querySelector(
-            ".input-notes"
-        );
-
-
-    const dateInput =
-        card.querySelector(
-            ".input-date"
-        );
-
-
-    if (
-
-        !amountInInput ||
-        !amountOutInput ||
-        !notesInput ||
-        !dateInput
-
-    ) {
-
-        alert(
-            "❌ حدث خطأ في قراءة بيانات الحساب."
-        );
-
-
-        resetButton(
-            button,
-            originalButtonHTML
-        );
-
-
-        return;
-
-    }
-
-
-    /* ================================================
-       قراءة القيم
-       ================================================ */
-
-    const amountIn =
-        parseFloat(
-            amountInInput.value
-        ) || 0;
-
-
-    const amountOut =
-        parseFloat(
-            amountOutInput.value
-        ) || 0;
-
-
-    const notes =
-        notesInput.value.trim()
-        || "لا يوجد";
-
-
-    const dateVal =
-        dateInput.value;
-
-
-    /* ================================================
-       التحقق من التاريخ
-       ================================================ */
-
-    if (!dateVal) {
-
-        alert(
-            "⚠️ من فضلك اختر التاريخ أولاً."
-        );
-
-
-        resetButton(
-            button,
-            originalButtonHTML
-        );
-
-
-        return;
-
-    }
-
-
-    /* ================================================
-       التحقق من المبلغ
-       ================================================ */
-
-    if (
-
-        amountIn === 0 &&
-        amountOut === 0
-
-    ) {
-
-        alert(
-            "⚠️ من فضلك أدخل قيمة في خانة الدخل أو الخروج."
-        );
-
-
-        resetButton(
-            button,
-            originalButtonHTML
-        );
-
-
-        return;
-
-    }
-
-
-    /* ================================================
-       حساب صافي الحركة
-       ================================================ */
-
-    const netAmount =
-        amountIn -
-        amountOut;
-
-
-    /* ================================================
-       البيانات المرسلة
-       ================================================ */
-
-    const data = {
-
-        action:
-            "accountTransaction",
-
-        date:
-            dateVal,
-
-        accountName:
-            accountTitle,
-
-        amountIn:
-            amountIn,
-
-        amountOut:
-            amountOut,
-
-        netAmount:
-            netAmount,
-
-        notes:
-            notes
-
-    };
-
-
-    /* ================================================
-       حفظ الحركة في Google Sheets
-       ================================================ */
-
-    let googleSaved =
-        false;
-
-
-    try {
-
-        await fetch(
-            GOOGLE_SCRIPT_URL,
-            {
-
-                method:
-                    "POST",
-
-                mode:
-                    "no-cors",
-
-                headers: {
-
-                    "Content-Type":
-                        "text/plain;charset=utf-8"
-
-                },
-
-                body:
-                    JSON.stringify(
-                        data
-                    )
-
-            }
-        );
-
-
-        /*
-         * no-cors لا يسمح للصفحة بقراءة الرد،
-         * لكن الطلب يتم إرساله إلى Apps Script.
-         */
-
-        googleSaved =
-            true;
-
-
-    } catch (error) {
-
-        console.error(
-            "Google Sheets Error:",
-            error
-        );
-
-
-        alert(
-            "❌ حدث خطأ أثناء إرسال البيانات إلى Google Sheets."
-        );
-
-
-        resetButton(
-            button,
-            originalButtonHTML
-        );
-
-
-        return;
-
-    }
-
-
-    /* ================================================
-       إنشاء ملف Excel
-       ================================================ */
-
-    if (
-        typeof XLSX ===
-        "undefined"
-    ) {
-
-        alert(
-            "⚠️ تم إرسال الحركة إلى Google Sheets، ولكن مكتبة Excel لم يتم تحميلها."
-        );
-
-
-        resetButton(
-            button,
-            originalButtonHTML
-        );
-
-
-        return;
-
-    }
-
-
-    const excelData = [
-
-        {
-
-            "التاريخ":
-                dateVal,
-
-            "اسم الحساب":
-                accountTitle,
-
-            "دخل المكتب":
-                amountIn,
-
-            "خرج من المكتب":
-                amountOut,
-
-            "صافي الحركة":
-                netAmount,
-
-            "الملاحظات":
-                notes
-
-        }
-
-    ];
-
-
-    let worksheet;
-
-
-    try {
-
-        worksheet =
-            XLSX.utils.json_to_sheet(
-                excelData
-            );
-
-
-        worksheet["!dir"] =
-            "rtl";
-
-
-    } catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        alert(
-            "⚠️ تم حفظ الحركة في Google Sheets ولكن حدث خطأ في تجهيز Excel."
-        );
-
-
-        resetButton(
-            button,
-            originalButtonHTML
-        );
-
-
-        return;
-
-    }
-
-
-    let workbook;
-
-
-    try {
-
-        workbook =
-            XLSX.utils.book_new();
-
-
-        XLSX.utils.book_append_sheet(
-
-            workbook,
-
-            worksheet,
-
-            "حركة حساب"
-
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            error
-        );
-
-
-        alert(
-            "⚠️ تم حفظ الحركة في Google Sheets ولكن حدث خطأ في إنشاء Excel."
-        );
-
-
-        resetButton(
-            button,
-            originalButtonHTML
-        );
-
-
-        return;
-
-    }
-
-
-    /* ================================================
-       اسم ملف Excel
-       ================================================ */
-
-    const safeAccountTitle =
-        accountTitle.replace(
-            /[\\\/:*?"<>|]/g,
-            "_"
-        );
-
-
-    const fileName =
-        safeAccountTitle +
-        "_" +
-        dateVal +
-        ".xlsx";
-
-
-    /* ================================================
-       تنزيل Excel
-       ================================================ */
-
-    try {
-
-        XLSX.writeFile(
-            workbook,
-            fileName
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "Excel Error:",
-            error
-        );
-
-
-        alert(
-            "⚠️ تم حفظ الحركة في Google Sheets ولكن تعذر تنزيل Excel."
-        );
-
-
-        resetButton(
-            button,
-            originalButtonHTML
-        );
-
-
-        return;
-
-    }
-
-
-    /* ================================================
-       نجاح العملية
-       ================================================ */
-
-    if (googleSaved) {
-
-        setTimeout(
-            function () {
-
-
-                /* تفريغ البيانات */
-
-                amountInInput.value =
-                    "";
-
-                amountOutInput.value =
-                    "";
-
-                notesInput.value =
-                    "";
-
-                dateInput.value =
-                    "";
-
-
-                /* رسالة النجاح */
-
-                alert(
-                    "✅ تم حفظ الحركة بنجاح في Google Sheets وتصدير ملف Excel."
-                );
-
-
-                /* إعادة الزر */
-
-                resetButton(
-                    button,
-                    originalButtonHTML
-                );
-
-
-            },
-            500
-        );
-
-    }
-
-
+function getCurrentUser(){return localStorage.getItem("currentUser")||"غير معروف"}
+
+function logoutUser(){
+ clearSessionTimers();
+ ["loggedIn","currentUser","loginTime","sessionLastActivity"].forEach(k=>localStorage.removeItem(k));
+ location.href="index.html";
 }
 
-
-
-
-        // =====================================================
-        // التأكد من تسجيل الدخول
-        // =====================================================
-
-        function checkLogin() {
-
-            const loggedIn =
-                localStorage.getItem("loggedIn");
-
-            const user =
-                localStorage.getItem("currentUser");
-
-            if (
-                loggedIn !== "true" ||
-                !user
-            ) {
-                window.location.href = "index.html";
-                return false;
-            }
-
-            return true;
-        }
-
-        function logoutUser() {
-            clearSessionTimers();
-            localStorage.removeItem("loggedIn");
-            localStorage.removeItem("currentUser");
-            localStorage.removeItem("loginTime");
-            localStorage.removeItem("sessionLastActivity");
-            window.location.href = "index.html";
-        }
-
-        if (!checkLogin()) {
-            throw new Error("User is not logged in.");
-        }
-
-
-        /* =====================================================
-           نظام الجلسة وعدم النشاط - 15 دقيقة
-        ===================================================== */
-
-        const SESSION_IDLE_LIMIT = 15 * 60 * 1000;
-        const SESSION_WARNING_TIME = 60 * 1000;
-
-        let sessionIdleTimer = null;
-        let sessionWarningTimer = null;
-        let sessionLastActivity = 0;
-        let sessionWarningOpen = false;
-        let sessionLoggingOut = false;
-        let lastActivityWrite = 0;
-
-        function saveSessionActivity(timestamp) {
-            sessionLastActivity = Number(timestamp) || Date.now();
-            localStorage.setItem(
-                "sessionLastActivity",
-                String(sessionLastActivity)
-            );
-        }
-
-        function getSessionLastActivity() {
-            const stored = Number(
-                localStorage.getItem("sessionLastActivity")
-            );
-
-            if (Number.isFinite(stored) && stored > 0) {
-                return stored;
-            }
-
-            return Date.now();
-        }
-
-        function initSessionUser() {
-            const user =
-                localStorage.getItem("currentUser") ||
-                "غير معروف";
-
-            const userElement =
-                document.getElementById("sessionUserName");
-
-            if (userElement) {
-                userElement.textContent = user;
-            }
-        }
-
-        function clearSessionTimers() {
-            if (sessionIdleTimer) {
-                clearInterval(sessionIdleTimer);
-                sessionIdleTimer = null;
-            }
-
-            if (sessionWarningTimer) {
-                clearInterval(sessionWarningTimer);
-                sessionWarningTimer = null;
-            }
-        }
-
-        function closeSessionWarning() {
-            sessionWarningOpen = false;
-
-            const overlay =
-                document.getElementById("sessionWarningOverlay");
-
-            if (overlay) {
-                overlay.classList.remove("active");
-            }
-
-            if (sessionWarningTimer) {
-                clearInterval(sessionWarningTimer);
-                sessionWarningTimer = null;
-            }
-        }
-
-        function registerSessionActivity(force = false) {
-            if (
-                sessionLoggingOut ||
-                localStorage.getItem("loggedIn") !== "true"
-            ) {
-                return;
-            }
-
-            const now = Date.now();
-
-            if (!force && now - lastActivityWrite < 1000) {
-                return;
-            }
-
-            lastActivityWrite = now;
-            saveSessionActivity(now);
-
-            if (sessionWarningOpen) {
-                closeSessionWarning();
-            }
-
-            updateSessionTimer();
-        }
-
-        function updateSessionTimer() {
-            const timer =
-                document.getElementById("sessionTimer");
-
-            const value =
-                document.getElementById("sessionTimeValue");
-
-            if (!timer || !value) {
-                return;
-            }
-
-            const remaining = Math.max(
-                0,
-                SESSION_IDLE_LIMIT -
-                (Date.now() - sessionLastActivity)
-            );
-
-            const totalSeconds = Math.ceil(remaining / 1000);
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-
-            value.textContent =
-                String(minutes).padStart(2, "0") +
-                ":" +
-                String(seconds).padStart(2, "0");
-
-            timer.classList.remove("warning", "danger");
-
-            if (remaining <= 60 * 1000) {
-                timer.classList.add("danger");
-            } else if (remaining <= 3 * 60 * 1000) {
-                timer.classList.add("warning");
-            }
-        }
-
-        function openSessionWarning() {
-            if (sessionWarningOpen || sessionLoggingOut) {
-                return;
-            }
-
-            sessionWarningOpen = true;
-
-            const overlay =
-                document.getElementById("sessionWarningOverlay");
-
-            if (overlay) {
-                overlay.classList.add("active");
-            }
-
-            updateSessionWarningCountdown();
-
-            if (sessionWarningTimer) {
-                clearInterval(sessionWarningTimer);
-            }
-
-            sessionWarningTimer = setInterval(
-                updateSessionWarningCountdown,
-                1000
-            );
-        }
-
-        function updateSessionWarningCountdown() {
-            if (!sessionWarningOpen) {
-                return;
-            }
-
-            const remaining = Math.max(
-                0,
-                SESSION_IDLE_LIMIT -
-                (Date.now() - sessionLastActivity)
-            );
-
-            const totalSeconds = Math.ceil(remaining / 1000);
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-
-            const element =
-                document.getElementById("sessionWarningCountdown");
-
-            if (element) {
-                element.textContent =
-                    String(minutes).padStart(2, "0") +
-                    ":" +
-                    String(seconds).padStart(2, "0");
-            }
-
-            if (remaining <= 0) {
-                automaticLogout();
-            }
-        }
-
-        function continueSession() {
-            if (sessionLoggingOut) {
-                return;
-            }
-
-            registerSessionActivity(true);
-        }
-
-        function automaticLogout() {
-            if (sessionLoggingOut) {
-                return;
-            }
-
-            sessionLoggingOut = true;
-            clearSessionTimers();
-
-            localStorage.removeItem("loggedIn");
-            localStorage.removeItem("currentUser");
-            localStorage.removeItem("loginTime");
-            localStorage.removeItem("sessionLastActivity");
-
-            window.location.href = "index.html";
-        }
-
-        function checkSessionTimeout() {
-            if (
-                localStorage.getItem("loggedIn") !== "true"
-            ) {
-                clearSessionTimers();
-                return;
-            }
-
-            sessionLastActivity = getSessionLastActivity();
-
-            const inactiveFor =
-                Date.now() - sessionLastActivity;
-
-            const remaining =
-                SESSION_IDLE_LIMIT - inactiveFor;
-
-            updateSessionTimer();
-
-            if (
-                remaining <= 0
-            ) {
-                automaticLogout();
-                return;
-            }
-
-            if (
-                remaining <= SESSION_WARNING_TIME &&
-                !sessionWarningOpen
-            ) {
-                openSessionWarning();
-            }
-        }
-
-        [
-            "click",
-            "keydown",
-            "mousedown",
-            "touchstart",
-            "scroll",
-            "input",
-            "change",
-            "submit"
-        ].forEach(function(eventName) {
-            document.addEventListener(
-                eventName,
-                function() {
-                    registerSessionActivity(false);
-                },
-                { passive: true }
-            );
-        });
-
-        document.addEventListener(
-            "mousemove",
-            function() {
-                registerSessionActivity(false);
-            },
-            { passive: true }
-        );
-
-        window.addEventListener(
-            "pageshow",
-            function() {
-                if (
-                    localStorage.getItem("loggedIn") === "true"
-                ) {
-                    initSessionUser();
-                    sessionLastActivity = getSessionLastActivity();
-                    checkSessionTimeout();
-                }
-            }
-        );
-
-        function startSessionManager() {
-            if (
-                localStorage.getItem("loggedIn") !== "true"
-            ) {
-                return;
-            }
-
-            initSessionUser();
-
-            const storedActivity =
-                Number(localStorage.getItem("sessionLastActivity"));
-
-            if (Number.isFinite(storedActivity) && storedActivity > 0) {
-                sessionLastActivity = storedActivity;
-            } else {
-                sessionLastActivity = Date.now();
-                saveSessionActivity(sessionLastActivity);
-            }
-
-            clearSessionTimers();
-            checkSessionTimeout();
-
-            sessionIdleTimer = setInterval(
-                checkSessionTimeout,
-                1000
-            );
-        }
-
-        startSessionManager();
-
+function setupGoogleSheetAccess(){
+ const option=$("googleSheetDropdownOption");
+ if(!option)return;
+ option.style.display=getCurrentUser().trim().toLowerCase()==="shimee"?"flex":"none";
+}
+
+function toggleUserMenu(e){
+ if(e)e.stopPropagation();
+ const wrap=$("sessionUserMenuWrap");
+ const open=wrap.classList.toggle("menu-open");
+ wrap.setAttribute("aria-expanded",open?"true":"false");
+}
+function closeUserMenu(){
+ const wrap=$("sessionUserMenuWrap");
+ if(wrap){wrap.classList.remove("menu-open");wrap.setAttribute("aria-expanded","false")}
+}
+function openGoogleSheetFromMenu(e){
+ if(e)e.stopPropagation();
+ if(getCurrentUser().trim().toLowerCase()!=="shimee")return;
+ window.open(GOOGLE_SHEET_VIEW_URL,"_blank","noopener,noreferrer");
+ closeUserMenu();
+}
+document.addEventListener("click",e=>{
+ const wrap=$("sessionUserMenuWrap");
+ if(wrap&&!wrap.contains(e.target))closeUserMenu();
+});
+
+let sessionIdleTimer=null,sessionWarningTimer=null,sessionWarningOpen=false;
+const SESSION_IDLE_LIMIT=15*60*1000;
+const SESSION_WARNING_TIME=60*1000;
+
+function saveSessionActivity(t){localStorage.setItem("sessionLastActivity",String(t))}
+function getSessionLastActivity(){
+ const t=Number(localStorage.getItem("sessionLastActivity")||0);
+ return Number.isFinite(t)&&t>0?t:Date.now();
+}
+function initSessionUser(){$("sessionUserName").textContent=getCurrentUser()}
+function clearSessionTimers(){
+ if(sessionIdleTimer)clearInterval(sessionIdleTimer);
+ if(sessionWarningTimer)clearInterval(sessionWarningTimer);
+ sessionIdleTimer=null;sessionWarningTimer=null;
+}
+function registerSessionActivity(){
+ if(localStorage.getItem("loggedIn")!=="true")return;
+ if(sessionWarningOpen)return;
+ const now=Date.now(),last=getSessionLastActivity();
+ if(now-last>1000)saveSessionActivity(now);
+}
+function updateSessionTimer(){
+ const remain=Math.max(0,SESSION_IDLE_LIMIT-(Date.now()-getSessionLastActivity()));
+ const sec=Math.ceil(remain/1000);
+ $("sessionTimeValue").textContent=String(Math.floor(sec/60)).padStart(2,"0")+":"+String(sec%60).padStart(2,"0");
+ if(remain<=SESSION_WARNING_TIME)$("sessionTimer").style.borderColor="rgba(250,204,21,.6)";
+ else $("sessionTimer").style.borderColor="";
+}
+function openSessionWarning(){
+ if(sessionWarningOpen)return;
+ sessionWarningOpen=true;
+ $("sessionWarningOverlay").classList.add("active");
+ let seconds=60;
+ $("sessionWarningCountdown").textContent="01:00";
+ sessionWarningTimer=setInterval(()=>{
+  seconds--;
+  $("sessionWarningCountdown").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
+  if(seconds<=0){clearInterval(sessionWarningTimer);sessionWarningTimer=null;logoutUser()}
+ },1000);
+}
+function continueSession(){
+ sessionWarningOpen=false;
+ if(sessionWarningTimer)clearInterval(sessionWarningTimer);
+ sessionWarningTimer=null;
+ $("sessionWarningOverlay").classList.remove("active");
+ saveSessionActivity(Date.now());
+ updateSessionTimer();
+}
+function checkSessionTimeout(){
+ if(localStorage.getItem("loggedIn")!=="true"){clearSessionTimers();return}
+ const remain=SESSION_IDLE_LIMIT-(Date.now()-getSessionLastActivity());
+ updateSessionTimer();
+ if(remain<=0){logoutUser();return}
+ if(remain<=SESSION_WARNING_TIME)openSessionWarning();
+}
+function startSessionManager(){
+ if(localStorage.getItem("loggedIn")!=="true")return;
+ initSessionUser();
+ if(!localStorage.getItem("sessionLastActivity"))saveSessionActivity(Date.now());
+ clearSessionTimers();
+ checkSessionTimeout();
+ sessionIdleTimer=setInterval(checkSessionTimeout,1000);
+}
+["click","keydown","mousedown","touchstart","scroll","input","change","submit","mousemove"].forEach(ev=>document.addEventListener(ev,registerSessionActivity,{passive:true}));
+window.addEventListener("pageshow",()=>{if(localStorage.getItem("loggedIn")==="true"){initSessionUser();checkSessionTimeout()}});
+
+function jsonp(action,params={}){
+ return new Promise((resolve,reject)=>{
+  const cb="cb_"+Date.now()+"_"+Math.floor(Math.random()*999999);
+  let script=document.createElement("script");
+  window[cb]=data=>{delete window[cb];script.remove();resolve(data)};
+  const q=new URLSearchParams({action,callback:cb,...params});
+  script.src=GOOGLE_SCRIPT_URL+"?"+q.toString();
+  script.onerror=()=>{delete window[cb];script.remove();reject(new Error("connection"))};
+  document.body.appendChild(script);
+ });
+}
+async function post(data){
+ await fetch(GOOGLE_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)});
+}
+
+function fillOptions(){
+ $("statementAccount").innerHTML='<option value="">كل الحسابات</option>'+ACCOUNTS.map(a=>`<option>${esc(a)}</option>`).join("");
+ const opts='<option value="">اختر الحساب</option>'+ACCOUNTS.map(a=>`<option>${esc(a)}</option>`).join("");
+ $("fromAccount").innerHTML=opts;$("toAccount").innerHTML=opts;
+}
+
+async function saveMovement(){
+ const account=$("accountName").value;
+ const amountIn=Number($("amountIn").value||0);
+ const amountOut=Number($("amountOut").value||0);
+ const date=$("movementDate").value;
+ const notes=$("notes").value.trim()||"لا يوجد";
+
+ if(!account)return alert("⚠️ اختر الحساب أولاً.");
+ if(!date)return alert("⚠️ اختر التاريخ.");
+ if(amountIn<=0&&amountOut<=0)return alert("⚠️ أدخل مبلغ الدخل أو الخروج.");
+ if(amountIn>0&&amountOut>0)return alert("⚠️ لا يمكن تسجيل دخل وخروج في نفس الحركة.");
+
+ try{
+  await post({action:"accountTransaction",date,accountName:account,amountIn,amountOut,notes,employeeName:getCurrentUser()});
+  alert("✅ تم تسجيل الحركة بنجاح.");
+  $("amountIn").value="";$("amountOut").value="";$("notes").value="";
+  await loadDashboard();
+ }catch(e){alert("❌ تعذر الاتصال بقاعدة البيانات.")}
+}
+
+async function loadDashboard(){
+ try{
+  const r=await jsonp("getAccountDashboard");
+  if(!r.success)throw new Error(r.message||"error");
+  lastDashboard=r;
+
+  $("summary").innerHTML=`
+   <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-arrow-down"></i></div><small>إجمالي الداخل</small><strong>${money(r.totalIn)}</strong></div>
+   <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-arrow-up"></i></div><small>إجمالي الخارج</small><strong>${money(r.totalOut)}</strong></div>
+   <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-scale-balanced"></i></div><small>صافي الحركة</small><strong>${money(r.net)}</strong></div>
+   <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-wallet"></i></div><small>إجمالي الأرصدة</small><strong>${money(r.totalBalance)}</strong></div>
+   <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-list-ol"></i></div><small>عدد الحركات</small><strong>${Number(r.transactions||0)}</strong></div>`;
+
+  $("accounts").innerHTML=(r.accounts||[]).map(a=>`
+   <div class="account-card">
+    <div class="account-head"><i class="fa-solid fa-building-columns"></i>${esc(a.name)}</div>
+    <div class="account-balance">${money(a.balance)}</div>
+    <div class="account-line"><span>إجمالي الداخل</span><span>${money(a.in)}</span></div>
+    <div class="account-line"><span>إجمالي الخارج</span><span>${money(a.out)}</span></div>
+    <button onclick="openStatement('${esc(a.name)}')">كشف الحساب <i class="fa-solid fa-chevron-left"></i></button>
+   </div>`).join("");
+ }catch(e){
+  $("summary").innerHTML='<div class="summary-card" style="grid-column:1/-1">❌ تعذر تحميل الحسابات. تأكد من نشر Google Apps Script بالإصدار الجديد.</div>';
+  $("accounts").innerHTML="";
+ }
+}
+
+function openModal(id){$(id).classList.add("active")}
+function closeModal(id){$(id).classList.remove("active")}
+
+function openStatement(account=""){
+ fillOptions();
+ $("statementAccount").value=account;
+ $("statementFrom").value="";
+ $("statementTo").value="";
+ $("statementResult").innerHTML="";
+ openModal("statementModal");
+}
+
+async function loadStatement(){
+ try{
+  const r=await jsonp("getAccountStatement",{
+   accountName:$("statementAccount").value,
+   fromDate:$("statementFrom").value,
+   toDate:$("statementTo").value
+  });
+  const rows=r.rows||[];
+  if(!rows.length){$("statementResult").innerHTML='<div class="empty">لا توجد حركات في الفترة المحددة.</div>';return}
+  $("statementResult").innerHTML=`
+   <table>
+    <thead><tr><th>التاريخ</th><th>الحساب</th><th>دخل</th><th>خرج</th><th>الصافي</th><th>الملاحظات</th><th>الموظف</th><th>النوع</th></tr></thead>
+    <tbody>${rows.map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(x.accountName)}</td><td>${money(x.in)}</td><td>${money(x.out)}</td><td>${money(x.net)}</td><td>${esc(x.notes)}</td><td>${esc(x.employeeName)}</td><td>${esc(x.type)}</td></tr>`).join("")}</tbody>
+   </table>`;
+ }catch(e){$("statementResult").innerHTML='<div class="empty">❌ تعذر تحميل كشف الحساب.</div>'}
+}
+
+function openTransfer(){
+ fillOptions();
+ $("transferDate").value=todayISO();
+ $("transferAmount").value="";
+ $("transferNotes").value="";
+ openModal("transferModal");
+}
+async function saveTransfer(){
+ const from=$("fromAccount").value,to=$("toAccount").value,amount=Number($("transferAmount").value||0),date=$("transferDate").value,notes=$("transferNotes").value.trim()||"تحويل بين الحسابات";
+ if(!from||!to)return alert("⚠️ اختر الحسابين.");
+ if(from===to)return alert("⚠️ لا يمكن التحويل إلى نفس الحساب.");
+ if(amount<=0)return alert("⚠️ أدخل مبلغ التحويل.");
+ if(!date)return alert("⚠️ اختر التاريخ.");
+ try{
+  await post({action:"accountTransfer",fromAccount:from,toAccount:to,amount,date,notes,employeeName:getCurrentUser()});
+  alert("✅ تم تنفيذ التحويل وتسجيل الطرفين.");
+  closeModal("transferModal");
+  await loadDashboard();
+ }catch(e){alert("❌ تعذر تنفيذ التحويل.")}
+}
+
+function openReports(){
+ const d=new Date(),first=new Date(d.getFullYear(),d.getMonth(),1);
+ $("reportFrom").value=first.toISOString().slice(0,10);
+ $("reportTo").value=todayISO();
+ $("reportResult").innerHTML="";
+ openModal("reportsModal");
+}
+async function loadReport(){
+ try{
+  const r=await jsonp("getFinancialReport",{fromDate:$("reportFrom").value,toDate:$("reportTo").value});
+  lastReport=r;
+  $("reportResult").innerHTML=`
+   <div class="report-grid">
+    <div class="report-box"><small>عدد الحجوزات</small><strong>${r.bookingCount||0}</strong></div>
+    <div class="report-box"><small>قيمة الحجوزات</small><strong>${money(r.bookingTotal)}</strong></div>
+    <div class="report-box"><small>المدفوع</small><strong>${money(r.bookingPaid)}</strong></div>
+    <div class="report-box"><small>المتبقي</small><strong>${money(r.bookingRemaining)}</strong></div>
+    <div class="report-box"><small>إجمالي الداخل</small><strong>${money(r.totalIn)}</strong></div>
+    <div class="report-box"><small>إجمالي الخارج</small><strong>${money(r.totalOut)}</strong></div>
+    <div class="report-box"><small>صافي الحركة</small><strong>${money(r.net)}</strong></div>
+    <div class="report-box"><small>عدد الحركات المالية</small><strong>${r.transactionCount||0}</strong></div>
+    <div class="report-box"><small>صافي الشركة</small><strong>${money(r.companyNet)}</strong></div>
+   </div>
+   <div class="table-wrap">
+    <table><thead><tr><th>الموظف</th><th>عدد العمليات</th><th>الداخل</th><th>الخارج</th></tr></thead>
+    <tbody>${(r.employees||[]).map(x=>`<tr><td>${esc(x.name)}</td><td>${x.count}</td><td>${money(x.in)}</td><td>${money(x.out)}</td></tr>`).join("")}</tbody></table>
+   </div>`;
+ }catch(e){$("reportResult").innerHTML='<div class="empty">❌ تعذر تحميل التقرير.</div>'}
+}
+
+function exportReportExcel(){
+ if(!lastReport)return alert("⚠️ اعرض التقرير أولاً.");
+ const data=[
+  ["تقرير سافر ترافيل",""],
+  ["من",lastReport.fromDate],["إلى",lastReport.toDate],
+  ["عدد الحجوزات",lastReport.bookingCount||0],
+  ["قيمة الحجوزات",lastReport.bookingTotal||0],
+  ["المدفوع",lastReport.bookingPaid||0],
+  ["المتبقي",lastReport.bookingRemaining||0],
+  ["إجمالي الداخل",lastReport.totalIn||0],
+  ["إجمالي الخارج",lastReport.totalOut||0],
+  ["صافي الحركة",lastReport.net||0],
+  ["عدد الحركات",lastReport.transactionCount||0],
+  ["صافي الشركة",lastReport.companyNet||0]
+ ];
+ const ws=XLSX.utils.aoa_to_sheet(data);ws["!dir"]="rtl";
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"التقرير");
+ XLSX.writeFile(wb,`تقرير_سافر_ترافيل_${lastReport.fromDate}_${lastReport.toDate}.xlsx`);
+}
+
+function exportCurrentDashboard(){
+ if(!lastDashboard)return alert("⚠️ انتظر تحميل الحسابات.");
+ const data=(lastDashboard.accounts||[]).map(a=>({
+  "الحساب":a.name,"الرصيد":a.balance,"إجمالي الداخل":a.in,"إجمالي الخارج":a.out
+ }));
+ const ws=XLSX.utils.json_to_sheet(data);ws["!dir"]="rtl";
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"أرصدة الحسابات");
+ XLSX.writeFile(wb,"ملخص_حسابات_سافر_ترافيل.xlsx");
+}
+
+if(checkLogin()){
+ initSessionUser();
+ setupGoogleSheetAccess();
+ fillOptions();
+ $("movementDate").value=todayISO();
+ startSessionManager();
+ loadDashboard();
+}
 </script>
 
-
 </body>
-
 </html>
