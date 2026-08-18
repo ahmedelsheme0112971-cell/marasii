@@ -98,15 +98,15 @@
             box-shadow:
                 0 15px 35px rgba(0,0,0,0.4);
 
-            max-width: 95%;
+            max-width: calc(100% - 40px);
 
-            width: 1050px;
+            width: 1400px;
 
-            justify-content: flex-start;
+            justify-content: center;
 
             flex-wrap: nowrap;
 
-            overflow-x: auto;
+            overflow-x: hidden;
 
             overflow-y: hidden;
 
@@ -1454,7 +1454,139 @@
         }
 
         .session-user-wrap {
-            cursor: default;
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+        }
+
+        .session-user-wrap:hover {
+            border-color: rgba(192,132,252,0.55);
+            box-shadow: 0 10px 28px rgba(124,58,237,0.22);
+        }
+
+        .session-user-arrow {
+            font-size: 0.72rem;
+            color: #c4b5fd;
+            transition: transform 0.25s ease;
+        }
+
+        .session-user-wrap.menu-open .session-user-arrow {
+            transform: rotate(180deg);
+        }
+
+        .user-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0;
+            min-width: 285px;
+            padding: 10px;
+            border-radius: 18px;
+            background: rgba(20, 10, 38, 0.96);
+            border: 1px solid rgba(255,255,255,0.18);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px) scale(0.97);
+            transform-origin: top right;
+            transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+            z-index: 200;
+            pointer-events: none;
+        }
+
+        .session-user-wrap.menu-open .user-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .user-dropdown-menu::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            right: 22px;
+            width: 13px;
+            height: 13px;
+            background: rgba(20,10,38,.96);
+            border-left: 1px solid rgba(255,255,255,.18);
+            border-top: 1px solid rgba(255,255,255,.18);
+            transform: rotate(45deg);
+        }
+
+        .user-dropdown-title {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 10px 10px;
+            color: #ddd6fe;
+            font-size: .82rem;
+            font-weight: 800;
+            border-bottom: 1px solid rgba(255,255,255,.09);
+            margin-bottom: 7px;
+        }
+
+        .user-dropdown-title i {
+            color: #a78bfa;
+        }
+
+        .user-dropdown-option {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            border: 1px solid rgba(74,222,128,.25);
+            border-radius: 14px;
+            padding: 11px 10px;
+            background: linear-gradient(135deg, rgba(34,197,94,.14), rgba(22,163,74,.06));
+            color: #fff;
+            cursor: pointer;
+            text-align: right;
+            font-family: inherit;
+            transition: all .22s ease;
+        }
+
+        .user-dropdown-option:hover {
+            transform: translateY(-2px);
+            border-color: rgba(134,239,172,.65);
+            background: linear-gradient(135deg, rgba(34,197,94,.25), rgba(22,163,74,.12));
+            box-shadow: 0 10px 25px rgba(34,197,94,.14);
+        }
+
+        .user-dropdown-option-icon {
+            width: 38px;
+            height: 38px;
+            flex: 0 0 38px;
+            border-radius: 11px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(34,197,94,.16);
+            color: #86efac;
+        }
+
+        .user-dropdown-option-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .user-dropdown-option-text strong {
+            font-size: .9rem;
+            color: #f8fafc;
+        }
+
+        .user-dropdown-option-text small {
+            font-size: .72rem;
+            color: #a7f3d0;
+        }
+
+        .user-dropdown-option-arrow {
+            color: #86efac;
+            font-size: .8rem;
         }
 
         .session-user-circle {
@@ -1780,23 +1912,6 @@
         </a>
 
 
-        <!-- Google Sheets - يظهر للمستخدم shimee فقط -->
-
-        <a
-            id="googleSheetNavButton"
-            href="https://docs.google.com/spreadsheets/d/1CGmRQQWLDFm0d9t6Kkc7lUnysjPpE8RxuYf2VWw7gsg/edit?gid=0#gid=0"
-            class="nav-btn google-sheet-btn"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="display:none;">
-
-            <i class="fa-solid fa-table-cells-large"></i>
-
-            Google Sheets
-
-        </a>
-
-
         <!-- البحث -->
 
         <button
@@ -1842,13 +1957,58 @@
 
     <div class="session-top-bar">
 
-        <div class="session-user-wrap" title="المستخدم الحالي">
+        <div
+            class="session-user-wrap"
+            id="sessionUserMenuWrap"
+            title="اضغط لعرض خيارات المستخدم"
+            onclick="toggleUserMenu(event)"
+            role="button"
+            tabindex="0"
+            aria-haspopup="true"
+            aria-expanded="false">
+
             <span class="session-user-circle">
                 <i class="fa-solid fa-user"></i>
             </span>
+
             <span id="sessionUserName" class="session-user-name">
                 ...
             </span>
+
+            <i class="fa-solid fa-chevron-down session-user-arrow" aria-hidden="true"></i>
+
+            <div
+                id="userDropdownMenu"
+                class="user-dropdown-menu"
+                onclick="event.stopPropagation();">
+
+                <div class="user-dropdown-title">
+                    <i class="fa-solid fa-user-shield"></i>
+                    خيارات الحساب
+                </div>
+
+                <button
+                    type="button"
+                    id="googleSheetDropdownOption"
+                    class="user-dropdown-option"
+                    onclick="openGoogleSheetFromMenu(event)"
+                    style="display:none;">
+
+                    <span class="user-dropdown-option-icon">
+                        <i class="fa-solid fa-table-cells-large"></i>
+                    </span>
+
+                    <span class="user-dropdown-option-text">
+                        <strong>الدخول إلى Google Sheets</strong>
+                        <small>فتح قاعدة البيانات الرئيسية</small>
+                    </span>
+
+                    <i class="fa-solid fa-arrow-up-right-from-square user-dropdown-option-arrow"></i>
+
+                </button>
+
+            </div>
+
         </div>
 
         <div id="sessionTimer"
@@ -2404,36 +2564,85 @@
 
         function setupGoogleSheetAccess() {
 
-            const button =
+            const option =
                 document.getElementById(
-                    "googleSheetNavButton"
+                    "googleSheetDropdownOption"
                 );
 
-            if (!button) {
-                return;
-            }
+            if (!option) return;
 
             const currentUser =
-                String(
-                    localStorage.getItem("currentUser") || ""
-                )
-                .trim()
-                .toLowerCase();
+                String(localStorage.getItem("currentUser") || "")
+                    .trim()
+                    .toLowerCase();
 
-            if (currentUser === "shimee") {
-
-                button.style.display =
-                    "inline-flex";
-
-                button.href =
-                    GOOGLE_SHEET_VIEW_URL;
-
-            } else {
-
-                button.style.display =
-                    "none";
-            }
+            option.style.display =
+                currentUser === "shimee" ? "flex" : "none";
         }
+
+
+        function toggleUserMenu(event) {
+
+            if (event) event.stopPropagation();
+
+            const wrap =
+                document.getElementById("sessionUserMenuWrap");
+
+            if (!wrap) return;
+
+            const isOpen =
+                wrap.classList.toggle("menu-open");
+
+            wrap.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
+            );
+        }
+
+
+        function closeUserMenu() {
+
+            const wrap =
+                document.getElementById("sessionUserMenuWrap");
+
+            if (!wrap) return;
+
+            wrap.classList.remove("menu-open");
+            wrap.setAttribute("aria-expanded", "false");
+        }
+
+
+        function openGoogleSheetFromMenu(event) {
+
+            if (event) event.stopPropagation();
+
+            const currentUser =
+                String(localStorage.getItem("currentUser") || "")
+                    .trim()
+                    .toLowerCase();
+
+            if (currentUser !== "shimee") return;
+
+            window.open(
+                GOOGLE_SHEET_VIEW_URL,
+                "_blank",
+                "noopener,noreferrer"
+            );
+
+            closeUserMenu();
+        }
+
+
+        document.addEventListener("click", function(event) {
+
+            const wrap =
+                document.getElementById("sessionUserMenuWrap");
+
+            if (wrap && !wrap.contains(event.target)) {
+                closeUserMenu();
+            }
+
+        });
 
 
         // =====================================================
