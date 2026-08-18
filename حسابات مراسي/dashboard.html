@@ -1843,49 +1843,6 @@
     }
 }
 
-
-/* =====================================================
-   حسابات الشركة - المدير shimee فقط
-===================================================== */
-.accounts-admin-only-hidden {
-    display: none !important;
-}
-
-/* =====================================================
-   تعديل عرض مربع تسجيل بيانات المسافرين
-   جعله أعرض وأقل طولاً مع الحفاظ على التصميم
-===================================================== */
-
-.main-card {
-    width: 1200px !important;
-    max-width: 95% !important;
-}
-
-.form-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 20px !important;
-}
-
-.form-group.full-width {
-    grid-column: span 3 !important;
-}
-
-@media (max-width: 768px) {
-
-    .main-card {
-        width: 95% !important;
-        max-width: 95% !important;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    .form-group.full-width {
-        grid-column: span 1 !important;
-    }
-}
-
 </style>
 
 </head>
@@ -1948,7 +1905,6 @@
 
         <a
             href="company_accounts.html"
-            id="accountsNavButton"
             class="nav-btn">
 
             حسابات الشركة
@@ -2712,57 +2668,7 @@
         }
 
 
-        
         // =====================================================
-        // صلاحية حسابات الشركة
-        // المدير الوحيد: shimee
-        // =====================================================
-
-        function setupAccountsAccess() {
-
-            const button =
-                document.getElementById("accountsNavButton");
-
-            if (!button) {
-                return;
-            }
-
-            const currentUser =
-                String(
-                    localStorage.getItem("currentUser") || ""
-                )
-                .trim()
-                .toLowerCase();
-
-            if (currentUser !== "shimee") {
-
-                button.classList.add(
-                    "accounts-admin-only-hidden"
-                );
-
-                button.onclick = function(event) {
-                    event.preventDefault();
-                    return false;
-                };
-
-                button.removeAttribute("href");
-
-            } else {
-
-                button.classList.remove(
-                    "accounts-admin-only-hidden"
-                );
-
-                button.setAttribute(
-                    "href",
-                    "company_accounts.html"
-                );
-
-            }
-        }
-
-
-// =====================================================
         // التأكد من تسجيل الدخول
         // =====================================================
 
@@ -2820,9 +2726,6 @@
             );
 
         }
-
-
-        setupAccountsAccess();
 
 
         // تجهيز صلاحية زر Google Sheets بعد التأكد من تسجيل الدخول
