@@ -1850,6 +1850,42 @@
 .accounts-admin-only-hidden {
     display: none !important;
 }
+
+/* =====================================================
+   تعديل عرض مربع تسجيل بيانات المسافرين
+   جعله أعرض وأقل طولاً مع الحفاظ على التصميم
+===================================================== */
+
+.main-card {
+    width: 1200px !important;
+    max-width: 95% !important;
+}
+
+.form-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 20px !important;
+}
+
+.form-group.full-width {
+    grid-column: span 3 !important;
+}
+
+@media (max-width: 768px) {
+
+    .main-card {
+        width: 95% !important;
+        max-width: 95% !important;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .form-group.full-width {
+        grid-column: span 1 !important;
+    }
+}
+
 </style>
 
 </head>
