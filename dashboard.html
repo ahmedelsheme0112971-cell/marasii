@@ -164,6 +164,36 @@
                 rgba(124,58,237,0.4);
         }
 
+
+        /* =====================================================
+           زر Google Sheets - للمستخدم shimee فقط
+        ===================================================== */
+
+        .google-sheet-btn {
+            background: linear-gradient(
+                135deg,
+                rgba(34,197,94,0.22),
+                rgba(22,163,74,0.12)
+            );
+
+            border-color: rgba(74,222,128,0.35);
+        }
+
+        .google-sheet-btn i {
+            color: #86efac;
+        }
+
+        .google-sheet-btn:hover {
+            background: linear-gradient(
+                135deg,
+                rgba(34,197,94,0.38),
+                rgba(22,163,74,0.22)
+            );
+
+            border-color: rgba(134,239,172,0.75);
+            box-shadow: 0 8px 20px rgba(34,197,94,0.28);
+        }
+
         /* =====================================================
            نظام التنبيهات
         ===================================================== */
@@ -1750,6 +1780,23 @@
         </a>
 
 
+        <!-- Google Sheets - يظهر للمستخدم shimee فقط -->
+
+        <a
+            id="googleSheetNavButton"
+            href="https://docs.google.com/spreadsheets/d/1CGmRQQWLDFm0d9t6Kkc7lUnysjPpE8RxuYf2VWw7gsg/edit?gid=0#gid=0"
+            class="nav-btn google-sheet-btn"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="display:none;">
+
+            <i class="fa-solid fa-table-cells-large"></i>
+
+            Google Sheets
+
+        </a>
+
+
         <!-- البحث -->
 
         <button
@@ -2344,6 +2391,52 @@
 
 
         // =====================================================
+        // رابط Google Sheets الأساسي
+        // =====================================================
+
+        const GOOGLE_SHEET_VIEW_URL =
+            "https://docs.google.com/spreadsheets/d/1CGmRQQWLDFm0d9t6Kkc7lUnysjPpE8RxuYf2VWw7gsg/edit?gid=0#gid=0";
+
+
+        // =====================================================
+        // إظهار زر Google Sheets للمستخدم shimee فقط
+        // =====================================================
+
+        function setupGoogleSheetAccess() {
+
+            const button =
+                document.getElementById(
+                    "googleSheetNavButton"
+                );
+
+            if (!button) {
+                return;
+            }
+
+            const currentUser =
+                String(
+                    localStorage.getItem("currentUser") || ""
+                )
+                .trim()
+                .toLowerCase();
+
+            if (currentUser === "shimee") {
+
+                button.style.display =
+                    "inline-flex";
+
+                button.href =
+                    GOOGLE_SHEET_VIEW_URL;
+
+            } else {
+
+                button.style.display =
+                    "none";
+            }
+        }
+
+
+        // =====================================================
         // رقم الصف الحالي أثناء التعديل
         //
         // null = إضافة حجز جديد
@@ -2424,6 +2517,10 @@
             );
 
         }
+
+
+        // تجهيز صلاحية زر Google Sheets بعد التأكد من تسجيل الدخول
+        setupGoogleSheetAccess();
 
 
         // تحميل عدد التنبيهات بعد التأكد من تسجيل الدخول
