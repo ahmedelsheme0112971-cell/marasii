@@ -94,6 +94,7 @@ body{min-height:100vh;background:#0f051d;color:#fff;overflow-x:hidden;position:r
  font:900 15px 'Tajawal';transition:.25s
 }
 .btn:hover{transform:translateY(-2px)}
+.btn:disabled{opacity:.75;cursor:not-allowed;transform:none}
 .btn-primary{background:linear-gradient(135deg,#7c3aed,#4c1d95)}
 .btn-transfer{background:linear-gradient(135deg,#0891b2,#164e63)}
 .btn-excel{background:linear-gradient(135deg,#16a34a,#166534)}
@@ -269,7 +270,7 @@ th{color:#c4b5fd;background:rgba(124,58,237,.1)}
   </div>
 
   <div class="form-actions">
-   <button class="btn btn-primary" onclick="saveMovement()"><i class="fa-solid fa-floppy-disk"></i> تسجيل الحركة</button>
+   <button id="saveMovementBtn" class="btn btn-primary" onclick="saveMovement()"><i class="fa-solid fa-floppy-disk"></i> تسجيل الحركة</button>
    <button class="btn btn-transfer" onclick="openTransfer()"><i class="fa-solid fa-right-left"></i> تحويل بين الحسابات</button>
   </div>
  </div>
@@ -327,7 +328,7 @@ th{color:#c4b5fd;background:rgba(124,58,237,.1)}
    <input id="transferNotes" class="input" placeholder="مثال: تحويل مصاريف">
   </div>
 
-  <button class="btn btn-transfer" style="margin-top:15px;width:100%" onclick="saveTransfer()">
+  <button id="saveTransferBtn" class="btn btn-transfer" style="margin-top:15px;width:100%" onclick="saveTransfer()">
    <i class="fa-solid fa-check"></i> تأكيد التحويل
   </button>
  </div>
@@ -642,23 +643,76 @@ function cancelEditMovement(){
 }
 
 async function saveMovement(){
+ const btn=$("saveMovementBtn");
+ const originalText=btn.innerHTML;
+
  const account=$("accountName").value;
  const amountIn=Number($("amountIn").value||0);
  const amountOut=Number($("amountOut").value||0);
  const date=$("movementDate").value;
  const notes=$("notes").value.trim()||"لا يوجد";
 
- if(!account)return alert("⚠️ اختر الحساب أولاً.");
- if(!date)return alert("⚠️ اختر التاريخ.");
- if(amountIn<=0&&amountOut<=0)return alert("⚠️ أدخل مبلغ الدخل أو الخروج.");
- if(amountIn>0&&amountOut>0)return alert("⚠️ لا يمكن تسجيل دخل وخروج في نفس الحركة.");
+ if(!account){
+  btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> اختر الحساب';
+  setTimeout(()=>btn.innerHTML=originalText,1800);
+  return;
+ }
+
+ if(!date){
+  btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> اختر التاريخ';
+  setTimeout(()=>btn.innerHTML=originalText,1800);
+  return;
+ }
+
+ if(amountIn<=0&&amountOut<=0){
+  btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> أدخل المبلغ';
+  setTimeout(()=>btn.innerHTML=originalText,1800);
+  return;
+ }
+
+ if(amountIn>0&&amountOut>0){
+  btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> اختر دخل أو خرج';
+  setTimeout(()=>btn.innerHTML=originalText,1800);
+  return;
+ }
 
  try{
-  await post({action:"accountTransaction",date,accountName:account,amountIn,amountOut,notes,employeeName:getCurrentUser()});
-  alert("✅ تم تسجيل الحركة بنجاح.");
-  $("amountIn").value="";$("amountOut").value="";$("notes").value="";
+  btn.disabled=true;
+  btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> جاري الحفظ...';
+
+  await post({
+   action:"accountTransaction",
+   date,
+   accountName:account,
+   amountIn,
+   amountOut,
+   notes,
+   employeeName:getCurrentUser()
+  });
+
+  btn.innerHTML='<i class="fa-solid fa-circle-check"></i> تم الحفظ بنجاح';
+
+  $("accountName").value="";
+  $("amountIn").value="";
+  $("amountOut").value="";
+  $("notes").value="";
+  $("movementDate").value="";
+
   await loadDashboard();
- }catch(e){alert("❌ تعذر الاتصال بقاعدة البيانات.")}
+
+  setTimeout(()=>{
+   btn.innerHTML=originalText;
+   btn.disabled=false;
+  },1800);
+
+ }catch(e){
+  btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> تعذر الحفظ';
+
+  setTimeout(()=>{
+   btn.innerHTML=originalText;
+   btn.disabled=false;
+  },2000);
+ }
 }
 
 async function loadDashboard(){
@@ -722,20 +776,79 @@ function openTransfer(){
  $("transferDate").value=todayISO();
  $("transferAmount").value="";
  $("transferNotes").value="";
+ $("fromAccount").value="";
+ $("toAccount").value="";
  openModal("transferModal");
 }
+
 async function saveTransfer(){
- const from=$("fromAccount").value,to=$("toAccount").value,amount=Number($("transferAmount").value||0),date=$("transferDate").value,notes=$("transferNotes").value.trim()||"تحويل بين الحسابات";
- if(!from||!to)return alert("⚠️ اختر الحسابين.");
- if(from===to)return alert("⚠️ لا يمكن التحويل إلى نفس الحساب.");
- if(amount<=0)return alert("⚠️ أدخل مبلغ التحويل.");
- if(!date)return alert("⚠️ اختر التاريخ.");
+ const btn=$("saveTransferBtn");
+ const original=btn.innerHTML;
+
+ const from=$("fromAccount").value;
+ const to=$("toAccount").value;
+ const amount=Number($("transferAmount").value||0);
+ const date=$("transferDate").value;
+ const notes=$("transferNotes").value.trim()||"تحويل بين الحسابات";
+
+ if(!from||!to){
+  btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> اختر الحسابين';
+  setTimeout(()=>btn.innerHTML=original,1800);
+  return;
+ }
+ if(from===to){
+  btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> الحسابان متشابهان';
+  setTimeout(()=>btn.innerHTML=original,1800);
+  return;
+ }
+ if(amount<=0){
+  btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> أدخل المبلغ';
+  setTimeout(()=>btn.innerHTML=original,1800);
+  return;
+ }
+ if(!date){
+  btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> اختر التاريخ';
+  setTimeout(()=>btn.innerHTML=original,1800);
+  return;
+ }
+
  try{
-  await post({action:"accountTransfer",fromAccount:from,toAccount:to,amount,date,notes,employeeName:getCurrentUser()});
-  alert("✅ تم تنفيذ التحويل وتسجيل الطرفين.");
-  closeModal("transferModal");
+  btn.disabled=true;
+  btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> جاري تنفيذ التحويل...';
+
+  await post({
+   action:"accountTransfer",
+   fromAccount:from,
+   toAccount:to,
+   amount,
+   date,
+   notes,
+   employeeName:getCurrentUser()
+  });
+
+  btn.innerHTML='<i class="fa-solid fa-circle-check"></i> تم التحويل بنجاح';
+
+  $("fromAccount").value="";
+  $("toAccount").value="";
+  $("transferAmount").value="";
+  $("transferNotes").value="";
+  $("transferDate").value="";
+
   await loadDashboard();
- }catch(e){alert("❌ تعذر تنفيذ التحويل.")}
+
+  setTimeout(()=>{
+   closeModal("transferModal");
+   btn.innerHTML=original;
+   btn.disabled=false;
+  },1500);
+
+ }catch(e){
+  btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> تعذر تنفيذ التحويل';
+  setTimeout(()=>{
+   btn.innerHTML=original;
+   btn.disabled=false;
+  },2000);
+ }
 }
 
 function openReports(){
