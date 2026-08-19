@@ -282,6 +282,7 @@ th{color:#c4b5fd;background:rgba(124,58,237,.1)}
  <button class="quick-btn" onclick="openStatement()"><i class="fa-solid fa-file-invoice-dollar"></i> كشف الحساب</button>
  <button class="quick-btn" onclick="openReports()"><i class="fa-solid fa-chart-column"></i> التقرير المالي</button>
  <button class="quick-btn" onclick="openTransfer()"><i class="fa-solid fa-right-left"></i> تحويل بين الحسابات</button>
+ <button class="quick-btn" onclick="openEditMovement()"><i class="fa-solid fa-pen-to-square"></i> تعديل عملية</button>
  <button class="quick-btn" onclick="exportCurrentDashboard()"><i class="fa-solid fa-file-excel"></i> تصدير ملخص Excel</button>
 </section>
 
@@ -329,6 +330,56 @@ th{color:#c4b5fd;background:rgba(124,58,237,.1)}
   <button class="btn btn-transfer" style="margin-top:15px;width:100%" onclick="saveTransfer()">
    <i class="fa-solid fa-check"></i> تأكيد التحويل
   </button>
+ </div>
+</div>
+
+<!-- تعديل عملية -->
+<div id="editMovementModal" class="modal" onclick="if(event.target===this)closeModal('editMovementModal')">
+ <div class="modal-box">
+  <div class="modal-head">
+   <h2><i class="fa-solid fa-pen-to-square"></i> تعديل عملية</h2>
+   <button class="close-btn" onclick="closeModal('editMovementModal')"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+
+  <div class="modal-filter">
+   <div class="field"><label>تاريخ العملية</label><input id="editSearchDate" type="date" class="input"></div>
+   <div class="field"><label>المبلغ</label><input id="editSearchAmount" type="number" step="0.01" class="input" placeholder="مثال: 500"></div>
+   <button class="btn btn-primary" onclick="searchEditMovement()"><i class="fa-solid fa-magnifying-glass"></i> بحث</button>
+  </div>
+
+  <div id="editSearchResult" class="table-wrap"></div>
+
+  <div id="editFormWrap" style="display:none;margin-top:18px">
+   <div class="card" style="padding:18px">
+    <div class="card-title"><i class="fa-solid fa-pen"></i> بيانات العملية</div>
+    <div class="form-grid">
+     <div class="field">
+      <label>الحساب</label>
+      <select id="editAccountName" class="select"></select>
+     </div>
+     <div class="field">
+      <label>دخل</label>
+      <input id="editAmountIn" class="input" type="number" step="0.01">
+     </div>
+     <div class="field">
+      <label>خرج</label>
+      <input id="editAmountOut" class="input" type="number" step="0.01">
+     </div>
+     <div class="field">
+      <label>التاريخ</label>
+      <input id="editMovementDate" class="input" type="date">
+     </div>
+     <div class="field notes">
+      <label>الملاحظات</label>
+      <input id="editNotes" class="input" type="text">
+     </div>
+     <div class="form-actions">
+      <button id="saveEditMovementBtn" class="btn btn-primary" onclick="saveEditedMovement()"><i class="fa-solid fa-floppy-disk"></i> حفظ التعديل</button>
+      <button class="btn btn-danger" onclick="cancelEditMovement()"><i class="fa-solid fa-xmark"></i> إلغاء</button>
+     </div>
+    </div>
+   </div>
+  </div>
  </div>
 </div>
 
@@ -490,6 +541,104 @@ function fillOptions(){
  $("statementAccount").innerHTML='<option value="">كل الحسابات</option>'+ACCOUNTS.map(a=>`<option>${esc(a)}</option>`).join("");
  const opts='<option value="">اختر الحساب</option>'+ACCOUNTS.map(a=>`<option>${esc(a)}</option>`).join("");
  $("fromAccount").innerHTML=opts;$("toAccount").innerHTML=opts;
+}
+
+let editingAccountRow=0;
+
+function openEditMovement(){
+ $("editSearchDate").value="";
+ $("editSearchAmount").value="";
+ $("editSearchResult").innerHTML='<div class="empty">اكتب تاريخ العملية والمبلغ ثم اضغط بحث.</div>';
+ $("editFormWrap").style.display="none";
+ editingAccountRow=0;
+ const opts='<option value="">اختر الحساب</option>'+ACCOUNTS.map(a=>`<option>${esc(a)}</option>`).join("");
+ $("editAccountName").innerHTML=opts;
+ openModal("editMovementModal");
+}
+
+async function searchEditMovement(){
+ const date=$("editSearchDate").value;
+ const amount=Number($("editSearchAmount").value||0);
+ if(!date)return alert("⚠️ اختر تاريخ العملية.");
+ if(amount<=0)return alert("⚠️ أدخل مبلغ العملية.");
+ $("editSearchResult").innerHTML='<div class="empty">⏳ جاري البحث...</div>';
+ $("editFormWrap").style.display="none";
+ try{
+  const r=await jsonp("findAccountTransactions",{date,amount});
+  if(!r.success)throw new Error(r.message||"error");
+  const rows=r.rows||[];
+  if(!rows.length){
+   $("editSearchResult").innerHTML='<div class="empty">❌ لم يتم العثور على عملية بنفس التاريخ والمبلغ.</div>';
+   return;
+  }
+  $("editSearchResult").innerHTML=`
+   <table style="min-width:900px">
+    <thead><tr><th>التاريخ</th><th>الحساب</th><th>دخل</th><th>خرج</th><th>الملاحظات</th><th>الموظف</th><th>النوع</th><th>اختيار</th></tr></thead>
+    <tbody>${rows.map(x=>`<tr>
+     <td>${esc(x.date)}</td><td>${esc(x.accountName)}</td><td>${money(x.in)}</td><td>${money(x.out)}</td><td>${esc(x.notes)}</td><td>${esc(x.employeeName)}</td><td>${esc(x.type)}</td>
+     <td><button class="btn btn-primary" style="padding:9px 14px" onclick="selectEditMovement(${Number(x.rowNumber)})"><i class="fa-solid fa-pen"></i> تعديل</button></td>
+    </tr>`).join("")}</tbody>
+   </table>`;
+ }catch(e){
+  $("editSearchResult").innerHTML='<div class="empty">❌ تعذر البحث عن العملية.</div>';
+ }
+}
+
+async function selectEditMovement(rowNumber){
+ try{
+  const r=await jsonp("getAccountTransactionByRow",{rowNumber});
+  if(!r.success||!r.row)throw new Error(r.message||"error");
+  const x=r.row;
+  if(String(x.type||"").indexOf("تحويل ")===0){
+   alert("⚠️ هذه عملية تحويل بين حسابين، وللحفاظ على توازن الحسابات يتم تعديل التحويل من نافذة التحويل وليس من تعديل العملية العادية.");
+   return;
+  }
+  editingAccountRow=Number(x.rowNumber);
+  $("editAccountName").value=x.accountName||"";
+  $("editAmountIn").value=Number(x.in||0)||"";
+  $("editAmountOut").value=Number(x.out||0)||"";
+  $("editMovementDate").value=x.date||"";
+  $("editNotes").value=x.notes||"";
+  $("editFormWrap").style.display="block";
+  $("editFormWrap").scrollIntoView({behavior:"smooth",block:"nearest"});
+ }catch(e){alert("❌ تعذر تحميل بيانات العملية.")}
+}
+
+async function saveEditedMovement(){
+ if(!editingAccountRow)return alert("⚠️ اختر العملية المراد تعديلها أولاً.");
+ const account=$("editAccountName").value;
+ const amountIn=Number($("editAmountIn").value||0);
+ const amountOut=Number($("editAmountOut").value||0);
+ const date=$("editMovementDate").value;
+ const notes=$("editNotes").value.trim()||"لا يوجد";
+ const btn=$("saveEditMovementBtn");
+ const original=btn.innerHTML;
+ if(!account)return alert("⚠️ اختر الحساب.");
+ if(!date)return alert("⚠️ اختر التاريخ.");
+ if(amountIn<=0&&amountOut<=0)return alert("⚠️ أدخل مبلغ الدخل أو الخروج.");
+ if(amountIn>0&&amountOut>0)return alert("⚠️ لا يمكن تسجيل دخل وخروج في نفس الحركة.");
+ try{
+  btn.disabled=true;
+  btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> جاري تعديل العملية...';
+  await post({action:"updateAccountTransaction",rowNumber:editingAccountRow,date,accountName:account,amountIn,amountOut,notes,employeeName:getCurrentUser()});
+  btn.innerHTML='<i class="fa-solid fa-circle-check"></i> تم تعديل العملية بنجاح';
+  await loadDashboard();
+  setTimeout(()=>{
+   btn.innerHTML=original;btn.disabled=false;
+   editingAccountRow=0;
+   $("editFormWrap").style.display="none";
+   $("editSearchResult").innerHTML='<div class="empty">تم التعديل بنجاح. يمكنك البحث عن عملية أخرى.</div>';
+   $("editSearchDate").value="";$("editSearchAmount").value="";
+  },1500);
+ }catch(e){
+  btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> تعذر التعديل';
+  setTimeout(()=>{btn.innerHTML=original;btn.disabled=false},1800);
+ }
+}
+
+function cancelEditMovement(){
+ editingAccountRow=0;
+ $("editFormWrap").style.display="none";
 }
 
 async function saveMovement(){
