@@ -530,6 +530,137 @@
         }
 
         /* =====================================================
+           نافذة اختيار طريقة الدفع
+        ===================================================== */
+
+        .payment-method-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5,2,12,0.78);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 25000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .payment-method-overlay.active {
+            display: flex;
+        }
+
+        .payment-method-modal {
+            width: min(560px, 100%);
+            padding: 28px;
+            border-radius: 30px;
+            background: rgba(25,10,45,0.98);
+            border: 1px solid rgba(255,255,255,0.20);
+            box-shadow: 0 30px 90px rgba(0,0,0,0.75);
+            animation: paymentModalIn .22s ease;
+        }
+
+        .payment-method-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .payment-method-title {
+            color: #ffffff;
+            font-size: 1.45rem;
+            font-weight: 900;
+        }
+
+        .payment-method-subtitle {
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+
+        .payment-method-amount {
+            color: #86efac;
+            font-size: 1.35rem;
+            font-weight: 900;
+        }
+
+        .payment-method-close {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .payment-method-close:hover {
+            background: rgba(239,68,68,0.35);
+        }
+
+        .payment-method-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .payment-method-option {
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 20px;
+            padding: 17px 14px;
+            background: rgba(255,255,255,0.055);
+            color: #ffffff;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 900;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            transition: .22s ease;
+        }
+
+        .payment-method-option:hover,
+        .payment-method-option.selected {
+            background: rgba(124,58,237,0.28);
+            border-color: rgba(192,132,252,0.65);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(124,58,237,0.18);
+        }
+
+        .payment-method-option i {
+            color: #c4b5fd;
+        }
+
+        .payment-method-note {
+            margin-top: 14px;
+            color: #facc15;
+            text-align: center;
+            font-size: .88rem;
+            font-weight: 700;
+        }
+
+        @keyframes paymentModalIn {
+            from { opacity: 0; transform: translateY(15px) scale(.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @media (max-width: 520px) {
+            .payment-method-modal {
+                padding: 21px 16px;
+                border-radius: 24px;
+            }
+
+            .payment-method-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* =====================================================
            الكارت الرئيسي
         ===================================================== */
 
@@ -2252,7 +2383,7 @@
                     class="bubble-input"
                     placeholder="0.00"
                     step="any"
-                    oninput="calculateRemaining()"
+                    oninput="handlePaidAmountInput()"
                     required>
 
             </div>
@@ -2343,6 +2474,83 @@
 
     </main>
 
+
+    <!-- =====================================================
+         نافذة اختيار طريقة الدفع
+    ====================================================== -->
+
+    <div
+        id="paymentMethodOverlay"
+        class="payment-method-overlay"
+        onclick="closePaymentMethodFromOverlay(event)">
+
+        <div
+            class="payment-method-modal"
+            onclick="event.stopPropagation()">
+
+            <div class="payment-method-header">
+
+                <div>
+                    <div class="payment-method-title">
+                        <i class="fa-solid fa-wallet" style="color:#a78bfa;"></i>
+                        اختر طريقة الدفع
+                    </div>
+                </div>
+
+                <button
+                    type="button"
+                    class="payment-method-close"
+                    onclick="closePaymentMethod()"
+                    aria-label="إغلاق">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+            <div class="payment-method-subtitle">
+                تم إدخال مبلغ مدفوع. يجب اختيار الحساب الذي استلم المبلغ قبل تسجيل البيانات.
+                <br>
+                المبلغ:
+                <span id="paymentMethodAmount" class="payment-method-amount">0 ج.م</span>
+            </div>
+
+            <div class="payment-method-grid">
+
+                <button type="button" class="payment-method-option" data-payment-method="بنك مصر" onclick="selectPaymentMethod('بنك مصر')">
+                    <i class="fa-solid fa-building-columns"></i>
+                    بنك مصر
+                </button>
+
+                <button type="button" class="payment-method-option" data-payment-method="بنك اسكندرية" onclick="selectPaymentMethod('بنك اسكندرية')">
+                    <i class="fa-solid fa-building-columns"></i>
+                    بنك اسكندرية
+                </button>
+
+                <button type="button" class="payment-method-option" data-payment-method="فودافون كاش" onclick="selectPaymentMethod('فودافون كاش')">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    فودافون كاش
+                </button>
+
+                <button type="button" class="payment-method-option" data-payment-method="البنك الكويتي" onclick="selectPaymentMethod('البنك الكويتي')">
+                    <i class="fa-solid fa-building-columns"></i>
+                    البنك الكويتي
+                </button>
+
+                <button type="button" class="payment-method-option" data-payment-method="النقدي المتاح" onclick="selectPaymentMethod('النقدي المتاح')">
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    نقدي
+                </button>
+
+            </div>
+
+            <div class="payment-method-note">
+                <i class="fa-solid fa-circle-info"></i>
+                لا يمكن حفظ الحجز إذا كان هناك مبلغ مدفوع بدون طريقة دفع.
+            </div>
+
+        </div>
+
+    </div>
 
     <!-- =====================================================
          نافذة التنبيهات
@@ -2661,6 +2869,22 @@
         // =====================================================
 
         let currentEditingRow = null;
+
+        // =====================================================
+        // طريقة الدفع الحالية
+        // =====================================================
+
+        let selectedPaymentMethod = "";
+        let paymentMethodModalOpen = false;
+
+        const PAYMENT_METHODS = [
+            "بنك مصر",
+            "بنك اسكندرية",
+            "فودافون كاش",
+            "البنك الكويتي",
+            "النقدي المتاح"
+        ];
+
 
 
         // =====================================================
@@ -4082,6 +4306,11 @@ function normalizeWhatsAppNumber(number) {
             ).value =
                 data.paidAmount || "";
 
+            selectedPaymentMethod =
+                data.paymentMethod || "";
+
+            updatePaymentMethodVisualState();
+
 
             document.getElementById(
                 "remainingAmount"
@@ -4170,6 +4399,163 @@ function normalizeWhatsAppNumber(number) {
 
 
         // =====================================================
+        // اختيار طريقة الدفع
+        // =====================================================
+
+        function formatPaymentAmount(amount) {
+            return Number(amount || 0).toLocaleString("ar-EG") + " ج.م";
+        }
+
+        function handlePaidAmountInput() {
+
+            calculateRemaining();
+
+            const input =
+                document.getElementById("paidAmount");
+
+            const amount =
+                parseFloat(input.value) || 0;
+
+            if (amount <= 0) {
+                selectedPaymentMethod = "";
+                updatePaymentMethodVisualState();
+                forceClosePaymentMethod();
+                return;
+            }
+
+            if (!selectedPaymentMethod) {
+                openPaymentMethod();
+            }
+        }
+
+        function openPaymentMethod() {
+
+            const amount =
+                parseFloat(
+                    document.getElementById("paidAmount").value
+                ) || 0;
+
+            if (amount <= 0) {
+                return;
+            }
+
+            const overlay =
+                document.getElementById("paymentMethodOverlay");
+
+            const amountElement =
+                document.getElementById("paymentMethodAmount");
+
+            amountElement.textContent =
+                formatPaymentAmount(amount);
+
+            updatePaymentMethodVisualState();
+
+            overlay.classList.add("active");
+            paymentMethodModalOpen = true;
+        }
+
+        function forceClosePaymentMethod() {
+
+            const overlay =
+                document.getElementById("paymentMethodOverlay");
+
+            if (overlay) {
+                overlay.classList.remove("active");
+            }
+
+            paymentMethodModalOpen = false;
+        }
+
+        function closePaymentMethod() {
+
+            if (!selectedPaymentMethod) {
+                return;
+            }
+
+            const overlay =
+                document.getElementById("paymentMethodOverlay");
+
+            if (overlay) {
+                overlay.classList.remove("active");
+            }
+
+            paymentMethodModalOpen = false;
+        }
+
+        function closePaymentMethodFromOverlay(event) {
+            if (event.target.id === "paymentMethodOverlay") {
+                // لا نسمح بإغلاق النافذة إذا لم يتم اختيار طريقة الدفع.
+                if (!selectedPaymentMethod) {
+                    return;
+                }
+                closePaymentMethod();
+            }
+        }
+
+        function selectPaymentMethod(method) {
+
+            if (PAYMENT_METHODS.indexOf(method) === -1) {
+                return;
+            }
+
+            const amount =
+                parseFloat(
+                    document.getElementById("paidAmount").value
+                ) || 0;
+
+            if (amount <= 0) {
+                selectedPaymentMethod = "";
+                updatePaymentMethodVisualState();
+                forceClosePaymentMethod();
+                return;
+            }
+
+            selectedPaymentMethod = method;
+            updatePaymentMethodVisualState();
+            closePaymentMethod();
+        }
+
+        function updatePaymentMethodVisualState() {
+
+            document
+                .querySelectorAll(".payment-method-option")
+                .forEach(function(button) {
+
+                    button.classList.toggle(
+                        "selected",
+                        button.dataset.paymentMethod === selectedPaymentMethod
+                    );
+
+                });
+        }
+
+        function validatePaymentMethodBeforeSave() {
+
+            const paidAmount =
+                parseFloat(
+                    document.getElementById("paidAmount").value
+                ) || 0;
+
+            if (paidAmount <= 0) {
+                selectedPaymentMethod = "";
+                return true;
+            }
+
+            if (!selectedPaymentMethod) {
+                openPaymentMethod();
+                alert("⚠️ يجب اختيار طريقة الدفع قبل حفظ البيانات.");
+                return false;
+            }
+
+            if (PAYMENT_METHODS.indexOf(selectedPaymentMethod) === -1) {
+                alert("⚠️ طريقة الدفع المختارة غير صحيحة.");
+                return false;
+            }
+
+            return true;
+        }
+
+        // =====================================================
         // حماية النصوص عند عرضها داخل HTML
         // =====================================================
 
@@ -4245,6 +4631,15 @@ function normalizeWhatsAppNumber(number) {
                 currentEditingRow
                     ? "تعديل"
                     : "إضافة";
+
+
+            // =================================================
+            // إلزام طريقة الدفع قبل الحفظ
+            // =================================================
+
+            if (!validatePaymentMethodBeforeSave()) {
+                return;
+            }
 
 
             // =================================================
@@ -4326,6 +4721,10 @@ function normalizeWhatsAppNumber(number) {
                             )
                             .value
                     ) || 0,
+
+
+                paymentMethod:
+                    selectedPaymentMethod,
 
 
                 remainingAmount:
@@ -4465,6 +4864,10 @@ function normalizeWhatsAppNumber(number) {
                 // =================================================
 
                 form.reset();
+
+                selectedPaymentMethod = "";
+                updatePaymentMethodVisualState();
+                forceClosePaymentMethod();
 
 
                 document.getElementById(
