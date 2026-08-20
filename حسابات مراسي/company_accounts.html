@@ -102,26 +102,50 @@ body{min-height:100vh;background:#0f051d;color:#fff;overflow-x:hidden;position:r
 
 .summary{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:20px}
 .summary-card{
- padding:19px;border:1px solid rgba(255,255,255,.12);border-radius:22px;
- background:rgba(255,255,255,.045);text-align:center
+ padding:19px;border:1px solid rgba(255,255,255,.14);border-radius:22px;
+ text-align:center;position:relative;overflow:hidden;transition:.25s;
+ box-shadow:0 12px 30px rgba(0,0,0,.18)
 }
-.summary-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;margin:auto;background:rgba(124,58,237,.18);color:#c4b5fd}
-.summary-card small{display:block;color:#cbd5e1;margin-top:9px}
-.summary-card strong{display:block;font-size:1.3rem;margin-top:4px}
+.summary-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.28)}
+.summary-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;margin:auto;transition:.25s}
+.summary-card small{display:block;color:#e2e8f0;margin-top:9px;font-weight:700}
+.summary-card strong{display:block;font-size:1.3rem;margin-top:4px;font-weight:900}
+.summary-card:nth-child(1){background:linear-gradient(145deg,rgba(34,197,94,.20),rgba(21,128,61,.08));border-color:rgba(74,222,128,.35)}
+.summary-card:nth-child(1) .summary-icon{background:rgba(34,197,94,.18);color:#86efac}
+.summary-card:nth-child(2){background:linear-gradient(145deg,rgba(239,68,68,.20),rgba(127,29,29,.08));border-color:rgba(248,113,113,.35)}
+.summary-card:nth-child(2) .summary-icon{background:rgba(239,68,68,.18);color:#fca5a5}
+.summary-card:nth-child(3){background:linear-gradient(145deg,rgba(124,58,237,.22),rgba(76,29,149,.08));border-color:rgba(167,139,250,.35)}
+.summary-card:nth-child(3) .summary-icon{background:rgba(124,58,237,.20);color:#c4b5fd}
+.summary-card:nth-child(4){background:linear-gradient(145deg,rgba(14,165,233,.20),rgba(3,105,161,.08));border-color:rgba(56,189,248,.35)}
+.summary-card:nth-child(4) .summary-icon{background:rgba(14,165,233,.18);color:#7dd3fc}
+.summary-card:nth-child(5){background:linear-gradient(145deg,rgba(245,158,11,.20),rgba(180,83,9,.08));border-color:rgba(251,191,36,.35)}
+.summary-card:nth-child(5) .summary-icon{background:rgba(245,158,11,.18);color:#fcd34d}
 
 .accounts{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:20px}
 .account-card{
- padding:18px;border:1px solid rgba(255,255,255,.12);border-radius:22px;
- background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025))
+ padding:18px;border:1px solid rgba(255,255,255,.14);border-radius:22px;
+ position:relative;overflow:hidden;transition:.25s;box-shadow:0 14px 35px rgba(0,0,0,.20)
 }
+.account-card:hover{transform:translateY(-4px);box-shadow:0 20px 45px rgba(0,0,0,.30)}
 .account-head{display:flex;align-items:center;gap:9px;font-weight:900}
-.account-head i{color:#a78bfa}
+.account-head i{transition:.25s}
 .account-balance{font-size:1.5rem;font-weight:900;margin:14px 0}
-.account-line{display:flex;justify-content:space-between;color:#cbd5e1;font-size:.84rem;margin:4px 0}
+.account-line{display:flex;justify-content:space-between;color:#e2e8f0;font-size:.84rem;margin:4px 0}
 .account-card button{
- width:100%;margin-top:12px;padding:10px;border-radius:13px;border:1px solid rgba(255,255,255,.12);
- background:rgba(255,255,255,.05);color:#fff;font:800 13px 'Tajawal';cursor:pointer
+ width:100%;margin-top:12px;padding:10px;border-radius:13px;border:1px solid rgba(255,255,255,.15);
+ background:rgba(0,0,0,.15);color:#fff;font:800 13px 'Tajawal';cursor:pointer;transition:.25s
 }
+.account-card button:hover{background:rgba(255,255,255,.12);transform:translateY(-1px)}
+.cash-account{background:linear-gradient(145deg,rgba(74,222,128,.24),rgba(22,101,52,.10));border-color:rgba(134,239,172,.45)}
+.cash-account .account-head i{color:#86efac}.cash-account .account-balance{color:#bbf7d0}
+.misr-account{background:linear-gradient(145deg,rgba(127,29,29,.48),rgba(69,10,10,.22));border-color:rgba(248,113,113,.38)}
+.misr-account .account-head i{color:#fca5a5}.misr-account .account-balance{color:#fecaca}
+.alex-account{background:linear-gradient(145deg,rgba(249,115,22,.30),rgba(154,52,18,.12));border-color:rgba(251,146,60,.45)}
+.alex-account .account-head i{color:#fdba74}.alex-account .account-balance{color:#fed7aa}
+.kuwait-account{background:linear-gradient(145deg,rgba(34,197,94,.18),rgba(20,83,45,.10));border-color:rgba(74,222,128,.38)}
+.kuwait-account .account-head i{color:#4ade80}.kuwait-account .account-balance{color:#bbf7d0}
+.vodafone-account{background:linear-gradient(145deg,rgba(239,68,68,.28),rgba(127,29,29,.12));border-color:rgba(248,113,113,.45)}
+.vodafone-account .account-head i{color:#f87171}.vodafone-account .account-balance{color:#fecaca}
 
 .quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
 .quick-btn{
@@ -173,6 +197,188 @@ th{color:#c4b5fd;background:rgba(124,58,237,.1)}
  .summary{grid-template-columns:1fr 1fr}.accounts{grid-template-columns:1fr}.quick-actions{grid-template-columns:1fr}
  .modal-filter{grid-template-columns:1fr}.title{font-size:1.75rem}
 }
+
+/* ==============================
+   ألوان أزرار الحسابات حسب الحساب
+   ============================== */
+.cash-account button{
+  background:linear-gradient(135deg,#16a34a,#166534);
+  border-color:rgba(134,239,172,.35);
+}
+.cash-account button:hover{background:linear-gradient(135deg,#22c55e,#15803d)}
+
+.misr-account button{
+  background:linear-gradient(135deg,#991b1b,#5f1010);
+  border-color:rgba(252,165,165,.35);
+}
+.misr-account button:hover{background:linear-gradient(135deg,#b91c1c,#7f1d1d)}
+
+.alex-account button{
+  background:linear-gradient(135deg,#f97316,#c2410c);
+  border-color:rgba(253,186,116,.40);
+}
+.alex-account button:hover{background:linear-gradient(135deg,#fb923c,#ea580c)}
+
+.kuwait-account button{
+  background:linear-gradient(135deg,#22c55e,#166534);
+  border-color:rgba(134,239,172,.35);
+}
+.kuwait-account button:hover{background:linear-gradient(135deg,#4ade80,#15803d)}
+
+.vodafone-account button{
+  background:linear-gradient(135deg,#ef4444,#991b1b);
+  border-color:rgba(252,165,165,.40);
+}
+.vodafone-account button:hover{background:linear-gradient(135deg,#f87171,#b91c1c)}
+
+/* ==============================
+   أزرار العمليات حسب الوظيفة
+   ============================== */
+.btn-primary{
+  background:linear-gradient(135deg,#7c3aed,#4c1d95);
+  box-shadow:0 8px 20px rgba(124,58,237,.22);
+}
+.btn-primary:hover{
+  background:linear-gradient(135deg,#8b5cf6,#5b21b6);
+  box-shadow:0 12px 25px rgba(124,58,237,.30);
+}
+
+.btn-transfer{
+  background:linear-gradient(135deg,#0891b2,#155e75);
+  box-shadow:0 8px 20px rgba(8,145,178,.20);
+}
+.btn-transfer:hover{
+  background:linear-gradient(135deg,#06b6d4,#0e7490);
+}
+
+.btn-excel{
+  background:linear-gradient(135deg,#16a34a,#166534);
+  box-shadow:0 8px 20px rgba(22,163,74,.20);
+}
+.btn-excel:hover{
+  background:linear-gradient(135deg,#22c55e,#15803d);
+}
+
+.btn-danger{
+  background:linear-gradient(135deg,#dc2626,#7f1d1d);
+  box-shadow:0 8px 20px rgba(220,38,38,.20);
+}
+.btn-danger:hover{
+  background:linear-gradient(135deg,#ef4444,#991b1b);
+}
+
+/* ==============================
+   أزرار الإجراءات السريعة
+   ============================== */
+.quick-btn{
+  position:relative;
+  overflow:hidden;
+  transition:.25s;
+}
+.quick-btn:nth-child(1) i{color:#a78bfa}
+.quick-btn:nth-child(2) i{color:#60a5fa}
+.quick-btn:nth-child(3) i{color:#22d3ee}
+.quick-btn:nth-child(4) i{color:#f59e0b}
+.quick-btn:nth-child(5) i{color:#4ade80}
+
+.quick-btn:nth-child(1):hover{
+  background:rgba(124,58,237,.18);
+  border-color:rgba(167,139,250,.35);
+}
+.quick-btn:nth-child(2):hover{
+  background:rgba(59,130,246,.16);
+  border-color:rgba(96,165,250,.35);
+}
+.quick-btn:nth-child(3):hover{
+  background:rgba(6,182,212,.16);
+  border-color:rgba(34,211,238,.35);
+}
+.quick-btn:nth-child(4):hover{
+  background:rgba(245,158,11,.16);
+  border-color:rgba(251,191,36,.35);
+}
+.quick-btn:nth-child(5):hover{
+  background:rgba(34,197,94,.16);
+  border-color:rgba(74,222,128,.35);
+}
+
+/* أزرار التنبيه */
+.session-continue-btn{
+  background:linear-gradient(135deg,#16a34a,#166534);
+}
+.session-logout-btn{
+  background:linear-gradient(135deg,#dc2626,#7f1d1d);
+}
+
+/* زر إغلاق النوافذ */
+.close-btn{
+  transition:.25s;
+}
+.close-btn:hover{
+  background:rgba(239,68,68,.18);
+  color:#fca5a5;
+  transform:rotate(4deg);
+}
+
+
+/* ==========================================
+   ألوان أزرار الإجراءات السفلية الخمسة فقط
+   ========================================== */
+.quick-actions .quick-btn{
+  transition:.25s;
+  border:1px solid rgba(255,255,255,.16);
+}
+
+.quick-actions .quick-btn:nth-child(1){
+  background:linear-gradient(135deg,#6d28d9,#4c1d95);
+  border-color:rgba(196,181,253,.4);
+}
+.quick-actions .quick-btn:nth-child(1) i{color:#ddd6fe}
+.quick-actions .quick-btn:nth-child(1):hover{
+  background:linear-gradient(135deg,#7c3aed,#5b21b6);
+  box-shadow:0 12px 28px rgba(124,58,237,.28);
+}
+
+.quick-actions .quick-btn:nth-child(2){
+  background:linear-gradient(135deg,#2563eb,#1e3a8a);
+  border-color:rgba(147,197,253,.4);
+}
+.quick-actions .quick-btn:nth-child(2) i{color:#bfdbfe}
+.quick-actions .quick-btn:nth-child(2):hover{
+  background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+  box-shadow:0 12px 28px rgba(37,99,235,.28);
+}
+
+.quick-actions .quick-btn:nth-child(3){
+  background:linear-gradient(135deg,#0891b2,#155e75);
+  border-color:rgba(103,232,249,.4);
+}
+.quick-actions .quick-btn:nth-child(3) i{color:#a5f3fc}
+.quick-actions .quick-btn:nth-child(3):hover{
+  background:linear-gradient(135deg,#06b6d4,#0e7490);
+  box-shadow:0 12px 28px rgba(8,145,178,.28);
+}
+
+.quick-actions .quick-btn:nth-child(4){
+  background:linear-gradient(135deg,#d97706,#92400e);
+  border-color:rgba(253,186,116,.4);
+}
+.quick-actions .quick-btn:nth-child(4) i{color:#fed7aa}
+.quick-actions .quick-btn:nth-child(4):hover{
+  background:linear-gradient(135deg,#f59e0b,#b45309);
+  box-shadow:0 12px 28px rgba(217,119,6,.28);
+}
+
+.quick-actions .quick-btn:nth-child(5){
+  background:linear-gradient(135deg,#16a34a,#166534);
+  border-color:rgba(134,239,172,.4);
+}
+.quick-actions .quick-btn:nth-child(5) i{color:#bbf7d0}
+.quick-actions .quick-btn:nth-child(5):hover{
+  background:linear-gradient(135deg,#22c55e,#15803d);
+  box-shadow:0 12px 28px rgba(22,163,74,.28);
+}
+
 </style>
 </head>
 
@@ -728,14 +934,24 @@ async function loadDashboard(){
    <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-wallet"></i></div><small>إجمالي الأرصدة</small><strong>${money(r.totalBalance)}</strong></div>
    <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-list-ol"></i></div><small>عدد الحركات</small><strong>${Number(r.transactions||0)}</strong></div>`;
 
-  $("accounts").innerHTML=(r.accounts||[]).map(a=>`
-   <div class="account-card">
+  $("accounts").innerHTML=(r.accounts||[]).map(a=>{
+   const accountClass={
+    "النقدي المتاح":"cash-account",
+    "بنك مصر":"misr-account",
+    "بنك اسكندرية":"alex-account",
+    "البنك الكويتي":"kuwait-account",
+    "فودافون كاش":"vodafone-account"
+   }[a.name]||"";
+
+   return `
+   <div class="account-card ${accountClass}">
     <div class="account-head"><i class="fa-solid fa-building-columns"></i>${esc(a.name)}</div>
     <div class="account-balance">${money(a.balance)}</div>
     <div class="account-line"><span>إجمالي الداخل</span><span>${money(a.in)}</span></div>
     <div class="account-line"><span>إجمالي الخارج</span><span>${money(a.out)}</span></div>
     <button onclick="openStatement('${esc(a.name)}')">كشف الحساب <i class="fa-solid fa-chevron-left"></i></button>
-   </div>`).join("");
+   </div>`;
+  }).join("");
  }catch(e){
   $("summary").innerHTML='<div class="summary-card" style="grid-column:1/-1">❌ تعذر تحميل الحسابات. تأكد من نشر Google Apps Script بالإصدار الجديد.</div>';
   $("accounts").innerHTML="";
