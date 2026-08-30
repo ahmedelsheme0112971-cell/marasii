@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>سافر ترافيل - حسابات الشركة</title>
+<title>الشيمي ترافيل - حسابات الشركة</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1100,7 +1100,7 @@ async function loadReport(){
 function exportReportExcel(){
  if(!lastReport)return alert("⚠️ اعرض التقرير أولاً.");
  const data=[
-  ["تقرير سافر ترافيل",""],
+  ["تقرير الشيمي ترافيل",""],
   ["من",lastReport.fromDate],["إلى",lastReport.toDate],
   ["عدد الحجوزات",lastReport.bookingCount||0],
   ["قيمة الحجوزات",lastReport.bookingTotal||0],
@@ -1114,7 +1114,7 @@ function exportReportExcel(){
  ];
  const ws=XLSX.utils.aoa_to_sheet(data);ws["!dir"]="rtl";
  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"التقرير");
- XLSX.writeFile(wb,`تقرير_سافر_ترافيل_${lastReport.fromDate}_${lastReport.toDate}.xlsx`);
+ XLSX.writeFile(wb,`تقرير_الشيمي_ترافيل_${lastReport.fromDate}_${lastReport.toDate}.xlsx`);
 }
 
 function exportCurrentDashboard(){
@@ -1124,7 +1124,7 @@ function exportCurrentDashboard(){
  }));
  const ws=XLSX.utils.json_to_sheet(data);ws["!dir"]="rtl";
  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"أرصدة الحسابات");
- XLSX.writeFile(wb,"ملخص_حسابات_سافر_ترافيل.xlsx");
+ XLSX.writeFile(wb,"ملخص_حسابات_الشيمي_ترافيل.xlsx");
 }
 
 if(checkLogin()){
