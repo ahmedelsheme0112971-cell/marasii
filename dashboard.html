@@ -5,23 +5,17 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>عالم الشيمي - تسجيل الحسابات والمسافرين</title>
 
     <!-- Google Font -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
@@ -78,12 +72,12 @@
             margin-top: 25px;
             z-index: 10;
 
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
 
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
 
-            border: 1px solid rgba(255,255,255,0.25);
+            border: 1px solid rgba(255, 255, 255, 0.25);
 
             padding: 16px 35px;
 
@@ -96,7 +90,7 @@
             align-items: center;
 
             box-shadow:
-                0 15px 35px rgba(0,0,0,0.4);
+                0 15px 35px rgba(0, 0, 0, 0.4);
 
             max-width: calc(100% - 40px);
 
@@ -137,9 +131,9 @@
 
             transition: all 0.3s ease;
 
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
 
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
 
             cursor: pointer;
 
@@ -151,17 +145,16 @@
         .nav-btn:hover {
 
             background:
-                rgba(124,58,237,0.4);
+                rgba(124, 58, 237, 0.4);
 
             border-color:
-                rgba(192,132,252,0.6);
+                rgba(192, 132, 252, 0.6);
 
             transform:
                 translateY(-3px);
 
             box-shadow:
-                0 8px 20px
-                rgba(124,58,237,0.4);
+                0 8px 20px rgba(124, 58, 237, 0.4);
         }
 
 
@@ -170,13 +163,11 @@
         ===================================================== */
 
         .google-sheet-btn {
-            background: linear-gradient(
-                135deg,
-                rgba(34,197,94,0.22),
-                rgba(22,163,74,0.12)
-            );
+            background: linear-gradient(135deg,
+                    rgba(34, 197, 94, 0.22),
+                    rgba(22, 163, 74, 0.12));
 
-            border-color: rgba(74,222,128,0.35);
+            border-color: rgba(74, 222, 128, 0.35);
         }
 
         .google-sheet-btn i {
@@ -184,14 +175,12 @@
         }
 
         .google-sheet-btn:hover {
-            background: linear-gradient(
-                135deg,
-                rgba(34,197,94,0.38),
-                rgba(22,163,74,0.22)
-            );
+            background: linear-gradient(135deg,
+                    rgba(34, 197, 94, 0.38),
+                    rgba(22, 163, 74, 0.22));
 
-            border-color: rgba(134,239,172,0.75);
-            box-shadow: 0 8px 20px rgba(34,197,94,0.28);
+            border-color: rgba(134, 239, 172, 0.75);
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.28);
         }
 
         /* =====================================================
@@ -225,13 +214,13 @@
             line-height: 21px;
             text-align: center;
             border: 2px solid #1b0b2d;
-            box-shadow: 0 4px 12px rgba(239,68,68,0.45);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.45);
         }
 
         .notification-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(5,2,12,0.72);
+            background: rgba(5, 2, 12, 0.72);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             z-index: 10000;
@@ -250,11 +239,11 @@
             max-width: 620px;
             max-height: 78vh;
             overflow-y: auto;
-            background: rgba(25,10,45,0.97);
-            border: 1px solid rgba(255,255,255,0.22);
+            background: rgba(25, 10, 45, 0.97);
+            border: 1px solid rgba(255, 255, 255, 0.22);
             border-radius: 30px;
             padding: 22px;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.7);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
             animation: modalIn 0.25s ease;
         }
 
@@ -284,7 +273,7 @@
             height: 42px;
             border: none;
             border-radius: 50%;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             color: #ffffff;
             cursor: pointer;
             font-size: 1.1rem;
@@ -292,7 +281,7 @@
         }
 
         .close-notifications:hover {
-            background: rgba(239,68,68,0.5);
+            background: rgba(239, 68, 68, 0.5);
             transform: rotate(90deg);
         }
 
@@ -306,8 +295,8 @@
         .notification-summary-card {
             padding: 12px;
             border-radius: 18px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             text-align: center;
             color: #cbd5e1;
             cursor: pointer;
@@ -316,15 +305,15 @@
         }
 
         .notification-summary-card:hover {
-            background: rgba(255,255,255,0.09);
-            border-color: rgba(255,255,255,0.28);
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(255, 255, 255, 0.28);
             transform: translateY(-2px);
         }
 
         .notification-summary-card.active {
-            background: rgba(139,92,246,0.20);
-            border-color: rgba(167,139,250,0.75);
-            box-shadow: 0 8px 25px rgba(139,92,246,0.18);
+            background: rgba(139, 92, 246, 0.20);
+            border-color: rgba(167, 139, 250, 0.75);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.18);
         }
 
         .notification-summary-number {
@@ -343,8 +332,8 @@
 
         .notification-item {
             width: 100%;
-            border: 1px solid rgba(255,255,255,0.13);
-            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255, 255, 255, 0.13);
+            background: rgba(255, 255, 255, 0.045);
             border-radius: 20px;
             padding: 15px;
             color: #ffffff;
@@ -352,20 +341,20 @@
         }
 
         .notification-item.due {
-            border-color: rgba(249,115,22,0.35);
+            border-color: rgba(249, 115, 22, 0.35);
         }
 
         .notification-item.remaining {
-            border-color: rgba(239,68,68,0.35);
+            border-color: rgba(239, 68, 68, 0.35);
         }
 
         .notification-item.incomplete {
-            border-color: rgba(250,204,21,0.35);
+            border-color: rgba(250, 204, 21, 0.35);
         }
 
         .notification-item.flight-change {
-            border-color: rgba(96,165,250,0.45);
-            background: rgba(59,130,246,0.07);
+            border-color: rgba(96, 165, 250, 0.45);
+            background: rgba(59, 130, 246, 0.07);
         }
 
         .notification-email-btn {
@@ -382,13 +371,13 @@
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            box-shadow: 0 6px 18px rgba(37,99,235,0.25);
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
             transition: 0.25s ease;
         }
 
         .notification-email-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 9px 24px rgba(37,99,235,0.4);
+            box-shadow: 0 9px 24px rgba(37, 99, 235, 0.4);
         }
 
         .notification-item-title {
@@ -430,13 +419,13 @@
             display: inline-flex;
             align-items: center;
             gap: 7px;
-            box-shadow: 0 6px 18px rgba(124,58,237,0.25);
+            box-shadow: 0 6px 18px rgba(124, 58, 237, 0.25);
             transition: 0.25s ease;
         }
 
         .notification-send-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 9px 24px rgba(124,58,237,0.4);
+            box-shadow: 0 9px 24px rgba(124, 58, 237, 0.4);
         }
 
         .notification-message-menu {
@@ -448,9 +437,9 @@
             width: min(330px, 100%);
             padding: 10px;
             border-radius: 18px;
-            background: rgba(25,10,45,0.99);
-            border: 1px solid rgba(255,255,255,0.18);
-            box-shadow: 0 18px 45px rgba(0,0,0,0.55);
+            background: rgba(25, 10, 45, 0.99);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
         }
 
         .notification-message-menu.active {
@@ -461,10 +450,10 @@
 
         .notification-message-option {
             width: 100%;
-            border: 1px solid rgba(255,255,255,0.12);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 14px;
             padding: 11px 12px;
-            background: rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.06);
             color: #ffffff;
             text-align: right;
             font-family: 'Tajawal', sans-serif;
@@ -474,8 +463,8 @@
         }
 
         .notification-message-option:hover {
-            background: rgba(124,58,237,0.28);
-            border-color: rgba(192,132,252,0.55);
+            background: rgba(124, 58, 237, 0.28);
+            border-color: rgba(192, 132, 252, 0.55);
             transform: translateY(-1px);
         }
 
@@ -536,7 +525,7 @@
         .payment-method-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(5,2,12,0.78);
+            background: rgba(5, 2, 12, 0.78);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             z-index: 25000;
@@ -554,9 +543,9 @@
             width: min(560px, 100%);
             padding: 28px;
             border-radius: 30px;
-            background: rgba(25,10,45,0.98);
-            border: 1px solid rgba(255,255,255,0.20);
-            box-shadow: 0 30px 90px rgba(0,0,0,0.75);
+            background: rgba(25, 10, 45, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
             animation: paymentModalIn .22s ease;
         }
 
@@ -591,14 +580,14 @@
             height: 40px;
             border: none;
             border-radius: 50%;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             color: #ffffff;
             cursor: pointer;
             font-size: 1.1rem;
         }
 
         .payment-method-close:hover {
-            background: rgba(239,68,68,0.35);
+            background: rgba(239, 68, 68, 0.35);
         }
 
         .payment-method-grid {
@@ -608,10 +597,10 @@
         }
 
         .payment-method-option {
-            border: 1px solid rgba(255,255,255,0.14);
+            border: 1px solid rgba(255, 255, 255, 0.14);
             border-radius: 20px;
             padding: 17px 14px;
-            background: rgba(255,255,255,0.055);
+            background: rgba(255, 255, 255, 0.055);
             color: #ffffff;
             cursor: pointer;
             font-family: 'Tajawal', sans-serif;
@@ -626,10 +615,10 @@
 
         .payment-method-option:hover,
         .payment-method-option.selected {
-            background: rgba(124,58,237,0.28);
-            border-color: rgba(192,132,252,0.65);
+            background: rgba(124, 58, 237, 0.28);
+            border-color: rgba(192, 132, 252, 0.65);
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(124,58,237,0.18);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.18);
         }
 
         .payment-method-option i {
@@ -645,8 +634,15 @@
         }
 
         @keyframes paymentModalIn {
-            from { opacity: 0; transform: translateY(15px) scale(.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         @media (max-width: 520px) {
@@ -673,7 +669,7 @@
             padding: 3rem;
 
             background:
-                rgba(255,255,255,0.06);
+                rgba(255, 255, 255, 0.06);
 
             backdrop-filter:
                 blur(20px);
@@ -682,15 +678,13 @@
                 blur(20px);
 
             border:
-                1px solid
-                rgba(255,255,255,0.25);
+                1px solid rgba(255, 255, 255, 0.25);
 
             border-radius:
                 40px;
 
             box-shadow:
-                0 25px 50px
-                rgba(0,0,0,0.5);
+                0 25px 50px rgba(0, 0, 0, 0.5);
 
             max-width:
                 95%;
@@ -719,8 +713,7 @@
                 center;
 
             text-shadow:
-                0 4px 25px
-                rgba(124,58,237,0.7);
+                0 4px 25px rgba(124, 58, 237, 0.7);
         }
 
         /* =====================================================
@@ -733,7 +726,7 @@
                 grid;
 
             grid-template-columns:
-                repeat(2,1fr);
+                repeat(2, 1fr);
 
             gap:
                 20px;
@@ -796,11 +789,10 @@
                 1.17rem 1.56rem;
 
             background:
-                rgba(255,255,255,0.04);
+                rgba(255, 255, 255, 0.04);
 
             border:
-                1px solid
-                rgba(255,255,255,0.18);
+                1px solid rgba(255, 255, 255, 0.18);
 
             border-radius:
                 25px;
@@ -831,14 +823,13 @@
         .bubble-input:focus {
 
             background:
-                rgba(255,255,255,0.1);
+                rgba(255, 255, 255, 0.1);
 
             border-color:
-                rgba(167,139,250,0.7);
+                rgba(167, 139, 250, 0.7);
 
             box-shadow:
-                0 0 20px
-                rgba(167,139,250,0.4);
+                0 0 20px rgba(167, 139, 250, 0.4);
 
             transform:
                 translateY(-2px);
@@ -878,11 +869,9 @@
                 #ffffff;
 
             background:
-                linear-gradient(
-                    135deg,
+                linear-gradient(135deg,
                     #7c3aed,
-                    #4c1d95
-                );
+                    #4c1d95);
 
             border:
                 none;
@@ -897,8 +886,7 @@
                 all 0.3s ease;
 
             box-shadow:
-                0 6px 20px
-                rgba(124,58,237,0.5);
+                0 6px 20px rgba(124, 58, 237, 0.5);
 
             display:
                 flex;
@@ -919,8 +907,7 @@
                 translateY(-3px);
 
             box-shadow:
-                0 10px 30px
-                rgba(124,58,237,0.8);
+                0 10px 30px rgba(124, 58, 237, 0.8);
         }
 
         .submit-btn:disabled {
@@ -948,8 +935,7 @@
                 22px;
 
             border:
-                3px solid
-                rgba(255,255,255,0.3);
+                3px solid rgba(255, 255, 255, 0.3);
 
             border-top-color:
                 #ffffff;
@@ -987,7 +973,7 @@
                 0;
 
             background:
-                rgba(5,2,12,0.75);
+                rgba(5, 2, 12, 0.75);
 
             backdrop-filter:
                 blur(10px);
@@ -1032,11 +1018,10 @@
                 auto;
 
             background:
-                rgba(25,10,45,0.96);
+                rgba(25, 10, 45, 0.96);
 
             border:
-                1px solid
-                rgba(255,255,255,0.25);
+                1px solid rgba(255, 255, 255, 0.25);
 
             border-radius:
                 30px;
@@ -1045,8 +1030,7 @@
                 25px;
 
             box-shadow:
-                0 30px 80px
-                rgba(0,0,0,0.7);
+                0 30px 80px rgba(0, 0, 0, 0.7);
 
             animation:
                 modalIn 0.25s ease;
@@ -1060,8 +1044,7 @@
                     0;
 
                 transform:
-                    translateY(20px)
-                    scale(0.97);
+                    translateY(20px) scale(0.97);
             }
 
             to {
@@ -1070,8 +1053,7 @@
                     1;
 
                 transform:
-                    translateY(0)
-                    scale(1);
+                    translateY(0) scale(1);
             }
         }
 
@@ -1132,7 +1114,7 @@
                 50%;
 
             background:
-                rgba(255,255,255,0.08);
+                rgba(255, 255, 255, 0.08);
 
             color:
                 #ffffff;
@@ -1150,7 +1132,7 @@
         .close-search:hover {
 
             background:
-                rgba(239,68,68,0.5);
+                rgba(239, 68, 68, 0.5);
 
             transform:
                 rotate(90deg);
@@ -1177,14 +1159,13 @@
                 15px 18px;
 
             border:
-                1px solid
-                rgba(255,255,255,0.2);
+                1px solid rgba(255, 255, 255, 0.2);
 
             border-radius:
                 20px;
 
             background:
-                rgba(255,255,255,0.06);
+                rgba(255, 255, 255, 0.06);
 
             color:
                 #ffffff;
@@ -1205,8 +1186,7 @@
                 #a78bfa;
 
             box-shadow:
-                0 0 18px
-                rgba(167,139,250,0.3);
+                0 0 18px rgba(167, 139, 250, 0.3);
         }
 
         .search-action {
@@ -1221,11 +1201,9 @@
                 20px;
 
             background:
-                linear-gradient(
-                    135deg,
+                linear-gradient(135deg,
                     #7c3aed,
-                    #4c1d95
-                );
+                    #4c1d95);
 
             color:
                 #ffffff;
@@ -1289,11 +1267,10 @@
                 100%;
 
             border:
-                1px solid
-                rgba(255,255,255,0.14);
+                1px solid rgba(255, 255, 255, 0.14);
 
             background:
-                rgba(255,255,255,0.05);
+                rgba(255, 255, 255, 0.05);
 
             border-radius:
                 20px;
@@ -1317,10 +1294,10 @@
         .result-item:hover {
 
             background:
-                rgba(124,58,237,0.25);
+                rgba(124, 58, 237, 0.25);
 
             border-color:
-                rgba(192,132,252,0.6);
+                rgba(192, 132, 252, 0.6);
 
             transform:
                 translateY(-2px);
@@ -1387,14 +1364,13 @@
                 10;
 
             background:
-                rgba(255,255,255,0.02);
+                rgba(255, 255, 255, 0.02);
 
             backdrop-filter:
                 blur(10px);
 
             border-top:
-                1px solid
-                rgba(255,255,255,0.08);
+                1px solid rgba(255, 255, 255, 0.08);
 
             padding:
                 20px 0;
@@ -1549,7 +1525,7 @@
             }
         }
 
-    
+
 
         /* =====================================================
            معلومات المستخدم + عداد الجلسة
@@ -1572,11 +1548,11 @@
             min-height: 48px;
             padding: 7px 14px;
             border-radius: 30px;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.20);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.20);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
             color: #ffffff;
             display: inline-flex;
             align-items: center;
@@ -1591,8 +1567,8 @@
         }
 
         .session-user-wrap:hover {
-            border-color: rgba(192,132,252,0.55);
-            box-shadow: 0 10px 28px rgba(124,58,237,0.22);
+            border-color: rgba(192, 132, 252, 0.55);
+            box-shadow: 0 10px 28px rgba(124, 58, 237, 0.22);
         }
 
         .session-user-arrow {
@@ -1613,10 +1589,10 @@
             padding: 10px;
             border-radius: 18px;
             background: rgba(20, 10, 38, 0.96);
-            border: 1px solid rgba(255,255,255,0.18);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 20px 45px rgba(0,0,0,0.45);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
             opacity: 0;
             visibility: hidden;
             transform: translateY(-8px) scale(0.97);
@@ -1640,9 +1616,9 @@
             right: 22px;
             width: 13px;
             height: 13px;
-            background: rgba(20,10,38,.96);
-            border-left: 1px solid rgba(255,255,255,.18);
-            border-top: 1px solid rgba(255,255,255,.18);
+            background: rgba(20, 10, 38, .96);
+            border-left: 1px solid rgba(255, 255, 255, .18);
+            border-top: 1px solid rgba(255, 255, 255, .18);
             transform: rotate(45deg);
         }
 
@@ -1654,7 +1630,7 @@
             color: #ddd6fe;
             font-size: .82rem;
             font-weight: 800;
-            border-bottom: 1px solid rgba(255,255,255,.09);
+            border-bottom: 1px solid rgba(255, 255, 255, .09);
             margin-bottom: 7px;
         }
 
@@ -1667,10 +1643,10 @@
             display: flex;
             align-items: center;
             gap: 11px;
-            border: 1px solid rgba(74,222,128,.25);
+            border: 1px solid rgba(74, 222, 128, .25);
             border-radius: 14px;
             padding: 11px 10px;
-            background: linear-gradient(135deg, rgba(34,197,94,.14), rgba(22,163,74,.06));
+            background: linear-gradient(135deg, rgba(34, 197, 94, .14), rgba(22, 163, 74, .06));
             color: #fff;
             cursor: pointer;
             text-align: right;
@@ -1680,9 +1656,9 @@
 
         .user-dropdown-option:hover {
             transform: translateY(-2px);
-            border-color: rgba(134,239,172,.65);
-            background: linear-gradient(135deg, rgba(34,197,94,.25), rgba(22,163,74,.12));
-            box-shadow: 0 10px 25px rgba(34,197,94,.14);
+            border-color: rgba(134, 239, 172, .65);
+            background: linear-gradient(135deg, rgba(34, 197, 94, .25), rgba(22, 163, 74, .12));
+            box-shadow: 0 10px 25px rgba(34, 197, 94, .14);
         }
 
         .user-dropdown-option-icon {
@@ -1693,7 +1669,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: rgba(34,197,94,.16);
+            background: rgba(34, 197, 94, .16);
             color: #86efac;
         }
 
@@ -1728,8 +1704,8 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(135deg, #7c3aed, #4c1d95);
-            border: 1px solid rgba(255,255,255,0.35);
-            box-shadow: 0 5px 16px rgba(124,58,237,0.40);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 5px 16px rgba(124, 58, 237, 0.40);
             color: #ffffff;
             flex: 0 0 auto;
         }
@@ -1747,7 +1723,7 @@
             direction: rtl;
         }
 
-        .session-timer > i {
+        .session-timer>i {
             color: #86efac;
         }
 
@@ -1762,29 +1738,36 @@
         }
 
         .session-timer.warning {
-            border-color: rgba(250,204,21,0.60);
-            box-shadow: 0 8px 25px rgba(250,204,21,0.16);
+            border-color: rgba(250, 204, 21, 0.60);
+            box-shadow: 0 8px 25px rgba(250, 204, 21, 0.16);
         }
 
         .session-timer.warning .session-time-value,
-        .session-timer.warning > i {
+        .session-timer.warning>i {
             color: #facc15;
         }
 
         .session-timer.danger {
-            border-color: rgba(239,68,68,0.70);
-            box-shadow: 0 8px 25px rgba(239,68,68,0.20);
+            border-color: rgba(239, 68, 68, 0.70);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.20);
             animation: sessionPulse 1s infinite;
         }
 
         .session-timer.danger .session-time-value,
-        .session-timer.danger > i {
+        .session-timer.danger>i {
             color: #f87171;
         }
 
         @keyframes sessionPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.025); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.025);
+            }
         }
 
         /* =====================================================
@@ -1794,7 +1777,7 @@
         .session-warning-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(5,2,12,0.78);
+            background: rgba(5, 2, 12, 0.78);
             backdrop-filter: blur(11px);
             -webkit-backdrop-filter: blur(11px);
             z-index: 20000;
@@ -1813,9 +1796,9 @@
             padding: 30px 25px;
             border-radius: 30px;
             text-align: center;
-            background: rgba(25,10,45,0.98);
-            border: 1px solid rgba(250,204,21,0.35);
-            box-shadow: 0 30px 90px rgba(0,0,0,0.75);
+            background: rgba(25, 10, 45, 0.98);
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
             animation: sessionModalIn 0.25s ease;
         }
 
@@ -1827,8 +1810,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(250,204,21,0.14);
-            border: 1px solid rgba(250,204,21,0.35);
+            background: rgba(250, 204, 21, 0.14);
+            border: 1px solid rgba(250, 204, 21, 0.35);
             color: #facc15;
             font-size: 1.8rem;
         }
@@ -1853,7 +1836,7 @@
             line-height: 1;
             font-weight: 900;
             direction: ltr;
-            text-shadow: 0 0 25px rgba(248,113,113,0.35);
+            text-shadow: 0 0 25px rgba(248, 113, 113, 0.35);
         }
 
         .session-warning-actions {
@@ -1877,12 +1860,12 @@
 
         .session-continue-btn {
             background: linear-gradient(135deg, #7c3aed, #4c1d95);
-            box-shadow: 0 8px 22px rgba(124,58,237,0.30);
+            box-shadow: 0 8px 22px rgba(124, 58, 237, 0.30);
         }
 
         .session-logout-btn {
-            background: rgba(239,68,68,0.18);
-            border: 1px solid rgba(239,68,68,0.35);
+            background: rgba(239, 68, 68, 0.18);
+            border: 1px solid rgba(239, 68, 68, 0.35);
         }
 
         .session-continue-btn:hover,
@@ -1891,258 +1874,316 @@
         }
 
         @keyframes sessionModalIn {
-            from { opacity: 0; transform: translateY(15px) scale(0.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
 
 
-/* =====================================================
+        /* =====================================================
    تعديل نهائي لمكان اسم المستخدم والعداد
-   نفس سطر الشريط العلوي:
+   سطر منفصل منسق تحت الشريط العلوي بدون أي تداخل:
    المستخدم يمين الشاشة - العداد يسار الشاشة
 ===================================================== */
 
-.session-top-bar {
-    position: absolute !important;
-    top: 25px !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 20px !important;
-    z-index: 30 !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important;
-    direction: rtl !important;
-    pointer-events: none !important;
-}
+        .session-top-bar {
+            position: static !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            width: min(1400px, calc(100% - 40px)) !important;
+            max-width: none !important;
+            margin: 14px auto 0 auto !important;
+            padding: 0 !important;
+            z-index: 30 !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+            direction: rtl !important;
+            pointer-events: auto !important;
+        }
 
-.session-user-wrap,
-.session-timer {
-    pointer-events: auto !important;
-    flex: 0 0 auto !important;
-}
+        .session-user-wrap,
+        .session-timer {
+            pointer-events: auto !important;
+            flex: 0 0 auto !important;
+        }
 
-.session-user-wrap {
-    order: 1 !important;
-}
+        .session-user-wrap {
+            order: 1 !important;
+        }
 
-.session-timer {
-    order: 2 !important;
-}
+        .session-timer {
+            order: 2 !important;
+        }
 
-/* عند الشاشات المتوسطة والصغيرة يتم وضعهما بشكل مرتب أسفل الشريط
-   حتى لا يحدث أي تداخل مع أزرار الشريط. */
-@media (max-width: 1100px) {
-    .session-top-bar {
-        position: static !important;
-        width: 95% !important;
-        max-width: 1050px !important;
-        margin-top: 12px !important;
-        padding: 0 !important;
-        flex-wrap: wrap !important;
-        justify-content: space-between !important;
-        pointer-events: auto !important;
-    }
+        @media (max-width: 768px) {
+            .session-top-bar {
+                width: calc(100% - 24px) !important;
+                margin-top: 10px !important;
+                justify-content: space-between !important;
+                gap: 8px !important;
+            }
 
-    .session-user-wrap,
-    .session-timer {
-        width: auto !important;
-    }
-}
+            .session-user-wrap,
+            .session-timer {
+                min-height: 44px !important;
+                padding: 6px 10px !important;
+                font-size: 0.85rem !important;
+            }
 
-@media (max-width: 768px) {
-    .session-top-bar {
-        width: 95% !important;
-        justify-content: space-between !important;
-        gap: 8px !important;
-    }
-
-    .session-user-wrap,
-    .session-timer {
-        min-height: 44px !important;
-        padding: 6px 10px !important;
-        font-size: 0.85rem !important;
-    }
-
-    .session-user-name {
-        max-width: 130px !important;
-    }
-}
+            .session-user-name {
+                max-width: 130px !important;
+            }
+        }
 
 
-/* =====================================================
+        /* =====================================================
    حسابات الشركة - المدير shimee فقط
 ===================================================== */
-.accounts-admin-only-hidden {
-    display: none !important;
-}
+        .accounts-admin-only-hidden {
+            display: none !important;
+        }
 
-/* =========================================================
+        /* =========================================================
    ✨ SAfer Travel — Premium Dashboard UI
    Visual redesign only — existing functionality preserved
 ========================================================= */
 
-:root{
-  --premium-bg:#090611;
-  --premium-surface:rgba(255,255,255,.055);
-  --premium-surface-2:rgba(255,255,255,.075);
-  --premium-border:rgba(255,255,255,.11);
-  --premium-text:#f8f5ff;
-  --premium-muted:#aaa1bb;
-  --premium-purple:#8b5cf6;
-  --premium-purple-2:#c084fc;
-  --premium-shadow:0 24px 70px rgba(0,0,0,.35);
-}
+        :root {
+            --premium-bg: #090611;
+            --premium-surface: rgba(255, 255, 255, .055);
+            --premium-surface-2: rgba(255, 255, 255, .075);
+            --premium-border: rgba(255, 255, 255, .11);
+            --premium-text: #f8f5ff;
+            --premium-muted: #aaa1bb;
+            --premium-purple: #8b5cf6;
+            --premium-purple-2: #c084fc;
+            --premium-shadow: 0 24px 70px rgba(0, 0, 0, .35);
+        }
 
-html{scroll-behavior:smooth}
+        html {
+            scroll-behavior: smooth
+        }
 
-body{
-  background:
-    radial-gradient(circle at 10% 5%,rgba(139,92,246,.18),transparent 30%),
-    radial-gradient(circle at 90% 10%,rgba(192,132,252,.12),transparent 28%),
-    radial-gradient(circle at 50% 100%,rgba(99,102,241,.10),transparent 35%),
-    var(--premium-bg) !important;
-  color:var(--premium-text);
-}
+        body {
+            background:
+                radial-gradient(circle at 10% 5%, rgba(139, 92, 246, .18), transparent 30%),
+                radial-gradient(circle at 90% 10%, rgba(192, 132, 252, .12), transparent 28%),
+                radial-gradient(circle at 50% 100%, rgba(99, 102, 241, .10), transparent 35%),
+                var(--premium-bg) !important;
+            color: var(--premium-text);
+        }
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:-1;
-  background-image:
-    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-  background-size:42px 42px;
-  mask-image:linear-gradient(to bottom,black,transparent 92%);
-}
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, .018) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .018) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: linear-gradient(to bottom, black, transparent 92%);
+        }
 
-header,.header,.topbar,.navbar{
-  backdrop-filter:blur(22px) saturate(140%);
-  -webkit-backdrop-filter:blur(22px) saturate(140%);
-  background:rgba(12,7,24,.76) !important;
-  border-bottom:1px solid var(--premium-border) !important;
-  box-shadow:0 12px 35px rgba(0,0,0,.20);
-}
+        header,
+        .header,
+        .topbar,
+        .navbar {
+            backdrop-filter: blur(22px) saturate(140%);
+            -webkit-backdrop-filter: blur(22px) saturate(140%);
+            background: rgba(12, 7, 24, .76) !important;
+            border-bottom: 1px solid var(--premium-border) !important;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, .20);
+        }
 
-main,.container,.dashboard-container{
-  position:relative;
-}
+        main,
+        .container,
+        .dashboard-container {
+            position: relative;
+        }
 
-h1,h2,h3{
-  letter-spacing:-.4px;
-}
+        h1,
+        h2,
+        h3 {
+            letter-spacing: -.4px;
+        }
 
-.card,.section,.form-card,.box,.panel,.dashboard-card{
-  background:
-    linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.035)) !important;
-  border:1px solid var(--premium-border) !important;
-  box-shadow:var(--premium-shadow);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  border-radius:22px !important;
-}
+        .card,
+        .section,
+        .form-card,
+        .box,
+        .panel,
+        .dashboard-card {
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .035)) !important;
+            border: 1px solid var(--premium-border) !important;
+            box-shadow: var(--premium-shadow);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 22px !important;
+        }
 
-.card:hover,.section:hover,.form-card:hover,.box:hover,.panel:hover,.dashboard-card:hover{
-  border-color:rgba(192,132,252,.25) !important;
-  transform:translateY(-2px);
-  transition:.25s ease;
-}
+        .card:hover,
+        .section:hover,
+        .form-card:hover,
+        .box:hover,
+        .panel:hover,
+        .dashboard-card:hover {
+            border-color: rgba(192, 132, 252, .25) !important;
+            transform: translateY(-2px);
+            transition: .25s ease;
+        }
 
-input,select,textarea{
-  background:rgba(0,0,0,.20) !important;
-  color:var(--premium-text) !important;
-  border:1px solid rgba(255,255,255,.11) !important;
-  border-radius:14px !important;
-  transition:border-color .2s ease,box-shadow .2s ease,background .2s ease,transform .2s ease;
-}
+        input,
+        select,
+        textarea {
+            background: rgba(0, 0, 0, .20) !important;
+            color: var(--premium-text) !important;
+            border: 1px solid rgba(255, 255, 255, .11) !important;
+            border-radius: 14px !important;
+            transition: border-color .2s ease, box-shadow .2s ease, background .2s ease, transform .2s ease;
+        }
 
-input:focus,select:focus,textarea:focus{
-  outline:none !important;
-  border-color:rgba(168,85,247,.72) !important;
-  background:rgba(139,92,246,.07) !important;
-  box-shadow:0 0 0 4px rgba(139,92,246,.10),0 8px 28px rgba(0,0,0,.18) !important;
-  transform:translateY(-1px);
-}
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none !important;
+            border-color: rgba(168, 85, 247, .72) !important;
+            background: rgba(139, 92, 246, .07) !important;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, .10), 0 8px 28px rgba(0, 0, 0, .18) !important;
+            transform: translateY(-1px);
+        }
 
-button,.btn,.button{
-  border-radius:14px !important;
-  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
-}
+        button,
+        .btn,
+        .button {
+            border-radius: 14px !important;
+            transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+        }
 
-button:hover,.btn:hover,.button:hover{
-  transform:translateY(-2px);
-  filter:brightness(1.06);
-}
+        button:hover,
+        .btn:hover,
+        .button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.06);
+        }
 
-button:active,.btn:active,.button:active{
-  transform:translateY(0) scale(.98);
-}
+        button:active,
+        .btn:active,
+        .button:active {
+            transform: translateY(0) scale(.98);
+        }
 
-#paymentMethodModal,
-.payment-modal,
-.modal{
-  animation:premiumModalIn .22s ease-out;
-}
+        #paymentMethodModal,
+        .payment-modal,
+        .modal {
+            animation: premiumModalIn .22s ease-out;
+        }
 
-@keyframes premiumModalIn{
-  from{opacity:0;transform:translateY(12px) scale(.97)}
-  to{opacity:1;transform:translateY(0) scale(1)}
-}
+        @keyframes premiumModalIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(.97)
+            }
 
-.toast,.notification,.alert,.success-message{
-  border:1px solid rgba(255,255,255,.12) !important;
-  box-shadow:0 18px 45px rgba(0,0,0,.35) !important;
-  backdrop-filter:blur(18px);
-}
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1)
+            }
+        }
 
-::-webkit-scrollbar{width:9px;height:9px}
-::-webkit-scrollbar-track{background:rgba(255,255,255,.025)}
-::-webkit-scrollbar-thumb{
-  background:linear-gradient(180deg,#8b5cf6,#c084fc);
-  border-radius:999px;
-}
-::-webkit-scrollbar-thumb:hover{background:#a855f7}
+        .toast,
+        .notification,
+        .alert,
+        .success-message {
+            border: 1px solid rgba(255, 255, 255, .12) !important;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, .35) !important;
+            backdrop-filter: blur(18px);
+        }
 
-/* Subtle entrance animation for common dashboard sections */
-.card,.section,.form-card,.box,.panel,.dashboard-card{
-  animation:premiumRise .45s ease both;
-}
+        ::-webkit-scrollbar {
+            width: 9px;
+            height: 9px
+        }
 
-@keyframes premiumRise{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
-}
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, .025)
+        }
 
-@media(max-width:700px){
-  body{
-    background:
-      radial-gradient(circle at 50% 0%,rgba(139,92,246,.17),transparent 35%),
-      var(--premium-bg) !important;
-  }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #8b5cf6, #c084fc);
+            border-radius: 999px;
+        }
 
-  .card,.section,.form-card,.box,.panel,.dashboard-card{
-    border-radius:18px !important;
-    box-shadow:0 15px 42px rgba(0,0,0,.28);
-  }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a855f7
+        }
 
-  input,select,textarea{
-    min-height:46px;
-    border-radius:12px !important;
-  }
+        /* Subtle entrance animation for common dashboard sections */
+        .card,
+        .section,
+        .form-card,
+        .box,
+        .panel,
+        .dashboard-card {
+            animation: premiumRise .45s ease both;
+        }
 
-  button,.btn,.button{
-    min-height:44px;
-  }
-}
+        @keyframes premiumRise {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
 
-</style>
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @media(max-width:700px) {
+            body {
+                background:
+                    radial-gradient(circle at 50% 0%, rgba(139, 92, 246, .17), transparent 35%),
+                    var(--premium-bg) !important;
+            }
+
+            .card,
+            .section,
+            .form-card,
+            .box,
+            .panel,
+            .dashboard-card {
+                border-radius: 18px !important;
+                box-shadow: 0 15px 42px rgba(0, 0, 0, .28);
+            }
+
+            input,
+            select,
+            textarea {
+                min-height: 46px;
+                border-radius: 12px !important;
+            }
+
+            button,
+            .btn,
+            .button {
+                min-height: 44px;
+            }
+        }
+    </style>
 
 </head>
 
@@ -2162,20 +2203,13 @@ button:active,.btn:active,.button:active{
 
         <!-- التنبيهات -->
 
-        <button
-            type="button"
-            class="nav-btn notification-btn"
-            onclick="openNotifications()"
-            aria-label="التنبيهات">
+        <button type="button" class="nav-btn notification-btn" onclick="openNotifications()" aria-label="التنبيهات">
 
             <span class="notification-icon-wrap">
 
                 <i class="fa-solid fa-bell"></i>
 
-                <span
-                    id="notificationBadge"
-                    class="notification-badge"
-                    style="display:none;">
+                <span id="notificationBadge" class="notification-badge" style="display:none;">
                     0
                 </span>
 
@@ -2188,10 +2222,7 @@ button:active,.btn:active,.button:active{
 
         <!-- تسجيل الخروج -->
 
-        <button
-            type="button"
-            class="nav-btn"
-            onclick="logoutUser()">
+        <button type="button" class="nav-btn" onclick="logoutUser()">
 
             <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -2202,10 +2233,7 @@ button:active,.btn:active,.button:active{
 
         <!-- حسابات الشركة -->
 
-        <a
-            href="company_accounts.html"
-            id="accountsNavButton"
-            class="nav-btn">
+        <a href="company_accounts.html" id="accountsNavButton" class="nav-btn">
 
             حسابات الشركة
 
@@ -2214,10 +2242,7 @@ button:active,.btn:active,.button:active{
 
         <!-- البحث -->
 
-        <button
-            type="button"
-            class="nav-btn"
-            onclick="openSearch()">
+        <button type="button" class="nav-btn" onclick="openSearch()">
 
             <i class="fa-solid fa-magnifying-glass"></i>
 
@@ -2228,22 +2253,30 @@ button:active,.btn:active,.button:active{
 
         <!-- معلومات حول -->
 
-        <a
-            href="https://www.facebook.com/share/1BaiuDESTS/"
-            class="nav-btn"
-            target="_blank">
+        <a href="https://www.facebook.com/share/1BaiuDESTS/" class="nav-btn" target="_blank">
 
             معلومات حول
 
         </a>
 
 
+        <!-- الملاحظات الشهرية -->
+
+        <button
+            type="button"
+            class="nav-btn"
+            onclick="openMonthlyNotes()">
+
+            <i class="fa-solid fa-note-sticky"></i>
+
+            الملاحظات الشهرية
+
+        </button>
+
+
         <!-- الدعم -->
 
-        <a
-            href="https://wa.me/201005389471"
-            class="nav-btn"
-            target="_blank">
+        <a href="https://wa.me/201005389471" class="nav-btn" target="_blank">
 
             الدعم والتواصل
 
@@ -2257,15 +2290,8 @@ button:active,.btn:active,.button:active{
 
     <div class="session-top-bar">
 
-        <div
-            class="session-user-wrap"
-            id="sessionUserMenuWrap"
-            title="اضغط لعرض خيارات المستخدم"
-            onclick="toggleUserMenu(event)"
-            role="button"
-            tabindex="0"
-            aria-haspopup="true"
-            aria-expanded="false">
+        <div class="session-user-wrap" id="sessionUserMenuWrap" title="اضغط لعرض خيارات المستخدم"
+            onclick="toggleUserMenu(event)" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
 
             <span class="session-user-circle">
                 <i class="fa-solid fa-user"></i>
@@ -2277,22 +2303,15 @@ button:active,.btn:active,.button:active{
 
             <i class="fa-solid fa-chevron-down session-user-arrow" aria-hidden="true"></i>
 
-            <div
-                id="userDropdownMenu"
-                class="user-dropdown-menu"
-                onclick="event.stopPropagation();">
+            <div id="userDropdownMenu" class="user-dropdown-menu" onclick="event.stopPropagation();">
 
                 <div class="user-dropdown-title">
                     <i class="fa-solid fa-user-shield"></i>
                     خيارات الحساب
                 </div>
 
-                <button
-                    type="button"
-                    id="googleSheetDropdownOption"
-                    class="user-dropdown-option"
-                    onclick="openGoogleSheetFromMenu(event)"
-                    style="display:none;">
+                <button type="button" id="googleSheetDropdownOption" class="user-dropdown-option"
+                    onclick="openGoogleSheetFromMenu(event)" style="display:none;">
 
                     <span class="user-dropdown-option-icon">
                         <i class="fa-solid fa-table-cells-large"></i>
@@ -2311,9 +2330,7 @@ button:active,.btn:active,.button:active{
 
         </div>
 
-        <div id="sessionTimer"
-             class="session-timer"
-             title="الوقت المتبقي قبل تسجيل الخروج بسبب عدم النشاط">
+        <div id="sessionTimer" class="session-timer" title="الوقت المتبقي قبل تسجيل الخروج بسبب عدم النشاط">
             <i class="fa-solid fa-clock"></i>
             <span>متبقي</span>
             <span id="sessionTimeValue" class="session-time-value">
@@ -2351,18 +2368,12 @@ button:active,.btn:active,.button:active{
 
             <div class="session-warning-actions">
 
-                <button
-                    type="button"
-                    class="session-continue-btn"
-                    onclick="continueSession()">
+                <button type="button" class="session-continue-btn" onclick="continueSession()">
                     <i class="fa-solid fa-rotate-right"></i>
                     استمرار العمل
                 </button>
 
-                <button
-                    type="button"
-                    class="session-logout-btn"
-                    onclick="logoutUser()">
+                <button type="button" class="session-logout-btn" onclick="logoutUser()">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     تسجيل الخروج
                 </button>
@@ -2388,10 +2399,7 @@ button:active,.btn:active,.button:active{
         </h1>
 
 
-        <form
-            id="dataForm"
-            onsubmit="exportToGoogleSheets(event)"
-            class="form-grid">
+        <form id="dataForm" onsubmit="exportToGoogleSheets(event)" class="form-grid">
 
 
             <!-- اسم المسافر -->
@@ -2406,11 +2414,7 @@ button:active,.btn:active,.button:active{
 
                 </label>
 
-                <input
-                    type="text"
-                    id="passengerName"
-                    class="bubble-input"
-                    placeholder="أدخل اسم المسافر بالكامل"
+                <input type="text" id="passengerName" class="bubble-input" placeholder="أدخل اسم المسافر بالكامل"
                     required>
 
             </div>
@@ -2428,12 +2432,7 @@ button:active,.btn:active,.button:active{
 
                 </label>
 
-                <input
-                    type="text"
-                    id="bookingNumber"
-                    class="bubble-input"
-                    placeholder="أدخل رقم الحجز"
-                    required>
+                <input type="text" id="bookingNumber" class="bubble-input" placeholder="أدخل رقم الحجز" required>
 
             </div>
 
@@ -2450,12 +2449,7 @@ button:active,.btn:active,.button:active{
 
                 </label>
 
-                <input
-                    type="tel"
-                    id="mobileNumber"
-                    class="bubble-input"
-                    placeholder="01xxxxxxxxx"
-                    required>
+                <input type="tel" id="mobileNumber" class="bubble-input" placeholder="01xxxxxxxxx" required>
 
             </div>
 
@@ -2472,11 +2466,7 @@ button:active,.btn:active,.button:active{
 
                 </label>
 
-                <input
-                    type="date"
-                    id="bookingDate"
-                    class="bubble-input"
-                    required>
+                <input type="date" id="bookingDate" class="bubble-input" required>
 
             </div>
 
@@ -2493,11 +2483,7 @@ button:active,.btn:active,.button:active{
 
                 </label>
 
-                <input
-                    type="date"
-                    id="travelDate"
-                    class="bubble-input"
-                    required>
+                <input type="date" id="travelDate" class="bubble-input" required>
 
             </div>
 
@@ -2514,14 +2500,8 @@ button:active,.btn:active,.button:active{
 
                 </label>
 
-                <input
-                    type="number"
-                    id="totalAmount"
-                    class="bubble-input"
-                    placeholder="0.00"
-                    step="any"
-                    oninput="calculateRemaining()"
-                    required>
+                <input type="number" id="totalAmount" class="bubble-input" placeholder="0.00" step="any"
+                    oninput="calculateRemaining()" required>
 
             </div>
 
@@ -2538,14 +2518,8 @@ button:active,.btn:active,.button:active{
 
                 </label>
 
-                <input
-                    type="number"
-                    id="paidAmount"
-                    class="bubble-input"
-                    placeholder="0.00"
-                    step="any"
-                    oninput="handlePaidAmountInput()"
-                    required>
+                <input type="number" id="paidAmount" class="bubble-input" placeholder="0.00" step="any"
+                    oninput="handlePaidAmountInput()" required>
 
             </div>
 
@@ -2562,13 +2536,7 @@ button:active,.btn:active,.button:active{
 
                 </label>
 
-                <input
-                    type="number"
-                    id="remainingAmount"
-                    class="bubble-input"
-                    placeholder="0.00"
-                    readonly
-                    required>
+                <input type="number" id="remainingAmount" class="bubble-input" placeholder="0.00" readonly required>
 
             </div>
 
@@ -2585,13 +2553,7 @@ button:active,.btn:active,.button:active{
 
                 </label>
 
-                <input
-                    type="number"
-                    id="commission"
-                    class="bubble-input"
-                    placeholder="0.00"
-                    step="any"
-                    required>
+                <input type="number" id="commission" class="bubble-input" placeholder="0.00" step="any" required>
 
             </div>
 
@@ -2610,20 +2572,14 @@ button:active,.btn:active,.button:active{
 
                 </label>
 
-                <input
-                    type="text"
-                    id="companyName"
-                    class="bubble-input"
-                    placeholder="أدخل اسم الشركة إن وجد">
+                <input type="text" id="companyName" class="bubble-input" placeholder="أدخل اسم الشركة إن وجد">
 
             </div>
 
 
             <!-- زر الحفظ -->
 
-            <button
-                type="submit"
-                class="submit-btn">
+            <button type="submit" class="submit-btn">
 
                 <i class="fa-solid fa-cloud-arrow-up"></i>
 
@@ -2640,14 +2596,9 @@ button:active,.btn:active,.button:active{
          نافذة اختيار طريقة الدفع
     ====================================================== -->
 
-    <div
-        id="paymentMethodOverlay"
-        class="payment-method-overlay"
-        onclick="closePaymentMethodFromOverlay(event)">
+    <div id="paymentMethodOverlay" class="payment-method-overlay" onclick="closePaymentMethodFromOverlay(event)">
 
-        <div
-            class="payment-method-modal"
-            onclick="event.stopPropagation()">
+        <div class="payment-method-modal" onclick="event.stopPropagation()">
 
             <div class="payment-method-header">
 
@@ -2658,11 +2609,7 @@ button:active,.btn:active,.button:active{
                     </div>
                 </div>
 
-                <button
-                    type="button"
-                    class="payment-method-close"
-                    onclick="closePaymentMethod()"
-                    aria-label="إغلاق">
+                <button type="button" class="payment-method-close" onclick="closePaymentMethod()" aria-label="إغلاق">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
 
@@ -2677,27 +2624,32 @@ button:active,.btn:active,.button:active{
 
             <div class="payment-method-grid">
 
-                <button type="button" class="payment-method-option" data-payment-method="بنك مصر" onclick="selectPaymentMethod('بنك مصر')">
+                <button type="button" class="payment-method-option" data-payment-method="بنك مصر"
+                    onclick="selectPaymentMethod('بنك مصر')">
                     <i class="fa-solid fa-building-columns"></i>
                     بنك مصر
                 </button>
 
-                <button type="button" class="payment-method-option" data-payment-method="بنك اسكندرية" onclick="selectPaymentMethod('بنك اسكندرية')">
+                <button type="button" class="payment-method-option" data-payment-method="بنك اسكندرية"
+                    onclick="selectPaymentMethod('بنك اسكندرية')">
                     <i class="fa-solid fa-building-columns"></i>
                     بنك اسكندرية
                 </button>
 
-                <button type="button" class="payment-method-option" data-payment-method="فودافون كاش" onclick="selectPaymentMethod('فودافون كاش')">
+                <button type="button" class="payment-method-option" data-payment-method="فودافون كاش"
+                    onclick="selectPaymentMethod('فودافون كاش')">
                     <i class="fa-solid fa-mobile-screen-button"></i>
                     فودافون كاش
                 </button>
 
-                <button type="button" class="payment-method-option" data-payment-method="البنك الكويتي" onclick="selectPaymentMethod('البنك الكويتي')">
+                <button type="button" class="payment-method-option" data-payment-method="البنك الكويتي"
+                    onclick="selectPaymentMethod('البنك الكويتي')">
                     <i class="fa-solid fa-building-columns"></i>
                     البنك الكويتي
                 </button>
 
-                <button type="button" class="payment-method-option" data-payment-method="النقدي المتاح" onclick="selectPaymentMethod('النقدي المتاح')">
+                <button type="button" class="payment-method-option" data-payment-method="النقدي المتاح"
+                    onclick="selectPaymentMethod('النقدي المتاح')">
                     <i class="fa-solid fa-money-bill-wave"></i>
                     نقدي
                 </button>
@@ -2714,17 +2666,301 @@ button:active,.btn:active,.button:active{
     </div>
 
     <!-- =====================================================
+         نافذة الملاحظات الشهرية
+    ====================================================== -->
+
+    <div id="monthlyNotesOverlay" class="monthly-notes-overlay" onclick="closeMonthlyNotesFromOverlay(event)">
+
+        <div class="monthly-notes-modal" onclick="event.stopPropagation()">
+
+            <div class="payment-method-header">
+
+                <div class="payment-method-title">
+                    <i class="fa-solid fa-note-sticky" style="color:#a78bfa;"></i>
+                    الملاحظات الشهرية
+                </div>
+
+                <button type="button" class="payment-method-close" onclick="closeMonthlyNotes()" aria-label="إغلاق">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+            </div>
+
+            <div class="payment-method-subtitle">
+                سجل الملحوظات الشهرية. عند اختيار "لنا" تُكتب "فلوس برا" تلقائيًا مع إمكانية التعديل، وعند الضغط على "تم السداد" تُحذف الملحوظة ويُسجل اسمها في الشيت.
+            </div>
+
+            <!-- إضافة ملحوظة جديدة -->
+
+            <div class="mn-add-row">
+
+                <select id="mnTypeSelect" class="mn-type-select" onchange="onMonthlyNoteTypeChange()">
+                    <option value="لنا">لنا</option>
+                    <option value="علينا">علينا</option>
+                </select>
+
+                <input type="text" id="mnTextInput" class="mn-text-input" placeholder="اكتب الملحوظة الشهرية...">
+
+                <button type="button" class="mn-add-btn" onclick="addMonthlyNote()">
+                    <i class="fa-solid fa-plus"></i>
+                    إضافة
+                </button>
+
+            </div>
+
+            <!-- قائمة الملحوظات -->
+
+            <div id="monthlyNotesList" class="mn-list">
+
+                <div class="mn-empty">
+                    <i class="fa-solid fa-inbox"></i>
+                    لا توجد ملحوظات شهرية حاليًا
+                </div>
+
+            </div>
+
+            <div class="payment-method-note">
+                <i class="fa-solid fa-circle-info"></i>
+                "تم السداد" يحذف الملحوظة نهائيًا ويسجل اسمها في قاعدة البيانات.
+            </div>
+
+        </div>
+
+    </div>
+
+    <style>
+/* =====================================================
+   الملاحظات الشهرية - نفس ستايل مربعات البنوك
+===================================================== */
+
+.monthly-notes-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 2, 15, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+    padding: 20px;
+}
+
+.monthly-notes-overlay.open {
+    display: flex;
+}
+
+.monthly-notes-modal {
+    width: min(620px, 100%);
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 24px;
+    background: rgba(20, 10, 38, 0.97);
+    border: 1px solid rgba(255,255,255,0.16);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    box-shadow: 0 24px 70px rgba(0,0,0,0.5);
+    padding: 20px;
+    direction: rtl;
+}
+
+.mn-add-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.mn-type-select,
+.mn-text-input {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.20);
+    border-radius: 12px;
+    color: #fff;
+    padding: 11px 12px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    outline: none;
+}
+
+.mn-type-select {
+    flex: 0 0 110px;
+    cursor: pointer;
+}
+
+.mn-type-select option {
+    background: #1a1030;
+    color: #fff;
+}
+
+.mn-text-input {
+    flex: 1;
+    min-width: 160px;
+}
+
+.mn-text-input:focus {
+    border-color: rgba(192,132,252,0.55);
+}
+
+.mn-add-btn {
+    flex: 0 0 auto;
+    border: 1px solid rgba(134,239,172,0.4);
+    border-radius: 12px;
+    padding: 11px 16px;
+    background: linear-gradient(135deg, rgba(34,197,94,.25), rgba(22,163,74,.12));
+    color: #fff;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all .22s ease;
+}
+
+.mn-add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(34,197,94,.2);
+}
+
+.mn-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.mn-empty {
+    text-align: center;
+    color: #aaa1bb;
+    padding: 22px 10px;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.mn-empty i {
+    font-size: 1.6rem;
+    color: #8b5cf6;
+}
+
+.mn-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.06);
+    flex-wrap: wrap;
+}
+
+.mn-item.mn-type-lina {
+    border-color: rgba(134,239,172,0.35);
+}
+
+.mn-item.mn-type-alina {
+    border-color: rgba(248,113,113,0.35);
+}
+
+.mn-badge {
+    flex: 0 0 auto;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.mn-type-lina .mn-badge {
+    background: rgba(34,197,94,.18);
+    color: #86efac;
+    border: 1px solid rgba(134,239,172,.35);
+}
+
+.mn-type-alina .mn-badge {
+    background: rgba(239,68,68,.16);
+    color: #fca5a5;
+    border: 1px solid rgba(248,113,113,.35);
+}
+
+.mn-item-text {
+    flex: 1;
+    min-width: 140px;
+    color: #f8f5ff;
+    font-weight: 700;
+    font-size: 0.92rem;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-family: inherit;
+    padding: 6px 8px;
+    border-radius: 10px;
+}
+
+.mn-item-text:disabled {
+    opacity: 1;
+}
+
+.mn-item-text:not(:disabled) {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.mn-actions {
+    display: flex;
+    gap: 6px;
+    flex: 0 0 auto;
+}
+
+.mn-btn {
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all .2s ease;
+}
+
+.mn-btn-edit:hover {
+    border-color: rgba(192,132,252,0.6);
+    background: rgba(139,92,246,.2);
+}
+
+.mn-btn-pay {
+    border-color: rgba(134,239,172,0.4);
+    background: linear-gradient(135deg, rgba(34,197,94,.25), rgba(22,163,74,.12));
+}
+
+.mn-btn-pay:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(34,197,94,.18);
+}
+
+.mn-btn:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+</style>
+
+    <!-- =====================================================
          نافذة التنبيهات
     ====================================================== -->
 
-    <div
-        id="notificationOverlay"
-        class="notification-overlay"
-        onclick="closeNotificationsFromOverlay(event)">
+    <div id="notificationOverlay" class="notification-overlay" onclick="closeNotificationsFromOverlay(event)">
 
-        <div
-            class="notification-modal"
-            onclick="event.stopPropagation()">
+        <div class="notification-modal" onclick="event.stopPropagation()">
 
             <div class="notification-header">
 
@@ -2736,10 +2972,7 @@ button:active,.btn:active,.button:active{
 
                 </div>
 
-                <button
-                    type="button"
-                    class="close-notifications"
-                    onclick="closeNotifications()">
+                <button type="button" class="close-notifications" onclick="closeNotifications()">
 
                     <i class="fa-solid fa-xmark"></i>
 
@@ -2747,14 +2980,10 @@ button:active,.btn:active,.button:active{
 
             </div>
 
-            <div
-                id="notificationSummary"
-                class="notification-summary">
+            <div id="notificationSummary" class="notification-summary">
             </div>
 
-            <div
-                id="notificationList"
-                class="notification-list">
+            <div id="notificationList" class="notification-list">
 
                 <div class="notification-loading">
                     جاري تحميل التنبيهات...
@@ -2771,15 +3000,10 @@ button:active,.btn:active,.button:active{
          نافذة البحث
     ====================================================== -->
 
-    <div
-        id="searchOverlay"
-        class="search-overlay"
-        onclick="closeSearchFromOverlay(event)">
+    <div id="searchOverlay" class="search-overlay" onclick="closeSearchFromOverlay(event)">
 
 
-        <div
-            class="search-modal"
-            onclick="event.stopPropagation()">
+        <div class="search-modal" onclick="event.stopPropagation()">
 
 
             <div class="search-header">
@@ -2793,10 +3017,7 @@ button:active,.btn:active,.button:active{
                 </div>
 
 
-                <button
-                    type="button"
-                    class="close-search"
-                    onclick="closeSearch()">
+                <button type="button" class="close-search" onclick="closeSearch()">
 
                     <i class="fa-solid fa-xmark"></i>
 
@@ -2807,19 +3028,11 @@ button:active,.btn:active,.button:active{
 
             <div class="search-box">
 
-                <input
-                    type="text"
-                    id="searchInput"
-                    class="search-input"
-                    placeholder="اكتب اسم المسافر أو رقم الحجز..."
+                <input type="text" id="searchInput" class="search-input" placeholder="اكتب اسم المسافر أو رقم الحجز..."
                     autocomplete="off">
 
 
-                <button
-                    type="button"
-                    id="searchButton"
-                    class="search-action"
-                    onclick="searchPassenger()">
+                <button type="button" id="searchButton" class="search-action" onclick="searchPassenger()">
 
                     <i class="fa-solid fa-search"></i>
 
@@ -2830,18 +3043,14 @@ button:active,.btn:active,.button:active{
             </div>
 
 
-            <div
-                id="searchStatus"
-                class="search-status">
+            <div id="searchStatus" class="search-status">
 
                 اكتب اسم المسافر أو رقم الحجز للبحث
 
             </div>
 
 
-            <div
-                id="searchResults"
-                class="search-results">
+            <div id="searchResults" class="search-results">
             </div>
 
         </div>
@@ -2859,9 +3068,7 @@ button:active,.btn:active,.button:active{
 
             <div>
 
-                <i
-                    class="fa-solid fa-phone"
-                    style="color:#a78bfa;">
+                <i class="fa-solid fa-phone" style="color:#a78bfa;">
                 </i>
 
                 التواصل:
@@ -2875,14 +3082,10 @@ button:active,.btn:active,.button:active{
 
             <div>
 
-                <i
-                    class="fa-brands fa-facebook"
-                    style="color:#a78bfa;">
+                <i class="fa-brands fa-facebook" style="color:#a78bfa;">
                 </i>
 
-                <a
-                    href="https://www.facebook.com/share/1BaiuDESTS/"
-                    target="_blank">
+                <a href="https://www.facebook.com/share/1BaiuDESTS/" target="_blank">
 
                     صفحتنا على فيسبوك
 
@@ -2893,9 +3096,7 @@ button:active,.btn:active,.button:active{
 
             <div>
 
-                <i
-                    class="fa-solid fa-code"
-                    style="color:#a78bfa;">
+                <i class="fa-solid fa-code" style="color:#a78bfa;">
                 </i>
 
                 تصميم وتطوير:
@@ -3010,7 +3211,7 @@ button:active,.btn:active,.button:active{
         }
 
 
-        document.addEventListener("click", function(event) {
+        document.addEventListener("click", function (event) {
 
             const wrap =
                 document.getElementById("sessionUserMenuWrap");
@@ -3061,7 +3262,7 @@ button:active,.btn:active,.button:active{
         }
 
 
-        
+
         // =====================================================
         // صلاحية حسابات الشركة
         // المدير الوحيد: shimee
@@ -3080,8 +3281,8 @@ button:active,.btn:active,.button:active{
                 String(
                     localStorage.getItem("currentUser") || ""
                 )
-                .trim()
-                .toLowerCase();
+                    .trim()
+                    .toLowerCase();
 
             if (currentUser !== "shimee") {
 
@@ -3089,7 +3290,7 @@ button:active,.btn:active,.button:active{
                     "accounts-admin-only-hidden"
                 );
 
-                button.onclick = function(event) {
+                button.onclick = function (event) {
                     event.preventDefault();
                     return false;
                 };
@@ -3111,7 +3312,7 @@ button:active,.btn:active,.button:active{
         }
 
 
-// =====================================================
+        // =====================================================
         // التأكد من تسجيل الدخول
         // =====================================================
 
@@ -3292,7 +3493,7 @@ button:active,.btn:active,.button:active{
                 "_" +
                 Math.floor(Math.random() * 100000);
 
-            window[callbackName] = function(response) {
+            window[callbackName] = function (response) {
 
                 try {
 
@@ -3321,7 +3522,7 @@ button:active,.btn:active,.button:active{
 
                 } finally {
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         delete window[callbackName];
                     }, 1000);
 
@@ -3341,7 +3542,7 @@ button:active,.btn:active,.button:active{
             script.src = url;
             script.async = true;
 
-            script.onerror = function() {
+            script.onerror = function () {
 
                 updateNotificationBadge(0);
 
@@ -3355,9 +3556,9 @@ button:active,.btn:active,.button:active{
 
             document.body.appendChild(script);
 
-            script.onload = function() {
+            script.onload = function () {
 
-                setTimeout(function() {
+                setTimeout(function () {
                     script.remove();
                 }, 100);
             };
@@ -3365,10 +3566,10 @@ button:active,.btn:active,.button:active{
 
         function renderNotifications(data) {
 
-    const summary =
-        document.getElementById("notificationSummary");
+            const summary =
+                document.getElementById("notificationSummary");
 
-    summary.innerHTML = `
+            summary.innerHTML = `
 
         <div
             class="notification-summary-card active"
@@ -3437,126 +3638,126 @@ button:active,.btn:active,.button:active{
 
     `;
 
-    renderNotificationList(data, "all");
-}
-
-
-/* =====================================================
-   فلترة التنبيهات حسب النوع
-===================================================== */
-
-function filterNotifications(type) {
-
-    if (
-        !notificationData ||
-        !notificationData.success
-    ) {
-        return;
-    }
-
-    document
-        .querySelectorAll("[data-notification-filter]")
-        .forEach(function(card) {
-
-            card.classList.toggle(
-                "active",
-                card.dataset.notificationFilter === type
-            );
-
-        });
-
-    renderNotificationList(
-        notificationData,
-        type
-    );
-}
-
-
-/* =====================================================
-   عرض قائمة التنبيهات حسب الفلتر
-===================================================== */
-
-function renderNotificationList(data, type) {
-
-    const list =
-        document.getElementById("notificationList");
-
-    let notifications = [];
-
-    if (type === "remaining") {
-
-        notifications = data.remaining || [];
-
-    } else if (type === "dueSoon") {
-
-        notifications = data.dueSoon || [];
-
-    } else if (type === "incomplete") {
-
-        notifications = data.incomplete || [];
-
-    } else if (type === "flightChange") {
-
-        notifications = data.flightChanges || [];
-
-    } else {
-
-        notifications = [
-            ...(data.remaining || []),
-            ...(data.dueSoon || []),
-            ...(data.incomplete || []),
-            ...(data.flightChanges || [])
-        ];
-
-    }
-
-    if (notifications.length === 0) {
-
-        let emptyText =
-            "✓ لا توجد تنبيهات حاليًا";
-
-        if (type === "remaining") {
-            emptyText =
-                "✓ لا توجد مبالغ متبقية حاليًا";
-        } else if (type === "dueSoon") {
-            emptyText =
-                "✓ لا توجد مواعيد سفر قريبة حاليًا";
-        } else if (type === "incomplete") {
-            emptyText =
-                "✓ لا توجد بيانات ناقصة حاليًا";
-        } else if (type === "flightChange") {
-            emptyText =
-                "✓ لا توجد تعديلات رحلات حاليًا";
+            renderNotificationList(data, "all");
         }
 
-        list.innerHTML =
-            '<div class="notification-empty">' +
-            emptyText +
-            '</div>';
 
-        return;
-    }
+        /* =====================================================
+           فلترة التنبيهات حسب النوع
+        ===================================================== */
 
-    list.innerHTML = "";
+        function filterNotifications(type) {
 
-    notifications.forEach(function(item) {
+            if (
+                !notificationData ||
+                !notificationData.success
+            ) {
+                return;
+            }
 
-        const element =
-            document.createElement("div");
+            document
+                .querySelectorAll("[data-notification-filter]")
+                .forEach(function (card) {
 
-        element.className =
-            "notification-item " +
-            (
-                item.type === "remaining"
-                    ? "remaining"
-                    : item.type === "dueSoon"
-                        ? "due"
-                        : item.type === "flightChange"
-                            ? "flight-change"
-                            : "incomplete"
+                    card.classList.toggle(
+                        "active",
+                        card.dataset.notificationFilter === type
+                    );
+
+                });
+
+            renderNotificationList(
+                notificationData,
+                type
             );
+        }
 
-        element.innerHTML = `
+
+        /* =====================================================
+           عرض قائمة التنبيهات حسب الفلتر
+        ===================================================== */
+
+        function renderNotificationList(data, type) {
+
+            const list =
+                document.getElementById("notificationList");
+
+            let notifications = [];
+
+            if (type === "remaining") {
+
+                notifications = data.remaining || [];
+
+            } else if (type === "dueSoon") {
+
+                notifications = data.dueSoon || [];
+
+            } else if (type === "incomplete") {
+
+                notifications = data.incomplete || [];
+
+            } else if (type === "flightChange") {
+
+                notifications = data.flightChanges || [];
+
+            } else {
+
+                notifications = [
+                    ...(data.remaining || []),
+                    ...(data.dueSoon || []),
+                    ...(data.incomplete || []),
+                    ...(data.flightChanges || [])
+                ];
+
+            }
+
+            if (notifications.length === 0) {
+
+                let emptyText =
+                    "✓ لا توجد تنبيهات حاليًا";
+
+                if (type === "remaining") {
+                    emptyText =
+                        "✓ لا توجد مبالغ متبقية حاليًا";
+                } else if (type === "dueSoon") {
+                    emptyText =
+                        "✓ لا توجد مواعيد سفر قريبة حاليًا";
+                } else if (type === "incomplete") {
+                    emptyText =
+                        "✓ لا توجد بيانات ناقصة حاليًا";
+                } else if (type === "flightChange") {
+                    emptyText =
+                        "✓ لا توجد تعديلات رحلات حاليًا";
+                }
+
+                list.innerHTML =
+                    '<div class="notification-empty">' +
+                    emptyText +
+                    '</div>';
+
+                return;
+            }
+
+            list.innerHTML = "";
+
+            notifications.forEach(function (item) {
+
+                const element =
+                    document.createElement("div");
+
+                element.className =
+                    "notification-item " +
+                    (
+                        item.type === "remaining"
+                            ? "remaining"
+                            : item.type === "dueSoon"
+                                ? "due"
+                                : item.type === "flightChange"
+                                    ? "flight-change"
+                                    : "incomplete"
+                    );
+
+                element.innerHTML = `
 
             <div class="notification-item-title">
                 ${escapeHtml(
@@ -3570,266 +3771,265 @@ function renderNotificationList(data, type) {
                 )}
             </div>
 
-            ${
-                item.type === "flightChange" && item.bodyPreview
-                    ? `
+            ${item.type === "flightChange" && item.bodyPreview
+                        ? `
                         <div class="notification-item-details" style="margin-top:8px; white-space:pre-line;">
                             ${escapeHtml(item.bodyPreview)}
                         </div>
                       `
-                    : ""
-            }
+                        : ""
+                    }
 
         `;
 
-        /*
-         * زر إرسال يظهر فقط مع تنبيهات
-         * مواعيد السفر القريبة.
-         */
-        if (item.type === "dueSoon") {
+                /*
+                 * زر إرسال يظهر فقط مع تنبيهات
+                 * مواعيد السفر القريبة.
+                 */
+                if (item.type === "dueSoon") {
 
-            const sendWrap =
-                document.createElement("div");
+                    const sendWrap =
+                        document.createElement("div");
 
-            sendWrap.className =
-                "notification-send-wrap";
+                    sendWrap.className =
+                        "notification-send-wrap";
 
-            const sendButton =
-                document.createElement("button");
+                    const sendButton =
+                        document.createElement("button");
 
-            sendButton.type = "button";
-            sendButton.className =
-                "notification-send-btn";
+                    sendButton.type = "button";
+                    sendButton.className =
+                        "notification-send-btn";
 
-            sendButton.innerHTML =
-                '<i class="fa-brands fa-whatsapp"></i> إرسال';
+                    sendButton.innerHTML =
+                        '<i class="fa-brands fa-whatsapp"></i> إرسال';
 
-            const menu =
-                document.createElement("div");
+                    const menu =
+                        document.createElement("div");
 
-            menu.className =
-                "notification-message-menu";
+                    menu.className =
+                        "notification-message-menu";
 
-            const reminderButton =
-                document.createElement("button");
+                    const reminderButton =
+                        document.createElement("button");
 
-            reminderButton.type = "button";
-            reminderButton.className =
-                "notification-message-option";
+                    reminderButton.type = "button";
+                    reminderButton.className =
+                        "notification-message-option";
 
-            reminderButton.innerHTML =
-                '<i class="fa-solid fa-bell"></i> رسالة تذكير بموعد الرحلة';
+                    reminderButton.innerHTML =
+                        '<i class="fa-solid fa-bell"></i> رسالة تذكير بموعد الرحلة';
 
-            reminderButton.onclick = function(event) {
+                    reminderButton.onclick = function (event) {
 
-                event.stopPropagation();
+                        event.stopPropagation();
 
-                openWhatsAppNotification(
-                    item,
-                    "reminder"
-                );
+                        openWhatsAppNotification(
+                            item,
+                            "reminder"
+                        );
 
-                menu.classList.remove("active");
+                        menu.classList.remove("active");
 
-            };
+                    };
 
-            const changedButton =
-                document.createElement("button");
+                    const changedButton =
+                        document.createElement("button");
 
-            changedButton.type = "button";
-            changedButton.className =
-                "notification-message-option";
+                    changedButton.type = "button";
+                    changedButton.className =
+                        "notification-message-option";
 
-            changedButton.innerHTML =
-                '<i class="fa-solid fa-plane-circle-exclamation"></i> رسالة تعديل موعد الرحلة';
+                    changedButton.innerHTML =
+                        '<i class="fa-solid fa-plane-circle-exclamation"></i> رسالة تعديل موعد الرحلة';
 
-            changedButton.onclick = function(event) {
+                    changedButton.onclick = function (event) {
 
-                event.stopPropagation();
+                        event.stopPropagation();
 
-                openWhatsAppNotification(
-                    item,
-                    "changed"
-                );
+                        openWhatsAppNotification(
+                            item,
+                            "changed"
+                        );
 
-                menu.classList.remove("active");
+                        menu.classList.remove("active");
 
-            };
+                    };
 
-            menu.appendChild(reminderButton);
-            menu.appendChild(changedButton);
+                    menu.appendChild(reminderButton);
+                    menu.appendChild(changedButton);
 
-            sendButton.onclick = function(event) {
+                    sendButton.onclick = function (event) {
 
-                event.stopPropagation();
+                        event.stopPropagation();
 
-                document
-                    .querySelectorAll(".notification-message-menu.active")
-                    .forEach(function(otherMenu) {
+                        document
+                            .querySelectorAll(".notification-message-menu.active")
+                            .forEach(function (otherMenu) {
 
-                        if (otherMenu !== menu) {
-                            otherMenu.classList.remove("active");
-                        }
+                                if (otherMenu !== menu) {
+                                    otherMenu.classList.remove("active");
+                                }
 
-                    });
+                            });
 
-                menu.classList.toggle("active");
+                        menu.classList.toggle("active");
 
-            };
+                    };
 
-            sendWrap.appendChild(sendButton);
-            sendWrap.appendChild(menu);
+                    sendWrap.appendChild(sendButton);
+                    sendWrap.appendChild(menu);
 
-            element.appendChild(sendWrap);
+                    element.appendChild(sendWrap);
+
+                }
+
+                /*
+                 * زر فتح الإيميل الأصلي يظهر فقط مع تعديلات الرحلات.
+                 */
+                if (
+                    item.type === "flightChange" &&
+                    item.emailUrl
+                ) {
+
+                    const emailButton =
+                        document.createElement("button");
+
+                    emailButton.type = "button";
+                    emailButton.className =
+                        "notification-email-btn";
+
+                    emailButton.innerHTML =
+                        '<i class="fa-solid fa-envelope-open-text"></i> فتح الإيميل الأصلي';
+
+                    emailButton.onclick = function (event) {
+
+                        event.stopPropagation();
+
+                        window.open(
+                            item.emailUrl,
+                            "_blank",
+                            "noopener,noreferrer"
+                        );
+
+                    };
+
+                    element.appendChild(emailButton);
+
+                }
+
+                list.appendChild(element);
+
+            });
 
         }
 
-        /*
-         * زر فتح الإيميل الأصلي يظهر فقط مع تعديلات الرحلات.
-         */
-        if (
-            item.type === "flightChange" &&
-            item.emailUrl
-        ) {
 
-            const emailButton =
-                document.createElement("button");
+        /* =====================================================
+           إرسال رسالة التنبيه على واتساب
+        ===================================================== */
 
-            emailButton.type = "button";
-            emailButton.className =
-                "notification-email-btn";
+        function openWhatsAppNotification(item, messageType) {
 
-            emailButton.innerHTML =
-                '<i class="fa-solid fa-envelope-open-text"></i> فتح الإيميل الأصلي';
-
-            emailButton.onclick = function(event) {
-
-                event.stopPropagation();
-
-                window.open(
-                    item.emailUrl,
-                    "_blank",
-                    "noopener,noreferrer"
+            const mobileNumber =
+                normalizeWhatsAppNumber(
+                    item.mobileNumber || ""
                 );
 
-            };
+            if (!mobileNumber) {
 
-            element.appendChild(emailButton);
+                alert(
+                    "⚠️ لا يوجد رقم موبايل صالح مسجل لهذا العميل."
+                );
 
+                return;
+            }
+
+            let message = "";
+
+            if (messageType === "reminder") {
+
+                const travelDate =
+                    item.travelDateFormatted ||
+                    item.travelDate ||
+                    "";
+
+                message =
+                    "أهلاً وسهلاً بحضرتك، بنحب نفكر حضرتك بميعاد الرحلة بتاريخ " +
+                    travelDate +
+                    "، ونبلغ حضرتك الرجاء الاستعداد للسفر.";
+
+            } else {
+
+                message =
+                    "الرجاء العلم أنه تم تعديل ميعاد الرحلة، الرجاء التواصل بنا لمعرفة الميعاد الجديد.";
+
+            }
+
+            const whatsappUrl =
+                "https://wa.me/" +
+                mobileNumber +
+                "?text=" +
+                encodeURIComponent(message);
+
+            window.open(
+                whatsappUrl,
+                "_blank"
+            );
         }
 
-        list.appendChild(element);
 
-    });
+        /* =====================================================
+           تجهيز رقم الهاتف لواتساب
+        ===================================================== */
 
-}
+        function normalizeWhatsAppNumber(number) {
 
+            let value =
+                String(number || "")
+                    .trim()
+                    .replace(/[^\d+]/g, "");
 
-/* =====================================================
-   إرسال رسالة التنبيه على واتساب
-===================================================== */
+            if (!value) {
+                return "";
+            }
 
-function openWhatsAppNotification(item, messageType) {
+            /*
+             * أرقام مصر المحلية:
+             * 01005389471
+             * 011xxxxxxxx
+             * تتحول إلى:
+             * 201005389471
+             */
+            if (value.startsWith("+")) {
+                value = value.substring(1);
+            }
 
-    const mobileNumber =
-        normalizeWhatsAppNumber(
-            item.mobileNumber || ""
-        );
+            if (value.startsWith("00")) {
+                value = value.substring(2);
+            }
 
-    if (!mobileNumber) {
+            if (value.startsWith("20")) {
+                return value;
+            }
 
-        alert(
-            "⚠️ لا يوجد رقم موبايل صالح مسجل لهذا العميل."
-        );
+            if (value.startsWith("0")) {
+                return "20" + value.substring(1);
+            }
 
-        return;
-    }
+            /*
+             * لو الرقم محفوظ بدون 0 وبصيغة مصرية 10 أو 11 رقم،
+             * نضيف كود مصر.
+             */
+            if (
+                value.length === 10 &&
+                /^[1-9]\d{9}$/.test(value)
+            ) {
+                return "20" + value;
+            }
 
-    let message = "";
-
-    if (messageType === "reminder") {
-
-        const travelDate =
-            item.travelDateFormatted ||
-            item.travelDate ||
-            "";
-
-        message =
-            "أهلاً وسهلاً بحضرتك، بنحب نفكر حضرتك بميعاد الرحلة بتاريخ " +
-            travelDate +
-            "، ونبلغ حضرتك الرجاء الاستعداد للسفر.";
-
-    } else {
-
-        message =
-            "الرجاء العلم أنه تم تعديل ميعاد الرحلة، الرجاء التواصل بنا لمعرفة الميعاد الجديد.";
-
-    }
-
-    const whatsappUrl =
-        "https://wa.me/" +
-        mobileNumber +
-        "?text=" +
-        encodeURIComponent(message);
-
-    window.open(
-        whatsappUrl,
-        "_blank"
-    );
-}
-
-
-/* =====================================================
-   تجهيز رقم الهاتف لواتساب
-===================================================== */
-
-function normalizeWhatsAppNumber(number) {
-
-    let value =
-        String(number || "")
-        .trim()
-        .replace(/[^\d+]/g, "");
-
-    if (!value) {
-        return "";
-    }
-
-    /*
-     * أرقام مصر المحلية:
-     * 01005389471
-     * 011xxxxxxxx
-     * تتحول إلى:
-     * 201005389471
-     */
-    if (value.startsWith("+")) {
-        value = value.substring(1);
-    }
-
-    if (value.startsWith("00")) {
-        value = value.substring(2);
-    }
-
-    if (value.startsWith("20")) {
-        return value;
-    }
-
-    if (value.startsWith("0")) {
-        return "20" + value.substring(1);
-    }
-
-    /*
-     * لو الرقم محفوظ بدون 0 وبصيغة مصرية 10 أو 11 رقم،
-     * نضيف كود مصر.
-     */
-    if (
-        value.length === 10 &&
-        /^[1-9]\d{9}$/.test(value)
-    ) {
-        return "20" + value;
-    }
-
-    return value;
-}
+            return value;
+        }
 
 
         function refreshNotificationBadge() {
@@ -3840,7 +4040,7 @@ function normalizeWhatsAppNumber(number) {
                 "_" +
                 Math.floor(Math.random() * 100000);
 
-            window[callbackName] = function(response) {
+            window[callbackName] = function (response) {
 
                 try {
 
@@ -3852,7 +4052,7 @@ function normalizeWhatsAppNumber(number) {
 
                 } finally {
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         delete window[callbackName];
                     }, 1000);
 
@@ -3871,7 +4071,7 @@ function normalizeWhatsAppNumber(number) {
 
             script.async = true;
 
-            script.onerror = function() {
+            script.onerror = function () {
 
                 updateNotificationBadge(0);
 
@@ -3882,9 +4082,9 @@ function normalizeWhatsAppNumber(number) {
 
             document.body.appendChild(script);
 
-            script.onload = function() {
+            script.onload = function () {
 
-                setTimeout(function() {
+                setTimeout(function () {
                     script.remove();
                 }, 100);
             };
@@ -3908,7 +4108,7 @@ function normalizeWhatsAppNumber(number) {
 
 
             setTimeout(
-                function() {
+                function () {
 
                     document
                         .getElementById(
@@ -4080,7 +4280,7 @@ function normalizeWhatsAppNumber(number) {
             // =================================================
 
             window[callbackName] =
-                function(response) {
+                function (response) {
 
                     try {
 
@@ -4099,7 +4299,7 @@ function normalizeWhatsAppNumber(number) {
 
                             status.textContent =
                                 response &&
-                                response.message
+                                    response.message
                                     ? response.message
                                     : "حدث خطأ أثناء البحث.";
 
@@ -4141,7 +4341,7 @@ function normalizeWhatsAppNumber(number) {
                         // =============================================
 
                         results.forEach(
-                            function(item) {
+                            function (item) {
 
                                 const result =
                                     document.createElement(
@@ -4162,8 +4362,8 @@ function normalizeWhatsAppNumber(number) {
                                     <div class="result-name">
 
                                         ${escapeHtml(
-                                            item.passengerName
-                                        )}
+                                    item.passengerName
+                                )}
 
                                     </div>
 
@@ -4174,8 +4374,8 @@ function normalizeWhatsAppNumber(number) {
                                             <i class="fa-solid fa-ticket"></i>
 
                                             ${escapeHtml(
-                                                item.bookingNumber
-                                            )}
+                                    item.bookingNumber
+                                )}
 
                                         </span>
 
@@ -4184,8 +4384,8 @@ function normalizeWhatsAppNumber(number) {
                                             <i class="fa-solid fa-phone"></i>
 
                                             ${escapeHtml(
-                                                item.mobileNumber
-                                            )}
+                                    item.mobileNumber
+                                )}
 
                                         </span>
 
@@ -4194,8 +4394,8 @@ function normalizeWhatsAppNumber(number) {
                                             <i class="fa-solid fa-plane"></i>
 
                                             ${escapeHtml(
-                                                item.travelDate
-                                            )}
+                                    item.travelDate
+                                )}
 
                                         </span>
 
@@ -4216,7 +4416,7 @@ function normalizeWhatsAppNumber(number) {
                                 // =================================================
 
                                 result.onclick =
-                                    function() {
+                                    function () {
 
                                         fillPassengerData(
                                             item
@@ -4246,7 +4446,7 @@ function normalizeWhatsAppNumber(number) {
                     } finally {
 
                         setTimeout(
-                            function() {
+                            function () {
 
                                 delete window[
                                     callbackName
@@ -4299,7 +4499,7 @@ function normalizeWhatsAppNumber(number) {
             // =================================================
 
             script.onerror =
-                function() {
+                function () {
 
                     status.textContent =
                         "❌ حدث خطأ أثناء الاتصال بقاعدة البيانات.";
@@ -4336,10 +4536,10 @@ function normalizeWhatsAppNumber(number) {
             // =================================================
 
             script.onload =
-                function() {
+                function () {
 
                     setTimeout(
-                        function() {
+                        function () {
 
                             script.remove();
 
@@ -4358,7 +4558,7 @@ function normalizeWhatsAppNumber(number) {
 
         document.addEventListener(
             "click",
-            function(event) {
+            function (event) {
 
                 if (
                     !event.target.closest(".notification-send-wrap")
@@ -4368,7 +4568,7 @@ function normalizeWhatsAppNumber(number) {
                         .querySelectorAll(
                             ".notification-message-menu.active"
                         )
-                        .forEach(function(menu) {
+                        .forEach(function (menu) {
 
                             menu.classList.remove("active");
 
@@ -4390,7 +4590,7 @@ function normalizeWhatsAppNumber(number) {
             )
             .addEventListener(
                 "keydown",
-                function(event) {
+                function (event) {
 
                     if (
                         event.key ===
@@ -4529,7 +4729,7 @@ function normalizeWhatsAppNumber(number) {
 
 
             setTimeout(
-                function() {
+                function () {
 
                     title.innerHTML =
                         oldTitle;
@@ -4680,7 +4880,7 @@ function normalizeWhatsAppNumber(number) {
 
             document
                 .querySelectorAll(".payment-method-option")
-                .forEach(function(button) {
+                .forEach(function (button) {
 
                     button.classList.toggle(
                         "selected",
@@ -4730,7 +4930,7 @@ function normalizeWhatsAppNumber(number) {
 
             div.textContent =
                 value === null ||
-                value === undefined
+                    value === undefined
                     ? ""
                     : value;
 
@@ -4956,10 +5156,9 @@ function normalizeWhatsAppNumber(number) {
 
                 <span class="loading-spinner"></span>
 
-                ${
-                    operationType === "تعديل"
-                        ? "جاري تعديل البيانات..."
-                        : "جاري حفظ البيانات..."
+                ${operationType === "تعديل"
+                    ? "جاري تعديل البيانات..."
+                    : "جاري حفظ البيانات..."
                 }
 
             `;
@@ -5011,10 +5210,9 @@ function normalizeWhatsAppNumber(number) {
                         style="color:#86efac;">
                     </i>
 
-                    ${
-                        operationType === "تعديل"
-                            ? "تم تعديل البيانات بنجاح"
-                            : "تم حفظ البيانات بنجاح"
+                    ${operationType === "تعديل"
+                        ? "تم تعديل البيانات بنجاح"
+                        : "تم حفظ البيانات بنجاح"
                     }
 
                 `;
@@ -5054,7 +5252,7 @@ function normalizeWhatsAppNumber(number) {
                 // =================================================
 
                 setTimeout(
-                    function() {
+                    function () {
 
                         submitButton.disabled =
                             false;
@@ -5101,7 +5299,7 @@ function normalizeWhatsAppNumber(number) {
 
         }
 
-    
+
 
         /* =====================================================
            نظام الجلسة وعدم النشاط - 15 دقيقة
@@ -5359,10 +5557,10 @@ function normalizeWhatsAppNumber(number) {
             "input",
             "change",
             "submit"
-        ].forEach(function(eventName) {
+        ].forEach(function (eventName) {
             document.addEventListener(
                 eventName,
-                function() {
+                function () {
                     registerSessionActivity(false);
                 },
                 { passive: true }
@@ -5371,7 +5569,7 @@ function normalizeWhatsAppNumber(number) {
 
         document.addEventListener(
             "mousemove",
-            function() {
+            function () {
                 registerSessionActivity(false);
             },
             { passive: true }
@@ -5379,7 +5577,7 @@ function normalizeWhatsAppNumber(number) {
 
         window.addEventListener(
             "pageshow",
-            function() {
+            function () {
                 if (
                     localStorage.getItem("loggedIn") === "true"
                 ) {
@@ -5420,18 +5618,184 @@ function normalizeWhatsAppNumber(number) {
 
         startSessionManager();
 
-</script>
+    </script>
 
 
-<script>
-/* Premium UI micro-interactions — no business logic changes */
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('input, select, textarea').forEach(function(el){
-    el.addEventListener('focus', function(){ this.classList.add('premium-focused'); });
-    el.addEventListener('blur', function(){ this.classList.remove('premium-focused'); });
-  });
-});
-</script>
+    <script>
+        // =====================================================
+        // الملاحظات الشهرية
+        // =====================================================
+
+        const MONTHLY_NOTES_KEY = "monthlyNotes";
+
+        function getMonthlyNotes() {
+            try {
+                return JSON.parse(localStorage.getItem(MONTHLY_NOTES_KEY)) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveMonthlyNotesToStorage(notes) {
+            localStorage.setItem(MONTHLY_NOTES_KEY, JSON.stringify(notes));
+        }
+
+        function openMonthlyNotes() {
+            renderMonthlyNotes();
+            document.getElementById("monthlyNotesOverlay").classList.add("open");
+        }
+
+        function closeMonthlyNotes() {
+            document.getElementById("monthlyNotesOverlay").classList.remove("open");
+        }
+
+        function closeMonthlyNotesFromOverlay(event) {
+            if (event.target.id === "monthlyNotesOverlay") {
+                closeMonthlyNotes();
+            }
+        }
+
+        // اختيار "لنا" يكتب "فلوس برا" تلقائيًا
+        function onMonthlyNoteTypeChange() {
+            const type = document.getElementById("mnTypeSelect").value;
+            const input = document.getElementById("mnTextInput");
+            if (type === "لنا" && !input.value.trim()) {
+                input.value = "فلوس برا";
+            }
+        }
+
+        function addMonthlyNote() {
+            const type = document.getElementById("mnTypeSelect").value;
+            const text = document.getElementById("mnTextInput").value.trim();
+
+            if (!text) {
+                alert("⚠️ اكتب الملحوظة الشهرية أولًا.");
+                return;
+            }
+
+            const notes = getMonthlyNotes();
+            notes.push({
+                id: Date.now(),
+                type: type,
+                text: text,
+                date: new Date().toLocaleDateString("ar-EG")
+            });
+            saveMonthlyNotesToStorage(notes);
+
+            document.getElementById("mnTextInput").value = "";
+            renderMonthlyNotes();
+        }
+
+        function toggleMonthlyNoteEdit(id, btn) {
+            const input = document.getElementById("mnText_" + id);
+            if (!input) return;
+
+            const notes = getMonthlyNotes();
+            const note = notes.find(n => String(n.id) === String(id));
+            if (!note) return;
+
+            if (input.disabled) {
+                input.disabled = false;
+                input.focus();
+                btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ';
+            } else {
+                note.text = input.value.trim() || note.text;
+                input.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> تعديل';
+                saveMonthlyNotesToStorage(notes);
+            }
+        }
+
+        // تم السداد: تسجيل اسم الملحوظة في الشيت ثم حذفها
+        async function settleMonthlyNote(id, btn) {
+            const notes = getMonthlyNotes();
+            const index = notes.findIndex(n => String(n.id) === String(id));
+            if (index === -1) return;
+
+            const note = notes[index];
+
+            if (!confirm('هل تريد تسجيل سداد الملحوظة "' + note.text + '" وحذفها؟')) {
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري السداد...';
+
+            const payload = {
+                action: "settleMonthlyNote",
+                noteName: note.text,
+                noteType: note.type,
+                noteDate: note.date,
+                employeeName: getCurrentUser(),
+                settledAt: new Date().toLocaleString("ar-EG")
+            };
+
+            try {
+                await fetch(GOOGLE_SHEET_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+            } catch (error) {
+                console.error("Settle note error:", error);
+            }
+
+            // حذف الملحوظة من القائمة
+            notes.splice(index, 1);
+            saveMonthlyNotesToStorage(notes);
+            renderMonthlyNotes();
+        }
+
+        function renderMonthlyNotes() {
+            const list = document.getElementById("monthlyNotesList");
+            if (!list) return;
+
+            const notes = getMonthlyNotes();
+
+            if (!notes.length) {
+                list.innerHTML = `
+                    <div class="mn-empty">
+                        <i class="fa-solid fa-inbox"></i>
+                        لا توجد ملحوظات شهرية حاليًا
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = notes.map(function (note) {
+                const typeClass = note.type === "لنا" ? "mn-type-lina" : "mn-type-alina";
+                return `
+                    <div class="mn-item ${typeClass}">
+                        <span class="mn-badge">${escapeHtml(note.type)}</span>
+                        <input type="text" id="mnText_${note.id}" class="mn-item-text"
+                               value="${escapeHtml(note.text)}" disabled>
+                        <div class="mn-actions">
+                            <button type="button" class="mn-btn mn-btn-edit"
+                                    onclick="toggleMonthlyNoteEdit('${note.id}', this)">
+                                <i class="fa-solid fa-pen-to-square"></i> تعديل
+                            </button>
+                            <button type="button" class="mn-btn mn-btn-pay"
+                                    onclick="settleMonthlyNote('${note.id}', this)">
+                                <i class="fa-solid fa-circle-check"></i> تم السداد
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+    </script>
+
+
+    <script>
+        /* Premium UI micro-interactions — no business logic changes */
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('input, select, textarea').forEach(function (el) {
+                el.addEventListener('focus', function () { this.classList.add('premium-focused'); });
+                el.addEventListener('blur', function () { this.classList.remove('premium-focused'); });
+            });
+        });
+    </script>
 
 </body>
 
