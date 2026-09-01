@@ -2286,7 +2286,8 @@
 
         <!-- الملاحظات الشهرية -->
 
-        <button type="button" class="nav-btn" style="position:relative;" onclick="openMonthlyNotes()">
+        <button type="button" id="monthlyNotesBtn" class="nav-btn" style="position:relative;display:none;"
+            onclick="openMonthlyNotes()">
 
             <i class="fa-solid fa-note-sticky"></i>
 
@@ -3222,6 +3223,26 @@
 
             option.style.display =
                 currentUser === "shimee" ? "flex" : "none";
+        }
+
+
+        // =====================================================
+        // إظهار زر الملاحظات الشهرية للمستخدم shimee فقط
+        // =====================================================
+
+        function setupMonthlyNotesAccess() {
+
+            const btn = document.getElementById("monthlyNotesBtn");
+
+            if (!btn) return;
+
+            const currentUser =
+                String(localStorage.getItem("currentUser") || "")
+                    .trim()
+                    .toLowerCase();
+
+            btn.style.display =
+                currentUser === "shimee" ? "block" : "none";
         }
 
 
@@ -5956,6 +5977,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", updateMonthlyNotesCount);
+        document.addEventListener("DOMContentLoaded", setupMonthlyNotesAccess);
 
         function saveMonthlyNotesToStorage(notes) {
             localStorage.setItem(MONTHLY_NOTES_KEY, JSON.stringify(notes));
