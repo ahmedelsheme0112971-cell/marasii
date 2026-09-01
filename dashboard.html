@@ -380,6 +380,30 @@
             box-shadow: 0 9px 24px rgba(37, 99, 235, 0.4);
         }
 
+        /* زر تمت المراجعة في تنبيهات التعديلات */
+        .notification-reviewed-btn {
+            margin-top: 12px;
+            border: none;
+            border-radius: 14px;
+            padding: 9px 15px;
+            background: linear-gradient(135deg, #059669, #047857);
+            color: #ffffff;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            box-shadow: 0 6px 18px rgba(5, 150, 105, 0.25);
+            transition: 0.25s ease;
+        }
+
+        .notification-reviewed-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 9px 24px rgba(5, 150, 105, 0.4);
+        }
+
         .notification-item-title {
             font-weight: 900;
             font-size: 1rem;
@@ -3960,6 +3984,35 @@
 
                 }
 
+                /*
+                 * زر تمت المراجعة يظهر فقط مع تعديلات الرحلات.
+                 * عند الضغط: يتم تسجيل المراجعة على السيرفر
+                 * وحذف التنبيه فورًا بدون أي رسالة نصية.
+                 */
+                if (item.type === "flightChange") {
+
+                    const reviewedButton =
+                        document.createElement("button");
+
+                    reviewedButton.type = "button";
+                    reviewedButton.className =
+                        "notification-reviewed-btn";
+
+                    reviewedButton.innerHTML =
+                        '<i class="fa-solid fa-circle-check"></i> تمت المراجعة';
+
+                    reviewedButton.onclick = function (event) {
+
+                        event.stopPropagation();
+
+                        markFlightChangeReviewed(item, element);
+
+                    };
+
+                    element.appendChild(reviewedButton);
+
+                }
+
                 list.appendChild(element);
 
             });
@@ -4019,6 +4072,230 @@
                 "_blank"
             );
         }
+
+
+        /* =====================================================
+           تمت المراجعة — حذف تنبيه التعديل فورًا
+        ====================================================== */
+
+        function markFlightChangeReviewed(item, element) {
+
+            const notificationId =
+                item.id ||
+                item.messageId ||
+                item.emailUrl ||
+                (item.title + "|" + (item.details || ""));
+
+            /*
+             * 1) الحذف الفوري من الواجهة بدون أي رسالة
+             */
+            element.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+            element.style.opacity = "0";
+            element.style.transform = "translateX(-20px)";
+
+            setTimeout(function () {
+                element.remove();
+            }, 250);
+
+            /* 2) حذف التنبيه من البيانات المحلية وتحديث العدادات */
+            if (notificationData && notificationData.flightChanges) {
+
+                notificationData.flightChanges =
+                    notificationData.flightChanges.filter(function (n) {
+                        return n !== item;
+                    });
+
+                notificationData.flightChangesCount =
+                    Math.max(0, Number(notificationData.flightChangesCount || 0) - 1);
+
+                notificationData.total =
+                    Math.max(0, Number(notificationData.total || 0) - 1);
+
+                updateNotificationBadge(notificationData.total);
+
+                const summaryCards =
+                    document.querySelectorAll("[data-notification-filter]");
+
+                summaryCards.forEach(function (card) {
+
+                    const filterType =
+                        card.dataset.notificationFilter;
+
+                    if (filterType === "flightChange") {
+                        card.querySelector(".notification-summary-number").textContent =
+                            notificationData.flightChangesCount;
+                    } else if (filterType === "all") {
+                        card.querySelector(".notification-summary-number").textContent =
+                            notificationData.total;
+                    }
+
+                });
+
+                /* لو الفلتر الحالي على التعديلات ولم يتبق شئ نعيد العرض */
+                if (
+                    notificationData.flightChanges.length === 0 &&
+                    document.querySelector(
+                        '[data-notification-filter="flightChange"].active'
+                    )
+                ) {
+                    renderNotificationList(notificationData, "flightChange");
+                }
+
+            }
+
+            /*
+             * 3) تسجيل المراجعة على السيرفر
+             *    (حذف التنبيه من الشيت حتى لا يعود بعد التحديث)
+             */
+            try {
+
+                fetch(GOOGLE_SHEET_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
+                    body: JSON.stringify({
+                        action: "markFlightChangeReviewed",
+                        id: notificationId,
+                        title: item.title || "",
+                        details: item.details || "",
+                        emailUrl: item.emailUrl || ""
+                    })
+                });
+
+            } catch (e) {
+                /* تجاهل صامت — لا رسائل */
+            }
+
+        }
+
+
+        /* =====================================================
+           إشعارات المتصفح للمبالغ المتبقية
+           بعد يوم واحد من تاريخ التسجيل
+        ====================================================== */
+
+        const REMAINING_NOTIFIED_KEY = "remainingDueNotifiedIds";
+
+        function getRemainingNotifiedIds() {
+            try {
+                return JSON.parse(
+                    localStorage.getItem(REMAINING_NOTIFIED_KEY) || "[]"
+                );
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function markRemainingNotified(id) {
+            const ids = getRemainingNotifiedIds();
+            if (ids.indexOf(id) === -1) {
+                ids.push(id);
+                localStorage.setItem(
+                    REMAINING_NOTIFIED_KEY,
+                    JSON.stringify(ids)
+                );
+            }
+        }
+
+        /*
+         * استخراج تاريخ التسجيل من التنبيه
+         * (يدعم أكثر من اسم حقل محتمل من السيرفر)
+         */
+        function getRegistrationDate(item) {
+
+            const candidates = [
+                item.registrationDate,
+                item.registerDate,
+                item.bookingDate,
+                item.date,
+                item.recordDate,
+                item.timestamp
+            ];
+
+            for (let i = 0; i < candidates.length; i++) {
+
+                const value = String(candidates[i] || "").trim();
+
+                if (!value) continue;
+
+                const parsed = new Date(value);
+
+                if (!isNaN(parsed.getTime())) {
+                    return parsed;
+                }
+
+            }
+
+            return null;
+        }
+
+        /*
+         * فحص المبالغ المتبقية وإرسال إشعار متصفح
+         * لأي مبلغ مر عليه يوم كامل من تاريخ التسجيل
+         */
+        function checkRemainingDueNotifications() {
+
+            if (!notificationData || !notificationData.success) return;
+
+            const remainingList = notificationData.remaining || [];
+
+            if (!remainingList.length) return;
+
+            if (!("Notification" in window)) return;
+
+            if (Notification.permission !== "granted") {
+                Notification.requestPermission();
+                return;
+            }
+
+            const notifiedIds = getRemainingNotifiedIds();
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+
+            remainingList.forEach(function (item) {
+
+                const regDate = getRegistrationDate(item);
+
+                if (!regDate) return;
+
+                /* لازم يكون مر يوم كامل على التسجيل */
+                if (now - regDate.getTime() < oneDay) return;
+
+                const itemId =
+                    item.id ||
+                    item.bookingNumber ||
+                    (item.title + "|" + (item.details || ""));
+
+                if (notifiedIds.indexOf(String(itemId)) !== -1) return;
+
+                try {
+
+                    new Notification("🔔 تنبيه موعد السداد", {
+                        body:
+                            "مر يوم على تسجيل الحجز وما زال هناك مبلغ متبقٍ:" +
+                            "\n" +
+                            (item.title || "") +
+                            "\n" +
+                            (item.details || "")
+                    });
+
+                    markRemainingNotified(String(itemId));
+
+                } catch (e) {
+                    /* تجاهل */
+                }
+
+            });
+
+        }
+
+        /* فحص أول التشغيل ثم كل 5 دقائق */
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(checkRemainingDueNotifications, 3000);
+            setInterval(checkRemainingDueNotifications, 5 * 60 * 1000);
+        });
 
 
         /* =====================================================
