@@ -157,6 +157,112 @@
                 0 8px 20px rgba(124, 58, 237, 0.4);
         }
 
+        /* =====================================================
+           زر تسجيل الخروج — تمييز شكلي بلون أحمر خفيف
+        ===================================================== */
+
+        .logout-btn {
+
+            background:
+                rgba(239, 68, 68, 0.12);
+
+            border-color:
+                rgba(248, 113, 113, 0.30);
+
+            color:
+                #fecaca;
+        }
+
+        .logout-btn i {
+
+            color:
+                #f87171;
+        }
+
+        .logout-btn:hover {
+
+            background:
+                rgba(239, 68, 68, 0.28);
+
+            border-color:
+                rgba(252, 165, 165, 0.60);
+
+            box-shadow:
+                0 8px 20px rgba(239, 68, 68, 0.35);
+        }
+
+        /* =====================================================
+           زر حسابات الشركة — تمييز شكلي بلون أخضر + أيقونة
+        ===================================================== */
+
+        .company-accounts-btn {
+
+            background:
+                linear-gradient(135deg,
+                    rgba(34, 197, 94, 0.18),
+                    rgba(22, 163, 74, 0.10));
+
+            border-color:
+                rgba(74, 222, 128, 0.35);
+        }
+
+        .company-accounts-btn i {
+
+            color:
+                #86efac;
+        }
+
+        .company-accounts-btn:hover {
+
+            background:
+                linear-gradient(135deg,
+                    rgba(34, 197, 94, 0.32),
+                    rgba(22, 163, 74, 0.18));
+
+            border-color:
+                rgba(134, 239, 172, 0.70);
+
+            box-shadow:
+                0 8px 20px rgba(34, 197, 94, 0.28);
+        }
+
+        /* =====================================================
+           اهتزاز جرس التنبيهات عند المرور بالماوس
+        ===================================================== */
+
+        .notification-btn:hover .fa-bell {
+
+            animation:
+                bellShake 0.6s ease infinite;
+
+            color:
+                #facc15;
+        }
+
+        @keyframes bellShake {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            20% {
+                transform: rotate(14deg);
+            }
+
+            40% {
+                transform: rotate(-12deg);
+            }
+
+            60% {
+                transform: rotate(8deg);
+            }
+
+            80% {
+                transform: rotate(-6deg);
+            }
+        }
+
 
         /* =====================================================
            زر Google Sheets - للمستخدم shimee فقط
@@ -314,6 +420,86 @@
             background: rgba(139, 92, 246, 0.20);
             border-color: rgba(167, 139, 250, 0.75);
             box-shadow: 0 8px 25px rgba(139, 92, 246, 0.18);
+        }
+
+        /* =====================================================
+           تلوين كروت الملخص حسب نوع التنبيه
+        ===================================================== */
+
+        .notification-summary-card.summary-remaining .notification-summary-number {
+            color: #f87171;
+        }
+
+        .notification-summary-card.summary-remaining {
+            border-color: rgba(248, 113, 113, 0.35);
+        }
+
+        .notification-summary-card.summary-remaining:hover {
+            border-color: rgba(248, 113, 113, 0.65);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.16);
+        }
+
+        .notification-summary-card.summary-remaining.active {
+            background: rgba(239, 68, 68, 0.18);
+            border-color: rgba(248, 113, 113, 0.75);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.20);
+        }
+
+        .notification-summary-card.summary-due .notification-summary-number {
+            color: #facc15;
+        }
+
+        .notification-summary-card.summary-due {
+            border-color: rgba(250, 204, 21, 0.35);
+        }
+
+        .notification-summary-card.summary-due:hover {
+            border-color: rgba(250, 204, 21, 0.65);
+            box-shadow: 0 8px 25px rgba(250, 204, 21, 0.16);
+        }
+
+        .notification-summary-card.summary-due.active {
+            background: rgba(250, 204, 21, 0.15);
+            border-color: rgba(250, 204, 21, 0.75);
+            box-shadow: 0 8px 25px rgba(250, 204, 21, 0.18);
+        }
+
+        .notification-summary-card.summary-incomplete .notification-summary-number {
+            color: #c084fc;
+        }
+
+        .notification-summary-card.summary-incomplete {
+            border-color: rgba(192, 132, 252, 0.35);
+        }
+
+        .notification-summary-card.summary-incomplete:hover {
+            border-color: rgba(192, 132, 252, 0.65);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.16);
+        }
+
+        .notification-summary-card.summary-incomplete.active {
+            background: rgba(139, 92, 246, 0.20);
+            border-color: rgba(192, 132, 252, 0.75);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.20);
+        }
+
+        .notification-summary-card.summary-flight .notification-summary-number {
+            color: #60a5fa;
+        }
+
+        .notification-summary-card.summary-flight {
+            border-color: rgba(96, 165, 250, 0.40);
+        }
+
+        .notification-summary-card.summary-flight:hover {
+            border-color: rgba(96, 165, 250, 0.70);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.16);
+        }
+
+        .notification-summary-card.summary-flight.active {
+            background: rgba(59, 130, 246, 0.16);
+            border-color: rgba(96, 165, 250, 0.75);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.20);
         }
 
         .notification-summary-number {
@@ -787,6 +973,52 @@
 
             padding-right:
                 5px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                7px;
+        }
+
+        /* أيقونة صغيرة جنب كل label */
+
+        .form-group label i {
+
+            font-size:
+                0.85rem;
+
+            color:
+                #a78bfa;
+        }
+
+        /* تلوين المبلغ المتبقي */
+
+        .bubble-input.remaining-zero {
+
+            background:
+                rgba(34, 197, 94, 0.12) !important;
+
+            border-color:
+                rgba(134, 239, 172, 0.55) !important;
+
+            color:
+                #86efac !important;
+        }
+
+        .bubble-input.remaining-due {
+
+            background:
+                rgba(239, 68, 68, 0.12) !important;
+
+            border-color:
+                rgba(248, 113, 113, 0.55) !important;
+
+            color:
+                #f87171 !important;
         }
 
         .form-group label span.required {
@@ -932,6 +1164,26 @@
 
             box-shadow:
                 0 10px 30px rgba(124, 58, 237, 0.8);
+        }
+
+        /* نبض خفيف لأيقونة الحفظ عند المرور بالماوس */
+
+        .submit-btn:hover i {
+
+            animation:
+                submitIconPulse 0.9s ease infinite;
+        }
+
+        @keyframes submitIconPulse {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
         }
 
         .submit-btn:disabled {
@@ -2246,7 +2498,7 @@
 
         <!-- تسجيل الخروج -->
 
-        <button type="button" class="nav-btn" onclick="logoutUser()">
+        <button type="button" class="nav-btn logout-btn" onclick="logoutUser()">
 
             <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -2257,7 +2509,9 @@
 
         <!-- حسابات الشركة -->
 
-        <a href="company_accounts.html" id="accountsNavButton" class="nav-btn">
+        <a href="company_accounts.html" id="accountsNavButton" class="nav-btn company-accounts-btn">
+
+            <i class="fa-solid fa-building-columns"></i>
 
             حسابات الشركة
 
@@ -2433,6 +2687,8 @@
 
                 <label>
 
+                    <i class="fa-solid fa-user"></i>
+
                     اسم المسافر
 
                     <span class="required">*</span>
@@ -2451,6 +2707,8 @@
 
                 <label>
 
+                    <i class="fa-solid fa-ticket"></i>
+
                     رقم الحجز
 
                     <span class="required">*</span>
@@ -2467,6 +2725,8 @@
             <div class="form-group">
 
                 <label>
+
+                    <i class="fa-solid fa-mobile-screen-button"></i>
 
                     رقم الموبايل
 
@@ -2485,6 +2745,8 @@
 
                 <label>
 
+                    <i class="fa-solid fa-calendar-day"></i>
+
                     تاريخ الحجز
 
                     <span class="required">*</span>
@@ -2502,6 +2764,8 @@
 
                 <label>
 
+                    <i class="fa-solid fa-plane-departure"></i>
+
                     تاريخ السفر
 
                     <span class="required">*</span>
@@ -2518,6 +2782,8 @@
             <div class="form-group">
 
                 <label>
+
+                    <i class="fa-solid fa-sack-dollar"></i>
 
                     المبلغ الكلي
 
@@ -2537,6 +2803,8 @@
 
                 <label>
 
+                    <i class="fa-solid fa-money-check-dollar"></i>
+
                     المبلغ المدفوع
 
                     <span class="required">*</span>
@@ -2555,6 +2823,8 @@
 
                 <label>
 
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+
                     المبلغ المتبقي
 
                     <span class="required">*</span>
@@ -2572,6 +2842,8 @@
 
                 <label>
 
+                    <i class="fa-solid fa-percent"></i>
+
                     العمولة المضافة
 
                     <span class="required">*</span>
@@ -2588,6 +2860,8 @@
             <div class="form-group full-width">
 
                 <label>
+
+                    <i class="fa-solid fa-building"></i>
 
                     تبع شركة
 
@@ -3505,12 +3779,31 @@
                 total - paid;
 
 
-            document.getElementById(
-                "remainingAmount"
-            ).value =
+            const remainingInput =
+                document.getElementById(
+                    "remainingAmount"
+                );
+
+            remainingInput.value =
                 remaining >= 0
                     ? remaining
                     : 0;
+
+            /* تلوين شكلي للحقل: أخضر لو سدد كامل / أحمر لو فيه متبقي */
+
+            const hasValue =
+                String(document.getElementById("totalAmount").value).trim() !== "";
+
+            remainingInput.classList.remove(
+                "remaining-zero",
+                "remaining-due"
+            );
+
+            if (hasValue && remaining <= 0) {
+                remainingInput.classList.add("remaining-zero");
+            } else if (hasValue && remaining > 0) {
+                remainingInput.classList.add("remaining-due");
+            }
         }
 
 
@@ -3672,7 +3965,7 @@
         </div>
 
         <div
-            class="notification-summary-card"
+            class="notification-summary-card summary-remaining"
             data-notification-filter="remaining"
             onclick="filterNotifications('remaining')">
 
@@ -3685,7 +3978,7 @@
         </div>
 
         <div
-            class="notification-summary-card"
+            class="notification-summary-card summary-due"
             data-notification-filter="dueSoon"
             onclick="filterNotifications('dueSoon')">
 
@@ -3698,7 +3991,7 @@
         </div>
 
         <div
-            class="notification-summary-card"
+            class="notification-summary-card summary-incomplete"
             data-notification-filter="incomplete"
             onclick="filterNotifications('incomplete')">
 
@@ -3711,7 +4004,7 @@
         </div>
 
         <div
-            class="notification-summary-card"
+            class="notification-summary-card summary-flight"
             data-notification-filter="flightChange"
             onclick="filterNotifications('flightChange')">
 
