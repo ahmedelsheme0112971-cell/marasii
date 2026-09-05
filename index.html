@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عالم الشيمي - تسجيل الدخول</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#7c3aed">
+
     <style>
         * {
             margin: 0;
@@ -53,56 +56,6 @@
             z-index: 1;
         }
 
-        /* الشريط العلوي - تصميم فقاعة الماء الأفقية */
-        .header-nav {
-            margin-top: 30px;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1.5px solid rgba(255, 255, 255, 0.3);
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 25px;
-            border-radius: 60px;
-            display: flex;
-            flex-direction: row;
-            gap: 15px;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 
-                0 15px 35px rgba(0, 0, 0, 0.4),
-                inset 0 10px 20px rgba(255, 255, 255, 0.15);
-            max-width: 95%;
-            width: auto;
-            flex-wrap: nowrap;
-            white-space: nowrap;
-        }
-
-        /* أزرار على شكل فقاعات مائية */
-        .nav-btn {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 10px 22px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.05rem;
-            transition: all 0.4s ease;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: inset 0 4px 8px rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .nav-btn:hover {
-            background: rgba(167, 139, 250, 0.25);
-            border-color: rgba(255, 255, 255, 0.6);
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 
-                0 10px 20px rgba(124, 58, 237, 0.5),
-                inset 0 6px 12px rgba(255, 255, 255, 0.4);
-        }
-
         .main-content {
             flex: 1;
             display: flex;
@@ -115,6 +68,48 @@
             gap: 15px;
         }
 
+        /* الفقاعات المتحركة في الخلفية */
+        .bubble {
+            position: absolute;
+            bottom: -80px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.35), rgba(167, 139, 250, 0.15));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: floatUp linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.7;
+            }
+
+            90% {
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: translateY(-110vh) translateX(40px) scale(1.15);
+                opacity: 0;
+            }
+        }
+
+        /* تحذير Caps Lock */
+        .caps-warning {
+            color: #fbbf24;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-align: center;
+            display: none;
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+
         /* عنوان "عالم الشيمي " المموه والذاتي اللمعان كل 4 ثواني */
         .brand-title {
             position: relative;
@@ -123,26 +118,24 @@
             text-align: center;
             letter-spacing: 2px;
             color: #1e0b36;
-            text-shadow: 
+            text-shadow:
                 0 0 10px rgba(124, 58, 237, 0.8),
                 0 0 25px rgba(91, 33, 182, 0.9),
                 0 0 45px rgba(167, 139, 250, 0.6);
             /* تأثير اللمعان أفقياً كل 4 ثواني */
-            background: linear-gradient(
-                110deg, 
-                #18082e 0%, 
-                #3b156b 25%, 
-                #ffffff 50%, 
-                #3b156b 75%, 
-                #18082e 100%
-            );
+            background: linear-gradient(110deg,
+                    #18082e 0%,
+                    #3b156b 25%,
+                    #ffffff 50%,
+                    #3b156b 75%,
+                    #18082e 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
-             background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: moveShine 4s infinite linear;
             backdrop-filter: blur(5px);
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5));
             user-select: none;
         }
 
@@ -151,9 +144,211 @@
             0% {
                 background-position: 200% center;
             }
+
             100% {
                 background-position: -200% center;
             }
+        }
+
+        /* خلفية متدرجة متحركة */
+        body {
+            background: linear-gradient(-45deg, #0f051d, #1a0b2e, #2d1157, #0f051d);
+            background-size: 400% 400%;
+            animation: gradientShift 18s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* الوضع الفاتح */
+        body.light {
+            background: linear-gradient(-45deg, #ede9fe, #f5f3ff, #e0e7ff, #f5f3ff);
+            background-size: 400% 400%;
+        }
+
+        body.light .brand-title {
+            background: linear-gradient(110deg, #2d1157 0%, #6d28d9 25%, #4c1d95 50%, #6d28d9 75%, #2d1157 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            filter: drop-shadow(0 5px 15px rgba(124, 58, 237, 0.2));
+        }
+
+        body.light .login-card {
+            background: rgba(255, 255, 255, 0.55);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        body.light .card-title,
+        body.light .input-group label,
+        body.light .remember-row {
+            color: #2d1157;
+        }
+
+        body.light .bubble-input {
+            background: rgba(255, 255, 255, 0.6);
+            border-color: rgba(124, 58, 237, 0.3);
+            color: #1e0b36;
+            box-shadow: inset 0 3px 8px rgba(124, 58, 237, 0.1);
+        }
+
+        body.light .bubble-input::placeholder {
+            color: #7c6a9c;
+        }
+
+        body.light .footer {
+            background: rgba(255, 255, 255, 0.5);
+            border-top-color: rgba(124, 58, 237, 0.2);
+        }
+
+        body.light .footer-container {
+            color: #4c1d95;
+        }
+
+        body.light .footer a {
+            color: #6d28d9;
+        }
+
+        body.light .blur-circle-1,
+        body.light .blur-circle-2 {
+            opacity: 0.25;
+        }
+
+        body.light .bubble {
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        body.light .social-btn {
+            border-color: rgba(124, 58, 237, 0.3);
+            background: rgba(255, 255, 255, 0.5);
+            color: #6d28d9;
+        }
+
+        body.light .input-icon,
+        body.light .toggle-password {
+            color: #7c6a9c;
+        }
+
+        body.light .error-message {
+            color: #dc2626;
+        }
+
+        body.light .caps-warning {
+            color: #b45309;
+        }
+
+        body.light .welcome-msg {
+            color: #15803d;
+        }
+
+        /* زر تبديل الوضع */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 20;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        body.light .theme-toggle {
+            color: #4c1d95;
+            background: rgba(255, 255, 255, 0.6);
+            border-color: rgba(124, 58, 237, 0.4);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(20deg) scale(1.1);
+        }
+
+        /* زر تبديل اللغة */
+        .lang-toggle {
+            top: auto;
+            bottom: 20px;
+            left: 20px;
+            font-size: 0.85rem;
+            font-weight: 900;
+        }
+
+        /* هالة تتبع الماوس */
+        #mouse-glow {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.18), transparent 70%);
+            pointer-events: none;
+            z-index: 2;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+        }
+
+        body.light #mouse-glow {
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.12), transparent 70%);
+        }
+
+        /* مؤشر الكتابة */
+        .brand-title .caret {
+            display: inline-block;
+            width: 3px;
+            height: 0.9em;
+            background: #c084fc;
+            margin-right: 4px;
+            vertical-align: middle;
+            animation: blink 0.8s step-end infinite;
+            -webkit-text-fill-color: #c084fc;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* تنبيه انقطاع الإنترنت */
+        .offline-banner {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 50;
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: none;
+            box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+        }
+
+        .offline-banner.show {
+            display: block;
+        }
+
+        /* لوحة الجزيئات المتصلة */
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
         }
 
         /* كارت تسجيل الدخول */
@@ -168,7 +363,7 @@
             padding: 3rem 2.5rem;
             width: 100%;
             max-width: 480px;
-            box-shadow: 
+            box-shadow:
                 0 25px 50px rgba(0, 0, 0, 0.5),
                 inset 0 15px 30px rgba(255, 255, 255, 0.12),
                 inset 0 -15px 30px rgba(0, 0, 0, 0.3);
@@ -179,7 +374,7 @@
         }
 
         .login-card:hover {
-            box-shadow: 
+            box-shadow:
                 0 30px 60px rgba(124, 58, 237, 0.35),
                 inset 0 20px 35px rgba(255, 255, 255, 0.25);
         }
@@ -206,10 +401,121 @@
             padding-right: 8px;
         }
 
+        /* حاوية الخانة مع الأيقونة */
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            top: 50%;
+            right: 1.1rem;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            pointer-events: none;
+            transition: color 0.3s ease;
+        }
+
+        .input-wrapper:focus-within .input-icon {
+            color: #c084fc;
+        }
+
+        /* زر إظهار كلمة المرور */
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            left: 1.1rem;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 4px;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: #c084fc;
+        }
+
+        /* خيار تذكرني */
+        .remember-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .remember-row input {
+            accent-color: #8b5cf6;
+            width: 17px;
+            height: 17px;
+            cursor: pointer;
+        }
+
+        /* اهتزاز الكارت عند الخطأ */
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-8px);
+            }
+
+            40% {
+                transform: translateX(8px);
+            }
+
+            60% {
+                transform: translateX(-5px);
+            }
+
+            80% {
+                transform: translateX(5px);
+            }
+        }
+
+        .login-card.shake {
+            animation: shake 0.45s ease;
+        }
+
+        /* حالة التحميل للزر */
+        .login-btn.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .login-btn.loading::after {
+            content: "";
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 10px;
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            vertical-align: middle;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
         /* الخانات والمدخلات بتصميم فقاعة الماء */
         .bubble-input {
             width: 100%;
-            padding: 1rem 1.4rem;
+            padding: 1rem 2.8rem 1rem 2.8rem;
             background: rgba(255, 255, 255, 0.05);
             border: 1.5px solid rgba(255, 255, 255, 0.2);
             border-radius: 30px;
@@ -218,7 +524,7 @@
             font-weight: 700;
             outline: none;
             transition: all 0.3s ease;
-            box-shadow: 
+            box-shadow:
                 inset 0 3px 8px rgba(0, 0, 0, 0.3),
                 inset 0 -2px 5px rgba(255, 255, 255, 0.1);
         }
@@ -230,7 +536,7 @@
         .bubble-input:focus {
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(192, 132, 252, 0.8);
-            box-shadow: 
+            box-shadow:
                 0 0 20px rgba(167, 139, 250, 0.5),
                 inset 0 4px 10px rgba(255, 255, 255, 0.3);
             transform: scale(1.01);
@@ -260,17 +566,119 @@
             border-radius: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 
+            box-shadow:
                 0 8px 25px rgba(124, 58, 237, 0.5),
                 inset 0 6px 12px rgba(255, 255, 255, 0.35);
         }
 
         .login-btn:hover {
             transform: translateY(-3px) scale(1.01);
-            box-shadow: 
+            box-shadow:
                 0 12px 30px rgba(124, 58, 237, 0.8),
                 inset 0 8px 16px rgba(255, 255, 255, 0.5);
             background: linear-gradient(135deg, #a78bfa, #5b21b6);
+        }
+
+        /* أنيميشن دخول الكارت */
+        .login-card {
+            animation: cardEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .brand-title {
+            animation: titleEnter 1s cubic-bezier(0.22, 1, 0.36, 1) both,
+                moveShine 4s infinite linear;
+        }
+
+        @keyframes cardEnter {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes titleEnter {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* رسالة الترحيب بالعودة */
+        .welcome-msg {
+            color: #a5f3c0;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+            display: none;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+
+        /* زر نسيت كلمة المرور */
+        .forgot-pass {
+            background: none;
+            border: none;
+            color: #a78bfa;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            transition: color 0.3s ease;
+        }
+
+        body.light .forgot-pass {
+            color: #6d28d9;
+        }
+
+        .forgot-pass:hover {
+            color: #c084fc;
+        }
+
+        /* أزرار التواصل السريع */
+        .social-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 5px;
+        }
+
+        .social-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.06);
+            color: #a78bfa;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: rgba(167, 139, 250, 0.25);
+            transform: translateY(-3px) scale(1.08);
+            box-shadow: 0 8px 18px rgba(124, 58, 237, 0.5);
+        }
+
+        /* عداد القفل على زر الدخول */
+        .login-btn.locked {
+            background: linear-gradient(135deg, #64748b, #334155);
+            pointer-events: none;
+            opacity: 0.8;
         }
 
         /* الفوتر */
@@ -311,11 +719,7 @@
             .brand-title {
                 font-size: 2.6rem;
             }
-            .header-nav {
-                overflow-x: auto;
-                justify-content: flex-start;
-                padding: 10px 15px;
-            }
+
             .footer-container {
                 flex-direction: column;
                 text-align: center;
@@ -323,47 +727,100 @@
         }
     </style>
 </head>
+
 <body>
+
+    <!-- تنبيه انقطاع الإنترنت -->
+    <div id="offlineBanner" class="offline-banner">
+        ⚠️ لا يوجد اتصال بالإنترنت — بعض الميزات قد لا تعمل
+    </div>
+
+    <!-- هالة تتبع الماوس -->
+    <div id="mouse-glow"></div>
+
+    <!-- زر تبديل الوضع الداكن/الفاتح -->
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle" aria-label="تبديل الوضع">
+        <i id="themeIcon" class="fa-solid fa-moon"></i>
+    </button>
+
+    <!-- زر تبديل اللغة -->
+    <button class="theme-toggle lang-toggle" onclick="toggleLanguage()" aria-label="تغيير اللغة">
+        <span id="langLabel">EN</span>
+    </button>
+
+    <!-- لوحة الجزيئات المتصلة -->
+    <canvas id="particles"></canvas>
 
     <div class="blur-circle-1"></div>
     <div class="blur-circle-2"></div>
 
-    <!-- الشريط العلوي -->
-    <nav class="header-nav">
-        <button onclick="requireLogin('تسجيل الخروج')" class="nav-btn">تسجيل الخروج</button>
-        <button onclick="requireLogin('حجز المسافرين')" class="nav-btn">حجز المسافرين</button>
-        <button onclick="requireLogin('معلومات حول')" class="nav-btn">معلومات حول</button>
-        <button onclick="requireLogin('الدعم والتواصل')" class="nav-btn">الدعم والتواصل</button>
-    </nav>
+    <!-- الفقاعات المتحركة -->
+    <div id="bubbles-container"></div>
 
     <!-- منطقة المنتصف -->
     <main class="main-content">
         <!-- كلمة "عالم الشيمي" المموهة واللماعة -->
-        <h1 class="brand-title">مرحبا في عالم الشيمي</h1>
-        <br></br>
+        <h1 class="brand-title" id="brandTitle">مرحبا في عالم الشيمي</h1>
         <!-- كارت تسجيل الدخول -->
         <div class="login-card">
             <h2 class="card-title">تسجيل الدخول</h2>
-            
+
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="input-group">
-                    <label>اسم المستخدم</label>
-                    <input type="text" id="username" class="bubble-input" placeholder="أدخل اسم المستخدم" required>
+                    <label for="username">اسم المستخدم</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user input-icon"></i>
+                        <input type="text" id="username" class="bubble-input" placeholder="أدخل اسم المستخدم" required
+                            autocomplete="username">
+                    </div>
                 </div>
-                
-                <br>
 
                 <div class="input-group">
-                    <label>كلمة المرور</label>
-                    <input type="password" id="password" class="bubble-input" placeholder="أدخل كلمة المرور" required>
+                    <label for="password">كلمة المرور</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="password" class="bubble-input" placeholder="أدخل كلمة المرور"
+                            required autocomplete="current-password">
+                        <button type="button" class="toggle-password" onclick="togglePassword()"
+                            aria-label="إظهار كلمة المرور">
+                            <i id="toggleIcon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- رسالة الخطأ تنبيهية -->
                 <div id="errorMessage" class="error-message">❌ اسم المستخدم أو كلمة المرور غير صحيحة!</div>
 
-                <br>
+                <!-- رسالة الترحيب بالعودة -->
+                <div id="welcomeMsg" class="welcome-msg">👋 مرحبا بعودتك!</div>
 
-                <button type="submit" class="login-btn">دخول</button>
+                <!-- تحذير Caps Lock -->
+                <div id="capsWarning" class="caps-warning">⚠️ مفتاح Caps Lock مفعّل!</div>
+
+                <label class="remember-row">
+                    <input type="checkbox" id="rememberMe">
+                    تذكرني على هذا الجهاز
+                </label>
+
+                <button type="submit" id="loginBtn" class="login-btn">دخول</button>
+
+                <div style="text-align: center;">
+                    <button type="button" class="forgot-pass" onclick="forgotPassword()">نسيت كلمة المرور؟</button>
+                </div>
+
+                <!-- أزرار التواصل السريع -->
+                <div class="social-row">
+                    <a class="social-btn" href="tel:01129713352" aria-label="اتصال">
+                        <i class="fa-solid fa-phone"></i>
+                    </a>
+                    <a class="social-btn" href="https://wa.me/201129713352" target="_blank" aria-label="واتساب">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                    <a class="social-btn" href="https://www.facebook.com/share/1BaiuDESTS/" target="_blank"
+                        aria-label="فيسبوك">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                </div>
             </form>
         </div>
     </main>
@@ -372,148 +829,904 @@
     <footer class="footer">
         <div class="footer-container">
             <div><i class="fa-solid fa-phone" style="color: #a78bfa;"></i> التواصل: 01129713352 | 01005389471</div>
-            <div><i class="fa-brands fa-facebook" style="color: #a78bfa;"></i> <a href="https://www.facebook.com/share/1BaiuDESTS/" target="_blank">صفحتنا على فيسبوك</a></div>
-            <div><i class="fa-solid fa-code" style="color: #a78bfa;"></i> تصميم وتطوير: <span class="designer-name">ENG / AHMED ELSHEMEE MAHMOUD</span></div>
+            <div><i class="fa-brands fa-facebook" style="color: #a78bfa;"></i> <a
+                    href="https://www.facebook.com/share/1BaiuDESTS/" target="_blank">صفحتنا على فيسبوك</a></div>
+            <div><i class="fa-solid fa-code" style="color: #a78bfa;"></i> تصميم وتطوير: <span class="designer-name">ENG
+                    / AHMED ELSHEMEE MAHMOUD</span></div>
         </div>
     </footer>
 
     <script>
-           // ======================================================
-           // حسابات الموظفين
-           // ======================================================
+        // ======================================================
+        // المؤثرات الصوتية (Web Audio API - بدون ملفات)
+        // ======================================================
 
-            const EMPLOYEES = {
+        let audioCtx = null;
 
-           /* marwa: {
-            password: "marwa mostafa",
-            name: "marwa"
-                           },*/
+        function playSound(type) {
 
-           /* mohabib: {
-            password: "123456",
-            name: "mohabib"
-          },*/
+            try {
 
-           /*abdo: {
-            password: "999999",
-            name: "abdo"
-          },*/
+                audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+
+                const osc = audioCtx.createOscillator();
+
+                const gain = audioCtx.createGain();
+
+                osc.connect(gain);
+
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === "click") {
+
+                    osc.frequency.setValueAtTime(600, now);
+
+                    gain.gain.setValueAtTime(0.08, now);
+
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+
+                    osc.start(now); osc.stop(now + 0.1);
+
+                } else if (type === "success") {
+
+                    osc.frequency.setValueAtTime(523, now);
+
+                    osc.frequency.setValueAtTime(659, now + 0.12);
+
+                    osc.frequency.setValueAtTime(784, now + 0.24);
+
+                    gain.gain.setValueAtTime(0.1, now);
+
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+
+                    osc.start(now); osc.stop(now + 0.5);
+
+                } else if (type === "error") {
+
+                    osc.type = "sawtooth";
+
+                    osc.frequency.setValueAtTime(200, now);
+
+                    osc.frequency.setValueAtTime(150, now + 0.15);
+
+                    gain.gain.setValueAtTime(0.08, now);
+
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+                    osc.start(now); osc.stop(now + 0.3);
+
+                }
+
+            } catch (e) { /* تجاهل لو الصوت مدعومش */ }
+
+        }
+
+
+        // ======================================================
+        // الميل ثلاثي الأبعاد مع الماوس + هالة متابعة
+        // ======================================================
+
+        const card = document.querySelector(".login-card");
+
+        const glow = document.getElementById("mouse-glow");
+
+        document.addEventListener("mousemove", (e) => {
+
+            // الهالة
+            glow.style.left = e.clientX + "px";
+
+            glow.style.top = e.clientY + "px";
+
+            // الميل ثلاثي الأبعاد
+            const rect = card.getBoundingClientRect();
+
+            const cx = rect.left + rect.width / 2;
+
+            const cy = rect.top + rect.height / 2;
+
+            const dx = (e.clientX - cx) / rect.width;
+
+            const dy = (e.clientY - cy) / rect.height;
+
+            // ميل خفيف فقط لما الماوس قريب من الكارت
+            if (Math.abs(dx) < 1.2 && Math.abs(dy) < 1.2) {
+
+                card.style.transform =
+                    `perspective(900px) rotateY(${dx * 6}deg) rotateX(${-dy * 6}deg)`;
+
+            } else {
+
+                card.style.transform = "perspective(900px)";
+
+            }
+
+        });
+
+        document.addEventListener("mouseleave", () => {
+
+            card.style.transform = "perspective(900px)";
+
+            glow.style.opacity = "0";
+
+        });
+
+        // إزالة أنيميشن الدخول بعد انتهائه حتى لا يمنع الميل 3D
+        card.addEventListener("animationend", (e) => {
+
+            if (e.animationName === "cardEnter") card.style.animation = "none";
+
+        });
+
+
+        // ======================================================
+        // التحية حسب الوقت + كتابة العنوان حرف حرف
+        // ======================================================
+
+        function getGreeting() {
+
+            const h = new Date().getHours();
+
+            if (h >= 5 && h < 12) return "صباح الخير ☀️";
+
+            if (h >= 12 && h < 17) return "نهار سعيد 🌤️";
+
+            if (h >= 17 && h < 21) return "مساء الخير 🌆";
+
+            return "ليلة سعيدة 🌙";
+
+        }
+
+        function typeTitle() {
+
+            const title = document.getElementById("brandTitle");
+
+            const fullText = `${getGreeting()} في عالم الشيمي`;
+
+            let i = 0;
+
+            title.innerHTML = "";
+
+            const caret = document.createElement("span");
+
+            caret.className = "caret";
+
+            title.appendChild(caret);
+
+            const timer = setInterval(() => {
+
+                if (i < fullText.length) {
+
+                    caret.insertAdjacentText("beforebegin", fullText[i]);
+
+                    i++;
+
+                } else {
+
+                    clearInterval(timer);
+
+                    setTimeout(() => caret.remove(), 2000);
+
+                }
+
+            }, 60);
+
+        }
+
+
+        // ======================================================
+        // تبديل اللغة (عربي / إنجليزي)
+        // ======================================================
+
+        const I18N = {
+
+            ar: {
+                title: "عالم الشيمي - تسجيل الدخول",
+                cardTitle: "تسجيل الدخول",
+                userLabel: "اسم المستخدم",
+                userPlaceholder: "أدخل اسم المستخدم",
+                passLabel: "كلمة المرور",
+                passPlaceholder: "أدخل كلمة المرور",
+                error: "❌ اسم المستخدم أو كلمة المرور غير صحيحة!",
+                remember: "تذكرني على هذا الجهاز",
+                login: "دخول",
+                forgot: "نسيت كلمة المرور؟",
+                contact: "التواصل: ",
+                facebook: "صفحتنا على فيسبوك",
+                designer: "تصميم وتطوير: "
+            },
+
+            en: {
+                title: "Al-Shimy World - Login",
+                cardTitle: "Login",
+                userLabel: "Username",
+                userPlaceholder: "Enter your username",
+                passLabel: "Password",
+                passPlaceholder: "Enter your password",
+                error: "❌ Incorrect username or password!",
+                remember: "Remember me on this device",
+                login: "Login",
+                forgot: "Forgot password?",
+                contact: "Contact: ",
+                facebook: "Our Facebook page",
+                designer: "Design & Development: "
+            }
+
+        };
+
+        let currentLang = "ar";
+
+        function toggleLanguage() {
+
+            currentLang = currentLang === "ar" ? "en" : "ar";
+
+            const t = I18N[currentLang];
+
+            document.documentElement.lang = currentLang;
+
+            document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+
+            document.title = t.title;
+
+            document.getElementById("langLabel").textContent =
+                currentLang === "ar" ? "EN" : "ع";
+
+            document.querySelector(".card-title").textContent = t.cardTitle;
+
+            document.querySelector("label[for='username']").textContent = t.userLabel;
+
+            document.getElementById("username").placeholder = t.userPlaceholder;
+
+            document.querySelector("label[for='password']").textContent = t.passLabel;
+
+            document.getElementById("password").placeholder = t.passPlaceholder;
+
+            document.getElementById("errorMessage").textContent = t.error;
+
+            document.querySelector(".remember-row").lastChild.textContent = " " + t.remember;
+
+            document.getElementById("loginBtn").textContent = t.login;
+
+            document.querySelector(".forgot-pass").textContent = t.forgot;
+
+        }
+
+
+        // ======================================================
+        // تنبيه انقطاع الإنترنت
+        // ======================================================
+
+        function updateOnlineStatus() {
+
+            document.getElementById("offlineBanner").classList.toggle("show", !navigator.onLine);
+
+        }
+
+        window.addEventListener("online", updateOnlineStatus);
+
+        window.addEventListener("offline", updateOnlineStatus);
+
+        updateOnlineStatus();
+
+
+        // ======================================================
+        // تسجيل الـ Service Worker (العمل بدون إنترنت)
+        // ======================================================
+
+        if ("serviceWorker" in navigator) {
+
+            navigator.serviceWorker.register("sw.js").catch(() => { });
+
+        }
+
+
+        // ======================================================
+        // تشغيل الكتابة الحرفية + ربط الأصوات
+        // ======================================================
+
+        typeTitle();
+
+        // صوت نقرة على زر الدخول
+        document.getElementById("loginBtn").addEventListener("mousedown", () => playSound("click"));
+
+        // صوت نقرة على الخانات
+        document.querySelectorAll(".bubble-input").forEach(input => {
+
+            input.addEventListener("focus", () => playSound("click"));
+
+        });
+
+
+        // ======================================================
+        // حسابات الموظفين (كلمات المرور مشفرة SHA-256)
+        // kingnasr / shimee
+        // ======================================================
+
+        const EMPLOYEES = {
 
             kingnasr: {
-            password: "99117518",
-            name: "kingnasr"
-          },
+                passwordHash: "b20aa4c2c2369ad17d26caf3b857495bc478cebc62b22c9cc8454c4e2f012701",
+                name: "kingnasr"
+            },
 
             shimee: {
-            password: "65966118",
-            name: "shimee"
-          }
+                passwordHash: "d894224dc480c922e7bbdee435ea504191109972d522255580a212747fc4d43a",
+                name: "shimee"
+            }
 
-          };
-
-
-           // ======================================================
-           // التنقل قبل تسجيل الدخول
-           // ======================================================
-
-         function requireLogin(buttonName) {
-
-         alert(
-                 `⚠️ يرجى تسجيل الدخول أولاً للوصول إلى قسم (${buttonName})!`
-             );
-
-          }
+        };
 
 
-           // ======================================================
-           // تسجيل الدخول
-           // ======================================================
+        // ======================================================
+        // حدود المحاولات والقفل المؤقت
+        // ======================================================
 
-          function handleLogin(event) {
+        const MAX_ATTEMPTS = 5;
 
-          event.preventDefault();
+        const LOCK_DURATION = 30; // بالثواني
 
-          const user =
-          document
-            .getElementById("username")
-            .value
-            .trim()
-            .toLowerCase();
+        function getAttempts() {
 
-          const pass =
-          document
-            .getElementById("password")
-            .value
-            .trim();
+            return parseInt(localStorage.getItem("loginAttempts") || "0");
 
-         const errorDiv =
-          document.getElementById(
-            "errorMessage"
-          );
+        }
+
+        function getLockUntil() {
+
+            return parseInt(localStorage.getItem("lockUntil") || "0");
+
+        }
 
 
-          // ==================================================
-    // البحث عن الموظف
-    // ==================================================
+        async function sha256(text) {
 
-    const employee =
-        EMPLOYEES[user];
+            const data = new TextEncoder().encode(text);
 
+            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
 
-    // ==================================================
-    // التحقق
-    // ==================================================
+            return Array.from(new Uint8Array(hashBuffer))
+                .map(b => b.toString(16).padStart(2, "0"))
+                .join("");
 
-    if (
-        employee &&
-        employee.password === pass
-    ) {
-
-        errorDiv.style.display = "none";
+        }
 
 
-        // ==================================================
-        // حفظ بيانات الموظف للجلسة الحالية
-        // ==================================================
+        // ======================================================
+        // تبديل الوضع الداكن/الفاتح
+        // ======================================================
 
-        localStorage.setItem(
-            "loggedIn",
-            "true"
-        );
+        function toggleTheme() {
 
+            document.body.classList.toggle("light");
 
-        localStorage.setItem(
-            "currentUser",
-            employee.name
-        );
+            const isLight = document.body.classList.contains("light");
 
+            localStorage.setItem("theme", isLight ? "light" : "dark");
 
-        localStorage.setItem(
-            "loginTime",
-            new Date().toISOString()
-        );
+            document.getElementById("themeIcon").className =
+                isLight ? "fa-solid fa-sun" : "fa-solid fa-moon";
 
-        // بدء جلسة جديدة من لحظة تسجيل الدخول
-        localStorage.removeItem(
-            "sessionLastActivity"
-        );
+        }
 
 
-        // ==================================================
-        // الانتقال للوحة التحكم
-        // ==================================================
+        // ======================================================
+        // زر نسيت كلمة المرور
+        // ======================================================
 
-        window.location.href =
-            "dashboard.html";
+        function forgotPassword() {
+
+            alert(
+                "📞 للتواصل وإعادة تعيين كلمة المرور:\n\n" +
+                "01129713352\n" +
+                "01005389471\n\n" +
+                "أو تواصل معنا واتساب من الأيقونة بالأسفل"
+            );
+
+        }
 
 
-    } else {
+        // ======================================================
+        // الجزئيات المتصلة (شبكة النجوم)
+        // ======================================================
 
-        errorDiv.style.display =
-            "block";
+        const canvas = document.getElementById("particles");
 
-    }
-}
+        const ctx = canvas.getContext("2d");
+
+        let particles = [];
+
+        function initParticles() {
+
+            canvas.width = window.innerWidth;
+
+            canvas.height = window.innerHeight;
+
+            particles = [];
+
+            const count = Math.min(60, Math.floor(window.innerWidth / 25));
+
+            for (let i = 0; i < count; i++) {
+
+                particles.push({
+
+                    x: Math.random() * canvas.width,
+
+                    y: Math.random() * canvas.height,
+
+                    vx: (Math.random() - 0.5) * 0.5,
+
+                    vy: (Math.random() - 0.5) * 0.5,
+
+                    r: 1 + Math.random() * 2
+
+                });
+
+            }
+
+        }
+
+        function animateParticles() {
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (const p of particles) {
+
+                p.x += p.vx;
+
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+
+                ctx.fillStyle = "rgba(167, 139, 250, 0.6)";
+
+                ctx.fill();
+
+            }
+
+            // خطوط بين الجزيئات القريبة
+            for (let i = 0; i < particles.length; i++) {
+
+                for (let j = i + 1; j < particles.length; j++) {
+
+                    const dx = particles[i].x - particles[j].x;
+
+                    const dy = particles[i].y - particles[j].y;
+
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+
+                        ctx.beginPath();
+
+                        ctx.moveTo(particles[i].x, particles[i].y);
+
+                        ctx.lineTo(particles[j].x, particles[j].y);
+
+                        ctx.strokeStyle = `rgba(124, 58, 237, ${0.25 * (1 - dist / 120)})`;
+
+                        ctx.stroke();
+
+                    }
+
+                }
+
+            }
+
+            requestAnimationFrame(animateParticles);
+
+        }
+
+        initParticles();
+
+        animateParticles();
+
+        window.addEventListener("resize", initParticles);
+
+
+        // ======================================================
+        // تطبيق الثيم المحفوظ + التحويل التلقائي + الترحيب
+        // ======================================================
+
+        if (localStorage.getItem("theme") === "light") {
+
+            document.body.classList.add("light");
+
+            document.getElementById("themeIcon").className = "fa-solid fa-sun";
+
+        }
+
+        function togglePassword() {
+
+            const passInput = document.getElementById("password");
+
+            const icon = document.getElementById("toggleIcon");
+
+            if (passInput.type === "password") {
+
+                passInput.type = "text";
+
+                icon.className = "fa-solid fa-eye-slash";
+
+            } else {
+
+                passInput.type = "password";
+
+                icon.className = "fa-solid fa-eye";
+
+            }
+
+        }
+
+
+        // ======================================================
+        // تسجيل الدخول
+        // ======================================================
+
+        async function handleLogin(event) {
+
+            event.preventDefault();
+
+            const loginBtn = document.getElementById("loginBtn");
+
+            // التحقق من القفل المؤقت
+            const lockUntil = getLockUntil();
+
+            if (Date.now() < lockUntil) {
+
+                alert("🔒 تم قفل الدخول مؤقتاً بسبب المحاولات الخاطئة. حاول بعد قليل.");
+
+                return;
+
+            }
+
+            const user =
+                document
+                    .getElementById("username")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+            const pass =
+                document
+                    .getElementById("password")
+                    .value
+                    .trim();
+
+            const errorDiv =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+
+            // ==================================================
+            // البحث عن الموظف ومقارنة الهاش
+            // ==================================================
+
+            const employee =
+                EMPLOYEES[user];
+
+            const passHash = await sha256(pass);
+
+
+            // ==================================================
+            // التحقق
+            // ==================================================
+
+            const card = document.querySelector(".login-card");
+
+            if (
+                employee &&
+                employee.passwordHash === passHash
+            ) {
+
+                errorDiv.style.display = "none";
+
+
+                // ==================================================
+                // حفظ بيانات الموظف للجلسة الحالية
+                // ==================================================
+
+                localStorage.setItem(
+                    "loggedIn",
+                    "true"
+                );
+
+
+                localStorage.setItem(
+                    "currentUser",
+                    employee.name
+                );
+
+
+                localStorage.setItem(
+                    "loginTime",
+                    new Date().toISOString()
+                );
+
+                // بدء جلسة جديدة من لحظة تسجيل الدخول
+                localStorage.removeItem(
+                    "sessionLastActivity"
+                );
+
+
+                // تصفير المحاولات الخاطئة عند النجاح
+                localStorage.removeItem("loginAttempts");
+
+                localStorage.removeItem("lockUntil");
+
+
+                // حفظ الاسم لو "تذكرني" مفعّل
+                const rememberMe = document.getElementById("rememberMe").checked;
+
+                if (rememberMe) {
+
+                    localStorage.setItem("rememberedUser", employee.name);
+
+                } else {
+
+                    localStorage.removeItem("rememberedUser");
+
+                }
+
+
+                // حالة التحميل للزر قبل الانتقال
+                loginBtn.classList.add("loading");
+
+                loginBtn.textContent = "جاري الدخول";
+
+                // صوت النجاح
+                playSound("success");
+
+
+                // ==================================================
+                // الانتقال للوحة التحكم
+                // ==================================================
+
+                window.location.href =
+                    "dashboard.html";
+
+
+            } else {
+
+                // اهتزاز الكارت عند الخطأ
+                card.classList.remove("shake");
+
+                // إعادة تشغيل الأنيميشن
+                void card.offsetWidth;
+
+                card.classList.add("shake");
+
+                // صوت الخطأ
+                playSound("error");
+
+                // زيادة عدد المحاولات
+                const attempts = getAttempts() + 1;
+
+                localStorage.setItem("loginAttempts", attempts);
+
+                if (attempts >= MAX_ATTEMPTS) {
+
+                    // قفل مؤقت لمدة 30 ثانية
+                    localStorage.setItem(
+                        "lockUntil",
+                        Date.now() + LOCK_DURATION * 1000
+                    );
+
+                    localStorage.setItem("loginAttempts", "0");
+
+                    errorDiv.textContent =
+                        `🔒 تم قفل الدخول ${LOCK_DURATION} ثانية بسبب تكرار المحاولات الخاطئة!`;
+
+                    lockButton(LOCK_DURATION);
+
+                } else {
+
+                    errorDiv.textContent =
+                        `❌ اسم المستخدم أو كلمة المرور غير صحيحة! (${MAX_ATTEMPTS - attempts} محاولات متبقية)`;
+
+                }
+
+                // إظهار الخطأ وإخفاؤه تلقائياً بعد 5 ثواني
+                errorDiv.style.display = "block";
+
+                clearTimeout(errorTimeout);
+
+                errorTimeout = setTimeout(() => {
+
+                    errorDiv.style.display = "none";
+
+                    errorDiv.textContent =
+                        "❌ اسم المستخدم أو كلمة المرور غير صحيحة!";
+
+                }, 5000);
+
+            }
+        }
+
+
+        // ======================================================
+        // قفل زر الدخول مؤقتاً مع عداد تنازلي
+        // ======================================================
+
+        function lockButton(seconds) {
+
+            const loginBtn = document.getElementById("loginBtn");
+
+            loginBtn.classList.add("locked");
+
+            let remaining = seconds;
+
+            loginBtn.textContent = `مقفل (${remaining} ثانية)`;
+
+            const timer = setInterval(() => {
+
+                remaining--;
+
+                if (remaining <= 0) {
+
+                    clearInterval(timer);
+
+                    loginBtn.classList.remove("locked");
+
+                    loginBtn.textContent = "دخول";
+
+                } else {
+
+                    loginBtn.textContent = `مقفل (${remaining} ثانية)`;
+
+                }
+
+            }, 1000);
+
+        }
+
+
+        // ======================================================
+        // التنقل بين الخانات بزر Enter
+        // ======================================================
+
+        document.getElementById("username").addEventListener("keydown", function (e) {
+
+            if (e.key === "Enter") {
+
+                e.preventDefault();
+
+                document.getElementById("password").focus();
+
+            }
+
+        });
+
+        // Enter في خانة كلمة المرور = دخول
+        document.getElementById("password").addEventListener("keydown", function (e) {
+
+            if (e.key === "Enter") {
+
+                e.preventDefault();
+
+                document.getElementById("loginBtn").click();
+
+            }
+
+        });
+
+        // إتاحة زر الإظهار بلوحة المفاتيح (Space/Enter)
+        document.querySelector(".toggle-password").addEventListener("keydown", function (e) {
+
+            if (e.key === " " || e.key === "Enter") {
+
+                e.preventDefault();
+
+                togglePassword();
+
+            }
+
+        });
+
+
+        // ======================================================
+        // تحذير Caps Lock في خانة كلمة المرور
+        // ======================================================
+
+        document.getElementById("password").addEventListener("keyup", function (e) {
+
+            const capsOn = e.getModifierState && e.getModifierState("CapsLock");
+
+            document.getElementById("capsWarning").style.display = capsOn ? "block" : "none";
+
+        });
+
+
+        // ======================================================
+        // مؤقت إخفاء رسالة الخطأ
+        // ======================================================
+
+        let errorTimeout;
+
+
+        // ======================================================
+        // الفقاعات المتحركة في الخلفية
+        // ======================================================
+
+        function createBubbles() {
+
+            const container = document.getElementById("bubbles-container");
+
+            const count = 15;
+
+            for (let i = 0; i < count; i++) {
+
+                const bubble = document.createElement("div");
+
+                bubble.className = "bubble";
+
+                const size = 15 + Math.random() * 45;
+
+                bubble.style.width = size + "px";
+
+                bubble.style.height = size + "px";
+
+                bubble.style.left = Math.random() * 100 + "%";
+
+                bubble.style.animationDuration = (8 + Math.random() * 12) + "s";
+
+                bubble.style.animationDelay = (Math.random() * 10) + "s";
+
+                container.appendChild(bubble);
+
+            }
+
+        }
+
+        createBubbles();
+
+
+        // ======================================================
+        // التحويل التلقائي لو سجل دخول من قبل
+        // ======================================================
+
+        if (localStorage.getItem("loggedIn") === "true") {
+
+            window.location.href = "dashboard.html";
+
+        }
+
+
+        // ======================================================
+        // الترحيب بالمستخدم المحفوظ عند فتح الصفحة
+        // ======================================================
+
+        const savedUser = localStorage.getItem("rememberedUser");
+
+        if (savedUser) {
+
+            document.getElementById("username").value = savedUser;
+
+            document.getElementById("rememberMe").checked = true;
+
+            document.getElementById("password").focus();
+
+            const welcomeDiv = document.getElementById("welcomeMsg");
+
+            welcomeDiv.textContent = `👋 مرحبا بعودتك، ${savedUser}!`;
+
+            welcomeDiv.style.display = "block";
+
+            setTimeout(() => {
+
+                welcomeDiv.style.display = "none";
+
+            }, 5000);
+
+        }
     </script>
 </body>
+
 </html>
