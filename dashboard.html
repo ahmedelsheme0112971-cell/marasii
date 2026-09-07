@@ -3140,6 +3140,45 @@
             padding: 20px;
         }
 
+        /* =====================================================
+   شرائح التواريخ المنسقة - بنفس لون الصفحة البنفسجي
+===================================================== */
+        .date-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12.5px;
+            font-weight: 800;
+            color: #d8c7fd;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.22), rgba(124, 58, 237, 0.12));
+            border: 1px solid rgba(167, 139, 250, 0.40);
+            padding: 4px 12px;
+            border-radius: 999px;
+            white-space: nowrap;
+            direction: rtl;
+            box-shadow: 0 2px 10px rgba(124, 58, 237, 0.15);
+            letter-spacing: .2px;
+        }
+
+        .date-chip i {
+            font-size: 11px;
+            color: #a78bfa;
+        }
+
+        .date-chip:hover {
+            border-color: rgba(192, 132, 252, 0.75);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.30);
+        }
+
+        .date-chip .date-chip-day {
+            color: #a78bfa;
+            font-size: 10.5px;
+            font-weight: 700;
+            border-right: 1px solid rgba(167, 139, 250, 0.35);
+            padding-right: 6px;
+            margin-right: 2px;
+        }
+
         /* تاريخ التسديد */
         .mn-due-date {
             display: inline-flex;
@@ -3547,10 +3586,720 @@
 
 
     <!-- =====================================================
+         نافذة حالة الحفظ (تحميل / نجاح / خطأ)
+    ====================================================== -->
+
+    <div id="saveStatusOverlay" class="save-status-overlay">
+
+        <div class="save-status-modal">
+
+            <div id="saveStatusCircle" class="save-status-circle loading">
+
+                <!-- حلقة ترسم نفسها عند النجاح -->
+                <svg class="save-status-ring" viewBox="0 0 120 120">
+                    <circle class="ring-track" cx="60" cy="60" r="54"></circle>
+                    <circle class="ring-progress" cx="60" cy="60" r="54"></circle>
+                </svg>
+
+                <!-- الكوكب (أرضية المدار) -->
+                <div class="save-planet"></div>
+
+                <!-- المدار الذي يسبح فيه الطائرة -->
+                <div class="save-orbit">
+                    <!-- حاوية المدار بتلف والطائرة ثابتة على طرفها -->
+                    <div class="save-orbit-rotor">
+                        <div class="save-orbit-plane">
+                            <i class="fa-solid fa-plane"></i>
+                            <!-- دخان خلف الطائرة -->
+                            <span class="save-smoke save-smoke-1"></span>
+                            <span class="save-smoke save-smoke-2"></span>
+                            <span class="save-smoke save-smoke-3"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- علامة صح تترسم عند النجاح -->
+                <svg class="save-check-svg" viewBox="0 0 52 52">
+                    <path class="save-check-path" fill="none" d="M14 27 L22 35 L38 17" />
+                </svg>
+
+                <!-- علامة خطأ تترسم عند الفشل -->
+                <svg class="save-cross-svg" viewBox="0 0 52 52">
+                    <path class="save-cross-path1" fill="none" d="M16 16 L36 36" />
+                    <path class="save-cross-path2" fill="none" d="M36 16 L16 36" />
+                </svg>
+
+                <!-- حالة الخطأ: طائرة تسقط -->
+                <div class="save-status-icon save-icon-crash">
+                    <i class="fa-solid fa-plane"></i>
+                </div>
+
+                <!-- جزيئات الاحتفال عند النجاح -->
+                <div class="save-confetti">
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                </div>
+
+            </div>
+
+            <div id="saveStatusText" class="save-status-text">
+                جاري حفظ البيانات...
+            </div>
+
+            <div class="save-status-dots">
+                <span></span><span></span><span></span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <style>
+        /* =====================================================
+           نافذة حالة الحفظ
+        ====================================================== */
+
+        .save-status-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 2, 12, 0.80);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 50000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .save-status-overlay.active {
+            display: flex;
+        }
+
+        .save-status-modal {
+            text-align: center;
+            animation: saveModalIn .25s ease;
+        }
+
+        @keyframes saveModalIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(.92);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .save-status-circle {
+            position: relative;
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .save-status-ring {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .ring-track,
+        .ring-progress {
+            fill: none;
+            stroke-width: 6;
+            stroke-linecap: round;
+        }
+
+        .ring-track {
+            stroke: rgba(255, 255, 255, 0.12);
+        }
+
+        .ring-progress {
+            stroke: #86efac;
+            stroke-dasharray: 339.3;
+            stroke-dashoffset: 339.3;
+        }
+
+        /* دوائر الخلفية الداخلية حسب الحالة */
+
+        .save-status-circle.loading {
+            border-radius: 50%;
+            background: rgba(124, 58, 237, 0.10);
+            box-shadow: 0 0 35px rgba(124, 58, 237, 0.25);
+        }
+
+        .save-status-circle.loading .ring-track,
+        .save-status-circle.loading .ring-progress {
+            opacity: 0;
+        }
+
+        /* الكوكب في وسط الدائرة */
+
+        .save-planet {
+            position: absolute;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 32% 30%,
+                    #a78bfa, #7c3aed 55%, #4c1d95);
+            box-shadow:
+                inset -6px -6px 12px rgba(0, 0, 0, 0.35),
+                0 0 25px rgba(139, 92, 246, 0.55);
+            animation: planetPulse 2.2s ease-in-out infinite;
+        }
+
+        @keyframes planetPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.07);
+            }
+        }
+
+        /* المدار الدوّار للطائرة */
+
+        .save-orbit {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 1px dashed rgba(196, 181, 253, 0.35);
+            animation: saveSpin 1.6s linear infinite;
+        }
+
+        .save-orbit-rotor {
+            position: absolute;
+            inset: 0;
+            animation: saveSpin 1.6s linear infinite;
+        }
+
+        .save-orbit-plane {
+            position: absolute;
+            top: -17px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #c4b5fd;
+            font-size: 1.55rem;
+            text-shadow: 0 0 16px rgba(167, 139, 250, 0.8);
+            display: flex;
+            align-items: center;
+        }
+
+        .save-orbit-plane i {
+            animation: planeWobble 1.4s ease-in-out infinite;
+        }
+
+        @keyframes planeWobble {
+
+            0%,
+            100% {
+                transform: rotate(0deg) translateY(0);
+            }
+
+            50% {
+                transform: rotate(14deg) translateY(-2px);
+            }
+        }
+
+        /* دخان خلف الطائرة أثناء التحميل */
+
+        .save-smoke {
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(196, 181, 253, 0.65);
+            animation: smokeFade 1.4s linear infinite;
+            pointer-events: none;
+        }
+
+        .save-smoke-1 {
+            margin-right: 6px;
+            animation-delay: 0s;
+        }
+
+        .save-smoke-2 {
+            margin-right: 14px;
+            animation-delay: .25s;
+        }
+
+        .save-smoke-3 {
+            margin-right: 22px;
+            animation-delay: .5s;
+        }
+
+        @keyframes smokeFade {
+
+            0% {
+                opacity: .8;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(.4);
+            }
+        }
+
+        /* إخفاء مشهد المدار في حالة النجاح/الخطأ */
+
+        .save-status-circle.success .save-orbit,
+        .save-status-circle.error .save-orbit {
+            opacity: 0;
+            transition: opacity .2s ease;
+        }
+
+        .save-status-circle.success .save-planet {
+            animation: planetShrink .4s ease forwards;
+        }
+
+        .save-status-circle.error .save-planet {
+            animation: planetShrink .4s ease forwards;
+        }
+
+        @keyframes planetShrink {
+            to {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        .save-status-circle.success {
+            border-radius: 50%;
+            background: rgba(34, 197, 94, 0.12);
+            box-shadow: 0 0 40px rgba(34, 197, 94, 0.35);
+            animation: successPop .45s cubic-bezier(.22, 1.4, .36, 1) both;
+        }
+
+        .save-status-circle.success .ring-progress {
+            animation: drawRing 0.8s ease forwards;
+        }
+
+        .save-status-circle.error {
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.12);
+            border: 3px solid rgba(248, 113, 113, 0.65);
+            box-shadow: 0 0 40px rgba(239, 68, 68, 0.30);
+            animation: errorShake .5s ease;
+        }
+
+        .save-status-circle.error .ring-track,
+        .save-status-circle.error .ring-progress {
+            opacity: 0;
+        }
+
+        @keyframes saveSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes drawRing {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes successPop {
+            0% {
+                transform: scale(.6);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes errorShake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-9px);
+            }
+
+            40% {
+                transform: translateX(9px);
+            }
+
+            60% {
+                transform: translateX(-6px);
+            }
+
+            80% {
+                transform: translateX(6px);
+            }
+        }
+
+        /* علامة صح تترسم عند النجاح */
+
+        .save-check-svg {
+            display: none;
+            position: absolute;
+            width: 62px;
+            height: 62px;
+        }
+
+        .save-check-path {
+            stroke: #86efac;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            filter: drop-shadow(0 0 8px rgba(134, 239, 172, 0.7));
+        }
+
+        .save-status-circle.success .save-check-svg {
+            display: block;
+            animation: successPop .45s cubic-bezier(.22, 1.4, .36, 1) both;
+        }
+
+        .save-status-circle.success .save-check-path {
+            animation: drawCheck .5s ease .15s forwards;
+        }
+
+        @keyframes drawCheck {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* علامة خطأ تترسم عند الفشل */
+
+        .save-cross-svg {
+            display: none;
+            position: absolute;
+            width: 56px;
+            height: 56px;
+        }
+
+        .save-cross-path1,
+        .save-cross-path2 {
+            stroke: #f87171;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-dasharray: 30;
+            stroke-dashoffset: 30;
+            filter: drop-shadow(0 0 8px rgba(248, 113, 113, 0.6));
+        }
+
+        .save-status-circle.error .save-cross-svg {
+            display: block;
+        }
+
+        .save-status-circle.error .save-cross-path1 {
+            animation: drawCheck .25s ease .1s forwards;
+        }
+
+        .save-status-circle.error .save-cross-path2 {
+            animation: drawCheck .25s ease .35s forwards;
+        }
+
+        /* طائرة تسقط عند الخطأ */
+
+        .save-status-icon {
+            display: none;
+            position: absolute;
+            font-size: 2.4rem;
+            color: #f87171;
+            top: 8%;
+            left: 50%;
+        }
+
+        .save-status-circle.error .save-icon-crash {
+            display: block;
+            animation: planeCrash 1s ease-in forwards;
+        }
+
+        @keyframes planeCrash {
+
+            0% {
+                transform: translate(-50%, 0) rotate(-45deg);
+                opacity: 1;
+            }
+
+            80% {
+                transform: translate(-140%, 90px) rotate(40deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-160%, 105px) rotate(55deg);
+                opacity: 0;
+            }
+        }
+
+        /* جزيئات الاحتفال عند النجاح */
+
+        .save-confetti {
+            display: none;
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .save-status-circle.success .save-confetti {
+            display: block;
+        }
+
+        .save-confetti span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            opacity: 0;
+            animation: confettiBurst .9s ease-out .15s forwards;
+        }
+
+        .save-confetti span:nth-child(1) {
+            background: #86efac;
+            --dx: -70px;
+            --dy: -60px;
+        }
+
+        .save-confetti span:nth-child(2) {
+            background: #c4b5fd;
+            --dx: 65px;
+            --dy: -70px;
+        }
+
+        .save-confetti span:nth-child(3) {
+            background: #facc15;
+            --dx: -85px;
+            --dy: 15px;
+        }
+
+        .save-confetti span:nth-child(4) {
+            background: #60a5fa;
+            --dx: 80px;
+            --dy: 20px;
+        }
+
+        .save-confetti span:nth-child(5) {
+            background: #f472b6;
+            --dx: -45px;
+            --dy: 70px;
+        }
+
+        .save-confetti span:nth-child(6) {
+            background: #86efac;
+            --dx: 50px;
+            --dy: 75px;
+        }
+
+        .save-confetti span:nth-child(7) {
+            background: #facc15;
+            --dx: -20px;
+            --dy: -90px;
+        }
+
+        .save-confetti span:nth-child(8) {
+            background: #c4b5fd;
+            --dx: 25px;
+            --dy: -95px;
+        }
+
+        .save-confetti span:nth-child(9) {
+            background: #60a5fa;
+            --dx: -90px;
+            --dy: -20px;
+        }
+
+        .save-confetti span:nth-child(10) {
+            background: #f472b6;
+            --dx: 92px;
+            --dy: -15px;
+        }
+
+        .save-confetti span:nth-child(11) {
+            background: #86efac;
+            --dx: -10px;
+            --dy: 95px;
+        }
+
+        .save-confetti span:nth-child(12) {
+            background: #facc15;
+            --dx: 15px;
+            --dy: -60px;
+        }
+
+        @keyframes confettiBurst {
+
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.4) rotate(220deg);
+            }
+        }
+
+        /* نقاط التحميل تحت النص */
+
+        .save-status-dots {
+            display: none;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 10px;
+        }
+
+        .save-status-overlay.active .save-status-dots {
+            display: flex;
+        }
+
+        .save-status-dots span {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #c4b5fd;
+            animation: dotBounce 1s ease-in-out infinite;
+        }
+
+        .save-status-dots span:nth-child(2) {
+            animation-delay: .15s;
+        }
+
+        .save-status-dots span:nth-child(3) {
+            animation-delay: .3s;
+        }
+
+        @keyframes dotBounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                opacity: .45;
+            }
+
+            50% {
+                transform: translateY(-7px);
+                opacity: 1;
+            }
+        }
+
+        /* إخفاء نقاط التحميل عند النتيجة */
+
+        .save-status-overlay.active .save-status-circle.success~.save-status-dots,
+        .save-status-overlay.active .save-status-circle.error~.save-status-dots {
+            display: none;
+        }
+
+        .save-status-text {
+            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 900;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .save-status-circle.success~.save-status-text,
+        .save-status-modal .save-status-text.success {
+            color: #86efac;
+        }
+
+        .save-status-modal .save-status-text.error {
+            color: #f87171;
+        }
+
+        @media (max-width: 520px) {
+
+            .save-status-circle {
+                width: 105px;
+                height: 105px;
+            }
+
+            .save-status-icon {
+                font-size: 2.3rem;
+            }
+
+            .save-status-text {
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+
+    <!-- =====================================================
          JavaScript
     ====================================================== -->
 
     <script>
+
+        // =====================================================
+        // نافذة حالة الحفظ — تحميل / نجاح / خطأ
+        // =====================================================
+
+        let saveStatusTimeout = null;
+
+        function showSaveStatus(mode, text) {
+            const overlay =
+                document.getElementById("saveStatusOverlay");
+            const circle =
+                document.getElementById("saveStatusCircle");
+            const statusText =
+                document.getElementById("saveStatusText");
+
+            if (!overlay || !circle || !statusText) return;
+
+            if (saveStatusTimeout) {
+                clearTimeout(saveStatusTimeout);
+                saveStatusTimeout = null;
+            }
+
+            /* إعادة تشغيل الأنيميشن من البداية كل مرة */
+            circle.classList.remove("loading", "success", "error");
+            statusText.classList.remove("success", "error");
+            void circle.offsetWidth;
+
+            circle.classList.add(mode);
+            statusText.textContent = text;
+
+            if (mode === "success") {
+                statusText.classList.add("success");
+            } else if (mode === "error") {
+                statusText.classList.add("error");
+            }
+
+            overlay.classList.add("active");
+        }
+
+        function hideSaveStatus(afterMs) {
+            const overlay =
+                document.getElementById("saveStatusOverlay");
+
+            if (!overlay) return;
+
+            if (saveStatusTimeout) {
+                clearTimeout(saveStatusTimeout);
+            }
+
+            saveStatusTimeout = setTimeout(function () {
+                overlay.classList.remove("active");
+            }, afterMs || 0);
+        }
 
         // =====================================================
         // رابط Google Apps Script
@@ -5117,11 +5866,9 @@
 
                                             <i class="fa-solid fa-plane"></i>
 
-                                            ${escapeHtml(
-                                    item.travelDate
-                                )}
-
                                         </span>
+
+                                        ${dateChipHtml(item.travelDate)}
 
                                     </div>
 
@@ -5644,6 +6391,87 @@
         // حماية النصوص عند عرضها داخل HTML
         // =====================================================
 
+        /* =====================================================
+           تنسيق التواريخ بشكل منسق ومميز
+        ===================================================== */
+
+        function formatDateNice(value) {
+
+            if (!value) return "";
+
+            let d = null;
+
+            /* يدعم صيغة ISO: 2025-01-15 */
+            if (/^\d{4}-\d{2}-\d{2}$/.test(String(value).trim())) {
+                try {
+                    d = new Date(String(value).trim() + "T00:00:00");
+                } catch (e) { d = null; }
+            }
+
+            if (!d || isNaN(d.getTime())) {
+                d = new Date(value);
+            }
+
+            if (!d || isNaN(d.getTime())) {
+                return String(value);
+            }
+
+            const months = [
+                "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو",
+                "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"
+            ];
+
+            const days = [
+                "الأحد", "الإثنين", "الثلاثاء", "الأربعاء",
+                "الخميس", "الجمعة", "السبت"
+            ];
+
+            const dayNum = d.getDate();
+            const month = months[d.getMonth()];
+            const year = d.getFullYear();
+            const dayName = days[d.getDay()];
+
+            return dayNum + " " + month + " " + year;
+        }
+
+        /* شريحة تاريخ جاهزة للعرض داخل HTML */
+        function dateChipHtml(value) {
+
+            const formatted = formatDateNice(value);
+
+            if (!formatted) return "";
+
+            let dayName = "";
+
+            let d = null;
+
+            if (/^\d{4}-\d{2}-\d{2}$/.test(String(value || "").trim())) {
+                try {
+                    d = new Date(String(value).trim() + "T00:00:00");
+                } catch (e) { d = null; }
+            }
+
+            if (!d || isNaN(d.getTime())) {
+                d = new Date(value);
+            }
+
+            if (d && !isNaN(d.getTime())) {
+                dayName =
+                    ["الأحد", "الإثنين", "الثلاثاء", "الأربعاء",
+                        "الخميس", "الجمعة", "السبت"][d.getDay()];
+            }
+
+            return (
+                '<span class="date-chip">' +
+                '<i class="fa-solid fa-calendar-day"></i>' +
+                '<span>' + escapeHtml(formatted) + '</span>' +
+                (dayName
+                    ? '<span class="date-chip-day">' + escapeHtml(dayName) + '</span>'
+                    : "") +
+                '</span>'
+            );
+        }
+
         function escapeHtml(value) {
 
             const div =
@@ -5875,17 +6703,13 @@
             submitButton.disabled =
                 true;
 
-
-            submitButton.innerHTML = `
-
-                <span class="loading-spinner"></span>
-
-                ${operationType === "تعديل"
+            /* إظهار نافذة حالة الحفظ — تحميل */
+            showSaveStatus(
+                "loading",
+                operationType === "تعديل"
                     ? "جاري تعديل البيانات..."
                     : "جاري حفظ البيانات..."
-                }
-
-            `;
+            );
 
 
             try {
@@ -5927,19 +6751,15 @@
                 // اعتبار العملية ناجحة
                 // =================================================
 
-                submitButton.innerHTML = `
+                /* نافذة النجاح بأنيميشن الطائرة */
+                showSaveStatus(
+                    "success",
+                    operationType === "تعديل"
+                        ? "تم تعديل البيانات بنجاح ✈️"
+                        : "تم تسجيل البيانات بنجاح ✈️"
+                );
 
-                    <i
-                        class="fa-solid fa-circle-check"
-                        style="color:#86efac;">
-                    </i>
-
-                    ${operationType === "تعديل"
-                        ? "تم تعديل البيانات بنجاح"
-                        : "تم حفظ البيانات بنجاح"
-                    }
-
-                `;
+                hideSaveStatus(2500);
 
 
                 // =================================================
@@ -5993,9 +6813,8 @@
                         `;
 
                     },
-                    1800
+                    2600
                 );
-
 
             } catch (error) {
 
@@ -6018,6 +6837,14 @@
                     حفظ البيانات
 
                 `;
+
+                /* نافذة الخطأ بأنيميشن علامة الخطأ */
+                showSaveStatus(
+                    "error",
+                    "❌ حدث خطأ، لم يتم حفظ البيانات"
+                );
+
+                hideSaveStatus(2800);
 
             }
 
@@ -6429,7 +7256,7 @@
         function formatDueDate(iso) {
             if (!iso) return "";
             try {
-                return new Date(iso + "T00:00:00").toLocaleDateString("ar-EG");
+                return formatDateNice(iso) || new Date(iso + "T00:00:00").toLocaleDateString("ar-EG");
             } catch (e) {
                 return iso;
             }
