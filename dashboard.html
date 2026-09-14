@@ -1173,6 +1173,33 @@
                 pointer;
         }
 
+        .booking-section {
+            display: none;
+            grid-column: span 2;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+
+        .booking-section.active {
+            display: grid;
+        }
+
+        .booking-section .form-group {
+            min-width: 0;
+        }
+
+        .bubble-input option {
+            background: #24103d;
+            color: #ffffff;
+        }
+
+        select.bubble-input {
+            appearance: auto;
+            -webkit-appearance: auto;
+            cursor: pointer;
+        }
+
         /* =====================================================
            زر الحفظ
         ===================================================== */
@@ -2771,213 +2798,167 @@
 
         <form id="dataForm" onsubmit="exportToGoogleSheets(event)" class="form-grid">
 
-
-            <!-- اسم المسافر -->
-
-            <div class="form-group">
-
-                <label>
-
-                    <i class="fa-solid fa-user"></i>
-
-                    اسم المسافر
-
-                    <span class="required">*</span>
-
-                </label>
-
-                <input type="text" id="passengerName" class="bubble-input" placeholder="أدخل اسم المسافر بالكامل"
-                    required>
-
-            </div>
-
-
-            <!-- رقم الحجز -->
-
-            <div class="form-group">
-
-                <label>
-
-                    <i class="fa-solid fa-ticket"></i>
-
-                    رقم الحجز
-
-                    <span class="required">*</span>
-
-                </label>
-
-                <input type="text" id="bookingNumber" class="bubble-input" placeholder="أدخل رقم الحجز" required>
-
-            </div>
-
-
-            <!-- رقم الموبايل -->
-
-            <div class="form-group">
-
-                <label>
-
-                    <i class="fa-solid fa-mobile-screen-button"></i>
-
-                    رقم الموبايل
-
-                    <span class="required">*</span>
-
-                </label>
-
-                <input type="tel" id="mobileNumber" class="bubble-input" placeholder="01xxxxxxxxx" required>
-
-            </div>
-
-
-            <!-- تاريخ الحجز -->
-
-            <div class="form-group">
-
-                <label>
-
-                    <i class="fa-solid fa-calendar-day"></i>
-
-                    تاريخ الحجز
-
-                    <span class="required">*</span>
-
-                </label>
-
-                <input type="date" id="bookingDate" class="bubble-input" required>
-
-            </div>
-
-
-            <!-- تاريخ السفر -->
-
-            <div class="form-group">
-
-                <label>
-
-                    <i class="fa-solid fa-plane-departure"></i>
-
-                    تاريخ السفر
-
-                    <span class="required">*</span>
-
-                </label>
-
-                <input type="date" id="travelDate" class="bubble-input" required>
-
-            </div>
-
-
-            <!-- المبلغ الكلي -->
-
-            <div class="form-group">
-
-                <label>
-
-                    <i class="fa-solid fa-sack-dollar"></i>
-
-                    المبلغ الكلي
-
-                    <span class="required">*</span>
-
-                </label>
-
-                <input type="number" id="totalAmount" class="bubble-input" placeholder="0.00" step="any"
-                    oninput="calculateRemaining()" required>
-
-            </div>
-
-
-            <!-- المبلغ المدفوع -->
-
-            <div class="form-group">
-
-                <label>
-
-                    <i class="fa-solid fa-money-check-dollar"></i>
-
-                    المبلغ المدفوع
-
-                    <span class="required">*</span>
-
-                </label>
-
-                <input type="number" id="paidAmount" class="bubble-input" placeholder="0.00" step="any"
-                    oninput="handlePaidAmountInput()" required>
-
-            </div>
-
-
-            <!-- المبلغ المتبقي -->
-
-            <div class="form-group">
-
-                <label>
-
-                    <i class="fa-solid fa-hand-holding-dollar"></i>
-
-                    المبلغ المتبقي
-
-                    <span class="required">*</span>
-
-                </label>
-
-                <input type="number" id="remainingAmount" class="bubble-input" placeholder="0.00" readonly required>
-
-            </div>
-
-
-            <!-- العمولة -->
-
-            <div class="form-group">
-
-                <label>
-
-                    <i class="fa-solid fa-percent"></i>
-
-                    العمولة المضافة
-
-                    <span class="required">*</span>
-
-                </label>
-
-                <input type="number" id="commission" class="bubble-input" placeholder="0.00" step="any" required>
-
-            </div>
-
-
-            <!-- الشركة -->
-
-            <div class="form-group full-width">
-
-                <label>
-
-                    <i class="fa-solid fa-building"></i>
-
-                    تبع شركة
-
-                    <span class="optional">
-                        (اختياري)
-                    </span>
-
-                </label>
-
-                <input type="text" id="companyName" class="bubble-input" placeholder="أدخل اسم الشركة إن وجد">
-
-            </div>
-
-
-            <!-- زر الحفظ -->
-
-            <button type="submit" class="submit-btn">
-
-                <i class="fa-solid fa-cloud-arrow-up"></i>
-
-                حفظ البيانات
-
-            </button>
-
-        </form>
+    <!-- نوع الحجز -->
+    <div class="form-group full-width">
+        <label>
+            <i class="fa-solid fa-layer-group"></i>
+            حجز في قسم
+            <span class="required">*</span>
+        </label>
+
+        <select id="bookingType" class="bubble-input" onchange="switchBookingSection()" required>
+            <option value="">اختر القسم</option>
+            <option value="flight">تذاكر الطيران</option>
+            <option value="visa">التأشيرات والإقامات</option>
+            <option value="hajj">الحج والعمرة</option>
+            <option value="travelPermit">تصاريح السفر</option>
+        </select>
+    </div>
+
+    <!-- =====================================================
+         تذاكر الطيران
+    ====================================================== -->
+    <div id="flightSection" class="booking-section">
+        <div class="form-group">
+            <label><i class="fa-solid fa-user"></i> اسم المسافر <span class="required">*</span></label>
+            <input type="text" id="passengerName" class="bubble-input" placeholder="أدخل اسم المسافر بالكامل">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-ticket"></i> رقم الحجز <span class="required">*</span></label>
+            <input type="text" id="bookingNumber" class="bubble-input" placeholder="أدخل رقم الحجز">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-mobile-screen-button"></i> رقم الموبايل <span class="required">*</span></label>
+            <input type="tel" id="mobileNumber" class="bubble-input" placeholder="01xxxxxxxxx">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-calendar-day"></i> تاريخ الحجز <span class="required">*</span></label>
+            <input type="date" id="bookingDate" class="bubble-input">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-plane-departure"></i> تاريخ السفر <span class="required">*</span></label>
+            <input type="date" id="travelDate" class="bubble-input">
+        </div>
+    </div>
+
+    <!-- =====================================================
+         التأشيرات والإقامات
+    ====================================================== -->
+    <div id="visaSection" class="booking-section">
+        <div class="form-group">
+            <label><i class="fa-solid fa-user"></i> اسم العميل <span class="required">*</span></label>
+            <input type="text" id="visaClientName" class="bubble-input" placeholder="أدخل اسم العميل">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-mobile-screen-button"></i> رقم الموبايل <span class="required">*</span></label>
+            <input type="tel" id="visaMobileNumber" class="bubble-input" placeholder="01xxxxxxxxx">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-earth-americas"></i> السفر إلى دولة <span class="required">*</span></label>
+            <input type="text" id="visaCountry" class="bubble-input" placeholder="الدولة المطلوبة للتأشيرة">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-calendar-plus"></i> ميعاد رفع المعاملة <span class="required">*</span></label>
+            <input type="date" id="visaSubmissionDate" class="bubble-input">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-calendar-check"></i> ميعاد تسليم التأشيرة <span class="required">*</span></label>
+            <input type="date" id="visaDeliveryDate" class="bubble-input">
+        </div>
+    </div>
+
+    <!-- =====================================================
+         الحج والعمرة
+    ====================================================== -->
+    <div id="hajjSection" class="booking-section">
+        <div class="form-group">
+            <label><i class="fa-solid fa-user"></i> اسم المعتمر <span class="required">*</span></label>
+            <input type="text" id="hajjName" class="bubble-input" placeholder="أدخل اسم المعتمر">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-mobile-screen-button"></i> رقم المعتمر <span class="required">*</span></label>
+            <input type="tel" id="hajjMobile" class="bubble-input" placeholder="01xxxxxxxxx">
+        </div>
+
+        <div class="form-group full-width">
+            <label><i class="fa-solid fa-location-dot"></i> عنوان المعتمر <span class="required">*</span></label>
+            <input type="text" id="hajjAddress" class="bubble-input" placeholder="أدخل عنوان المعتمر">
+        </div>
+    </div>
+
+    <!-- =====================================================
+         تصاريح السفر
+    ====================================================== -->
+    <div id="travelPermitSection" class="booking-section">
+        <div class="form-group">
+            <label><i class="fa-solid fa-user-shield"></i> اسم المجند <span class="required">*</span></label>
+            <input type="text" id="permitName" class="bubble-input" placeholder="أدخل اسم المجند">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-mobile-screen-button"></i> رقم الموبايل <span class="required">*</span></label>
+            <input type="tel" id="permitMobile" class="bubble-input" placeholder="01xxxxxxxxx">
+        </div>
+
+        <div class="form-group">
+            <label><i class="fa-solid fa-shield-halved"></i> نوع التصريح <span class="required">*</span></label>
+            <select id="permitType" class="bubble-input">
+                <option value="">اختر النوع</option>
+                <option value="حربية">حربية</option>
+                <option value="داخلية">داخلية</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         الحسابات - مشتركة بين كل الأقسام
+    ====================================================== -->
+    <div class="form-group">
+        <label><i class="fa-solid fa-sack-dollar"></i> المبلغ الكلي <span class="required">*</span></label>
+        <input type="number" id="totalAmount" class="bubble-input" placeholder="0.00" step="any"
+               oninput="calculateRemaining()">
+    </div>
+
+    <div class="form-group">
+        <label><i class="fa-solid fa-money-check-dollar"></i> المبلغ المدفوع <span class="required">*</span></label>
+        <input type="number" id="paidAmount" class="bubble-input" placeholder="0.00" step="any"
+               oninput="handlePaidAmountInput()">
+    </div>
+
+    <div class="form-group">
+        <label><i class="fa-solid fa-hand-holding-dollar"></i> المبلغ المتبقي <span class="required">*</span></label>
+        <input type="number" id="remainingAmount" class="bubble-input" placeholder="0.00" readonly>
+    </div>
+
+    <div class="form-group">
+        <label><i class="fa-solid fa-percent"></i> العمولة / القيمة المضافة <span class="required">*</span></label>
+        <input type="number" id="commission" class="bubble-input" placeholder="0.00" step="any">
+    </div>
+
+    <div id="visaCompanyGroup" class="form-group full-width" style="display:none;">
+        <label><i class="fa-solid fa-building"></i> يتم التنفيذ من خلال شركة <span class="required">*</span></label>
+        <input type="text" id="visaCompanyName" class="bubble-input" placeholder="أدخل اسم الشركة التي تنفذ التأشيرة">
+    </div>
+
+    <div class="form-group full-width">
+        <label><i class="fa-solid fa-building"></i> تبع شركة <span class="optional">(اختياري)</span></label>
+        <input type="text" id="companyName" class="bubble-input" placeholder="أدخل اسم الشركة إن وجد">
+    </div>
+
+    <button type="submit" class="submit-btn">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        حفظ البيانات
+    </button>
+</form>
 
     </main>
 
@@ -4592,6 +4573,133 @@
             60 * 1000
         );
 
+
+        // =====================================================
+        // تبديل قسم الحجز وإظهار خانات القسم المختار
+        // =====================================================
+
+        function switchBookingSection() {
+
+            const bookingTypeEl = document.getElementById("bookingType");
+            const bookingType = bookingTypeEl ? bookingTypeEl.value : "";
+
+            const sections = [
+                "flightSection",
+                "visaSection",
+                "hajjSection",
+                "travelPermitSection"
+            ];
+
+            sections.forEach(function (id) {
+                const section = document.getElementById(id);
+                if (section) {
+                    section.classList.toggle("active", id === bookingType + "Section");
+                }
+            });
+
+            // إظهار خانة الشركة الإضافية للتأشيرات فقط
+            const visaCompanyGroup = document.getElementById("visaCompanyGroup");
+            if (visaCompanyGroup) {
+                visaCompanyGroup.style.display = bookingType === "visa" ? "block" : "none";
+            }
+
+            // خانة "تبع شركة" موجودة في نموذج تذاكر الطيران القديم فقط
+            const companyGroup = document.getElementById("companyName")?.closest(".form-group");
+            if (companyGroup) {
+                companyGroup.style.display = bookingType === "flight" ? "flex" : "none";
+            }
+
+            // نضبط required فقط لخانات القسم الظاهر، حتى لا تمنع الخانات المخفية عملية الحفظ.
+            const sectionFields = {
+                flight: ["passengerName", "bookingNumber", "mobileNumber", "bookingDate", "travelDate"],
+                visa: ["visaClientName", "visaMobileNumber", "visaCountry", "visaSubmissionDate", "visaDeliveryDate", "visaCompanyName"],
+                hajj: ["hajjName", "hajjMobile", "hajjAddress"],
+                travelPermit: ["permitName", "permitMobile", "permitType"]
+            };
+
+            const allSectionFields = [
+                "passengerName", "bookingNumber", "mobileNumber", "bookingDate", "travelDate",
+                "visaClientName", "visaMobileNumber", "visaCountry", "visaSubmissionDate", "visaDeliveryDate", "visaCompanyName",
+                "hajjName", "hajjMobile", "hajjAddress",
+                "permitName", "permitMobile", "permitType"
+            ];
+
+            allSectionFields.forEach(function (id) {
+                const el = document.getElementById(id);
+                if (el) el.required = false;
+            });
+
+            (sectionFields[bookingType] || []).forEach(function (id) {
+                const el = document.getElementById(id);
+                if (el) el.required = true;
+            });
+
+            // الحسابات مشتركة بين الأقسام الأربعة
+            const total = document.getElementById("totalAmount");
+            const paid = document.getElementById("paidAmount");
+            const commission = document.getElementById("commission");
+
+            if (total) total.required = true;
+            if (paid) paid.required = true;
+            if (commission) commission.required = true;
+
+            // بعد اختيار القسم نضع المؤشر على أول خانة مناسبة
+            const firstField = (sectionFields[bookingType] || [])[0];
+            if (firstField) {
+                const el = document.getElementById(firstField);
+                if (el) {
+                    setTimeout(function () {
+                        try { el.focus(); } catch (e) {}
+                    }, 50);
+                }
+            }
+        }
+
+        // =====================================================
+        // جمع بيانات النموذج حسب القسم المختار
+        // =====================================================
+
+        function getBookingFormData() {
+
+            const bookingType = document.getElementById("bookingType")?.value || "";
+
+            return {
+                bookingType: bookingType,
+
+                // تذاكر الطيران
+                passengerName: document.getElementById("passengerName")?.value.trim() || "",
+                bookingNumber: document.getElementById("bookingNumber")?.value.trim() || "",
+                mobileNumber: document.getElementById("mobileNumber")?.value.trim() || "",
+                bookingDate: document.getElementById("bookingDate")?.value || "",
+                travelDate: document.getElementById("travelDate")?.value || "",
+
+                // التأشيرات والإقامات
+                clientName: document.getElementById("visaClientName")?.value.trim() || "",
+                country: document.getElementById("visaCountry")?.value.trim() || "",
+                submissionDate: document.getElementById("visaSubmissionDate")?.value || "",
+                deliveryDate: document.getElementById("visaDeliveryDate")?.value || "",
+                visaCompanyName: document.getElementById("visaCompanyName")?.value.trim() || "",
+
+                // الحج والعمرة
+                pilgrimName: document.getElementById("hajjName")?.value.trim() || "",
+                pilgrimMobile: document.getElementById("hajjMobile")?.value.trim() || "",
+                pilgrimAddress: document.getElementById("hajjAddress")?.value.trim() || "",
+
+                // تصاريح السفر
+                recruitName: document.getElementById("permitName")?.value.trim() || "",
+                permitType: document.getElementById("permitType")?.value || "",
+
+                // الحسابات
+                totalAmount: parseFloat(document.getElementById("totalAmount")?.value) || 0,
+                paidAmount: parseFloat(document.getElementById("paidAmount")?.value) || 0,
+                remainingAmount: parseFloat(document.getElementById("remainingAmount")?.value) || 0,
+                commission: parseFloat(document.getElementById("commission")?.value) || 0,
+                companyName: document.getElementById("companyName")?.value.trim() || "",
+
+                // طريقة الدفع المختارة من النافذة المنبثقة
+                paymentMethod: selectedPaymentMethod || ""
+            };
+        }
 
         // =====================================================
         // حساب المبلغ المتبقي
@@ -6499,211 +6607,39 @@
 
             e.preventDefault();
 
+            if (!checkLogin()) return;
 
-            // =================================================
-            // التأكد من تسجيل الدخول
-            // =================================================
+            const form = document.getElementById("dataForm");
+            const submitButton = document.querySelector(".submit-btn");
+            const bookingType = document.getElementById("bookingType").value;
 
-            if (!checkLogin()) {
-
+            if (!bookingType) {
+                alert("⚠️ اختر القسم الذي سيتم تسجيل الحجز فيه.");
                 return;
             }
 
-
-            const form =
-                document.getElementById(
-                    "dataForm"
-                );
-
-
-            const submitButton =
-                document.querySelector(
-                    ".submit-btn"
-                );
-
-
-            // =================================================
-            // اسم الموظف الحالي
-            //
-            // لا يوجد input في الصفحة
-            // الموظف لا يستطيع تغييره من الصفحة
-            // =================================================
-
-            const employeeName =
-                getCurrentUser();
-
-
-            // =================================================
-            // تحديد نوع العملية
-            //
-            // null = إضافة
-            // رقم الصف = تعديل
-            // =================================================
-
-            const operationType =
-                currentEditingRow
-                    ? "تعديل"
-                    : "إضافة";
-
-
-            // =================================================
-            // إلزام طريقة الدفع قبل الحفظ
-            // =================================================
-
-            if (!validatePaymentMethodBeforeSave()) {
+            if (!form.checkValidity()) {
+                form.reportValidity();
                 return;
             }
 
+            const employeeName = getCurrentUser();
+            const operationType = currentEditingRow ? "تعديل" : "إضافة";
 
-            // =================================================
-            // تجهيز البيانات
-            // =================================================
+            if (!validatePaymentMethodBeforeSave()) return;
 
-            const data = {
+            const data = Object.assign(
+                {
+                    action: "savePassengerBooking",
+                    employeeName: employeeName,
+                    operationType: operationType,
+                    rowNumber: currentEditingRow || null
+                },
+                getBookingFormData()
+            );
 
-                action:
-                    "savePassengerBooking",
+            submitButton.disabled = true;
 
-
-                // =============================================
-                // بيانات المسافر
-                // =============================================
-
-                passengerName:
-                    document
-                        .getElementById(
-                            "passengerName"
-                        )
-                        .value
-                        .trim(),
-
-
-                bookingNumber:
-                    document
-                        .getElementById(
-                            "bookingNumber"
-                        )
-                        .value
-                        .trim(),
-
-
-                mobileNumber:
-                    document
-                        .getElementById(
-                            "mobileNumber"
-                        )
-                        .value
-                        .trim(),
-
-
-                bookingDate:
-                    document
-                        .getElementById(
-                            "bookingDate"
-                        )
-                        .value,
-
-
-                travelDate:
-                    document
-                        .getElementById(
-                            "travelDate"
-                        )
-                        .value,
-
-
-                // =============================================
-                // الحسابات
-                // =============================================
-
-                totalAmount:
-                    parseFloat(
-                        document
-                            .getElementById(
-                                "totalAmount"
-                            )
-                            .value
-                    ) || 0,
-
-
-                paidAmount:
-                    parseFloat(
-                        document
-                            .getElementById(
-                                "paidAmount"
-                            )
-                            .value
-                    ) || 0,
-
-
-                paymentMethod:
-                    selectedPaymentMethod,
-
-
-                remainingAmount:
-                    parseFloat(
-                        document
-                            .getElementById(
-                                "remainingAmount"
-                            )
-                            .value
-                    ) || 0,
-
-
-                commission:
-                    parseFloat(
-                        document
-                            .getElementById(
-                                "commission"
-                            )
-                            .value
-                    ) || 0,
-
-
-                companyName:
-                    document
-                        .getElementById(
-                            "companyName"
-                        )
-                        .value
-                        .trim() ||
-                    "لا يوجد",
-
-
-                // =============================================
-                // معلومات الموظف
-                //
-                // هذه البيانات لا تظهر في الصفحة
-                // =============================================
-
-                employeeName:
-                    employeeName,
-
-
-                operationType:
-                    operationType,
-
-
-                // =============================================
-                // رقم الصف
-                //
-                // مهم في حالة التعديل
-                // =============================================
-
-                rowNumber:
-                    currentEditingRow || null
-
-            };
-
-
-            // =================================================
-            // حالة التحميل
-            // =================================================
-
-            submitButton.disabled =
-                true;
-
-            /* إظهار نافذة حالة الحفظ — تحميل */
             showSaveStatus(
                 "loading",
                 operationType === "تعديل"
@@ -6711,60 +6647,27 @@
                     : "جاري حفظ البيانات..."
             );
 
-
             try {
-
-                // =================================================
-                // إرسال البيانات إلى Google Apps Script
-                // =================================================
-
                 await fetch(
-
                     GOOGLE_SHEET_URL,
-
                     {
-
-                        method:
-                            "POST",
-
-                        mode:
-                            "no-cors",
-
+                        method: "POST",
+                        mode: "no-cors",
                         headers: {
-
-                            "Content-Type":
-                                "text/plain;charset=utf-8"
-
+                            "Content-Type": "text/plain;charset=utf-8"
                         },
-
-                        body:
-                            JSON.stringify(
-                                data
-                            )
-
+                        body: JSON.stringify(data)
                     }
-
                 );
 
-
-                // =================================================
-                // اعتبار العملية ناجحة
-                // =================================================
-
-                /* نافذة النجاح بأنيميشن الطائرة */
                 showSaveStatus(
                     "success",
                     operationType === "تعديل"
-                        ? "تم تعديل البيانات بنجاح ✈️"
-                        : "تم تسجيل البيانات بنجاح ✈️"
+                        ? "تم تعديل البيانات بنجاح ✅"
+                        : "تم تسجيل البيانات بنجاح ✅"
                 );
 
                 hideSaveStatus(2500);
-
-
-                // =================================================
-                // تفريغ النموذج
-                // =================================================
 
                 form.reset();
 
@@ -6772,85 +6675,40 @@
                 updatePaymentMethodVisualState();
                 forceClosePaymentMethod();
 
+                document.getElementById("remainingAmount").value = "";
+                currentEditingRow = null;
 
-                document.getElementById(
-                    "remainingAmount"
-                ).value = "";
+                switchBookingSection();
 
-
-                // =================================================
-                // مهم جدًا
-                //
-                // بعد الحفظ:
-                //
-                // الحجز التالي يعتبر إضافة جديدة
-                // وليس تعديل
-                // =================================================
-
-                currentEditingRow =
-                    null;
-
-
-                // =================================================
-                // إعادة الزر
-                // =================================================
-
-                setTimeout(
-                    function () {
-
-                        submitButton.disabled =
-                            false;
-
-
-                        submitButton.innerHTML = `
-
-                            <i
-                                class="fa-solid fa-cloud-arrow-up">
-                            </i>
-
-                            حفظ البيانات
-
-                        `;
-
-                    },
-                    2600
-                );
+                setTimeout(function () {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = `
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        حفظ البيانات
+                    `;
+                }, 2600);
 
             } catch (error) {
+                console.error("Save error:", error);
 
-                console.error(
-                    "Save error:",
-                    error
-                );
-
-
-                submitButton.disabled =
-                    false;
-
-
+                submitButton.disabled = false;
                 submitButton.innerHTML = `
-
-                    <i
-                        class="fa-solid fa-cloud-arrow-up">
-                    </i>
-
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
                     حفظ البيانات
-
                 `;
 
-                /* نافذة الخطأ بأنيميشن علامة الخطأ */
                 showSaveStatus(
                     "error",
                     "❌ حدث خطأ، لم يتم حفظ البيانات"
                 );
 
                 hideSaveStatus(2800);
-
             }
-
         }
 
-
+        document.addEventListener("DOMContentLoaded", function () {
+            switchBookingSection();
+        });
 
         /* =====================================================
            نظام الجلسة وعدم النشاط - 15 دقيقة
