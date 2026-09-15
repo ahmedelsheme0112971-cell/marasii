@@ -3480,7 +3480,14 @@
 
             <div class="search-box">
 
-                <input type="text" id="searchInput" class="search-input" placeholder="اكتب اسم المسافر أو رقم الحجز..."
+                <select id="searchSection" class="search-input" style="max-width:240px; cursor:pointer;">
+                    <option value="flight">حجوزات المسافرين</option>
+                    <option value="visa">التأشيرات والإقامات</option>
+                    <option value="hajj">الحج والعمرة</option>
+                    <option value="travelPermit">تصاريح السفر</option>
+                </select>
+
+                <input type="text" id="searchInput" class="search-input" placeholder="اكتب اسم المسافر للبحث..."
                     autocomplete="off">
 
 
@@ -6050,9 +6057,14 @@
                 );
 
 
+            const searchSection =
+                document.getElementById("searchSection")?.value || "flight";
+
             const url =
                 GOOGLE_SHEET_URL +
                 "?action=search" +
+                "&section=" +
+                encodeURIComponent(searchSection) +
                 "&query=" +
                 encodeURIComponent(
                     query
@@ -6186,155 +6198,102 @@
 
 
         // =====================================================
-        // تعبئة بيانات الحجز من نتيجة البحث
+        // تغيير قسم البحث
         // =====================================================
+        const searchSectionSelect = document.getElementById("searchSection");
+        if (searchSectionSelect) {
+            searchSectionSelect.addEventListener("change", function () {
+                const input = document.getElementById("searchInput");
+                const labels = {
+                    flight: "اكتب اسم المسافر للبحث...",
+                    visa: "اكتب اسم العميل للبحث...",
+                    hajj: "اكتب اسم المعتمر للبحث...",
+                    travelPermit: "اكتب اسم المجند للبحث..."
+                };
+                if (input) input.placeholder = labels[this.value] || labels.flight;
+                const status = document.getElementById("searchStatus");
+                if (status) status.textContent = "اكتب الاسم واضغط بحث";
+                const results = document.getElementById("searchResults");
+                if (results) results.innerHTML = "";
+            });
+        }
+
+        // =====================================================
+        // تعبئة بيانات الحجز من نتيجة البحث للتعديل
+        // =====================================================
+
+        function setFieldValue(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.value = value == null ? "" : value;
+        }
 
         function fillPassengerData(data) {
 
-            // =================================================
-            // حفظ رقم الصف
-            //
-            // مهم جدًا للتعديل
-            // =================================================
+            const section = data.section || document.getElementById("searchSection")?.value || "flight";
 
-            currentEditingRow =
-                data.rowNumber || null;
+            // مهم جدًا: حفظ رقم الصف ونوع القسم حتى يتم التعديل في نفس الشيت.
+            currentEditingRow = data.rowNumber || null;
 
+            const bookingType = document.getElementById("bookingType");
+            if (bookingType) {
+                bookingType.value = section;
+                switchBookingSection();
+            }
 
-            // =================================================
-            // تعبئة البيانات
-            // =================================================
+            // الحسابات المشتركة
+            setFieldValue("totalAmount", data.totalAmount);
+            setFieldValue("paidAmount", data.paidAmount);
+            setFieldValue("remainingAmount", data.remainingAmount);
+            setFieldValue("commission", data.commission);
 
-            document.getElementById(
-                "passengerName"
-            ).value =
-                data.passengerName || "";
-
-
-            document.getElementById(
-                "bookingNumber"
-            ).value =
-                data.bookingNumber || "";
-
-
-            document.getElementById(
-                "mobileNumber"
-            ).value =
-                data.mobileNumber || "";
-
-
-            document.getElementById(
-                "bookingDate"
-            ).value =
-                data.bookingDate || "";
-
-
-            document.getElementById(
-                "travelDate"
-            ).value =
-                data.travelDate || "";
-
-
-            document.getElementById(
-                "totalAmount"
-            ).value =
-                data.totalAmount || "";
-
-
-            document.getElementById(
-                "paidAmount"
-            ).value =
-                data.paidAmount || "";
-
-            selectedPaymentMethod =
-                data.paymentMethod || "";
-
+            selectedPaymentMethod = data.paymentMethod || "";
             updatePaymentMethodVisualState();
 
-
-            document.getElementById(
-                "remainingAmount"
-            ).value =
-                data.remainingAmount || "";
-
-
-            document.getElementById(
-                "commission"
-            ).value =
-                data.commission || "";
-
-
-            document.getElementById(
-                "companyName"
-            ).value =
-                data.companyName === "لا يوجد"
-                    ? ""
-                    : (
-                        data.companyName ||
-                        ""
-                    );
-
-
-            // =================================================
-            // إغلاق البحث
-            // =================================================
-
-            closeSearch();
-
-
-            // =================================================
-            // تغيير عنوان الصفحة
-            // =================================================
-
-            const title =
-                document.querySelector(
-                    ".title"
-                );
-
-
-            const oldTitle =
-                title.innerHTML;
-
-
-            title.innerHTML =
-                `
-                <i
-                    class="fa-solid fa-pen-to-square"
-                    style="color:#facc15;">
-                </i>
-
-                تم تحميل الحجز للتعديل
-                `;
-
-
-            setTimeout(
-                function () {
-
-                    title.innerHTML =
-                        oldTitle;
-
-                },
-                2500
-            );
-
-
-            // =================================================
-            // حساب المتبقي
-            // =================================================
+            if (section === "flight") {
+                setFieldValue("passengerName", data.passengerName);
+                setFieldValue("bookingNumber", data.bookingNumber);
+                setFieldValue("mobileNumber", data.mobileNumber);
+                setFieldValue("bookingDate", data.bookingDate);
+                setFieldValue("travelDate", data.travelDate);
+                setFieldValue("companyName", data.companyName === "لا يوجد" ? "" : data.companyName);
+            } else if (section === "visa") {
+                setFieldValue("visaClientName", data.passengerName || data.clientName);
+                setFieldValue("visaMobileNumber", data.mobileNumber);
+                setFieldValue("visaCountry", data.country);
+                setFieldValue("visaSubmissionDate", data.applicationDate || data.submissionDate);
+                setFieldValue("visaDeliveryDate", data.deliveryDate);
+                setFieldValue("visaCompanyName", data.companyName);
+            } else if (section === "hajj") {
+                setFieldValue("hajjName", data.passengerName);
+                setFieldValue("hajjMobile", data.mobileNumber);
+                setFieldValue("hajjAddress", data.address);
+            } else if (section === "travelPermit") {
+                setFieldValue("permitName", data.passengerName);
+                setFieldValue("permitMobile", data.mobileNumber);
+                setFieldValue("permitType", data.permitType);
+            }
 
             calculateRemaining();
+            closeSearch();
 
+            const title = document.querySelector(".title");
+            if (title) {
+                const oldTitle = title.innerHTML;
+                title.innerHTML = `
+                    <i class="fa-solid fa-pen-to-square" style="color:#facc15;"></i>
+                    تم تحميل البيانات للتعديل
+                `;
+                setTimeout(function () { title.innerHTML = oldTitle; }, 2500);
+            }
 
-            // =================================================
-            // الانتقال لأول خانة
-            // =================================================
-
-            document
-                .getElementById(
-                    "passengerName"
-                )
-                .focus();
-
+            const firstFieldMap = {
+                flight: "passengerName",
+                visa: "visaClientName",
+                hajj: "hajjName",
+                travelPermit: "permitName"
+            };
+            const first = document.getElementById(firstFieldMap[section]);
+            if (first) first.focus();
         }
 
 
