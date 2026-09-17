@@ -100,7 +100,7 @@
 
             flex-wrap: nowrap;
 
-            overflow-x: auto;
+            overflow-x: hidden;
 
             overflow-y: hidden;
 
@@ -866,41 +866,6 @@
             }
         }
 
-        /* عرض طريقة الدفع المختارة داخل النموذج */
-        .payment-method-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            border-radius: 999px;
-            background: rgba(34, 197, 94, 0.14);
-            border: 1px solid rgba(134, 239, 172, 0.40);
-            color: #86efac;
-            font-size: 0.82rem;
-            font-weight: 800;
-            width: fit-content;
-        }
-
-        .payment-method-indicator .pm-change-btn {
-            border: none;
-            background: rgba(134, 239, 172, 0.15);
-            color: #86efac;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            transition: 0.2s ease;
-        }
-
-        .payment-method-indicator .pm-change-btn:hover {
-            background: rgba(134, 239, 172, 0.35);
-            transform: translateY(-1px);
-        }
-
         /* =====================================================
            لوجو عالم الشيمي
         ===================================================== */
@@ -1321,78 +1286,6 @@
             }
         }
 
-        /* =====================================================
-           وضع التعديل - شريط وزر إلغاء
-        ===================================================== */
-
-        .edit-mode-bar {
-            grid-column: span 2;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 18px;
-            padding: 12px 18px;
-            border-radius: 18px;
-            background: rgba(250, 204, 21, 0.10);
-            border: 1px solid rgba(250, 204, 21, 0.40);
-            color: #facc15;
-            font-weight: 800;
-        }
-
-        .edit-mode-bar i {
-            margin-left: 6px;
-        }
-
-        .edit-cancel-btn {
-            border: 1px solid rgba(248, 113, 113, 0.45);
-            border-radius: 14px;
-            padding: 9px 16px;
-            background: rgba(239, 68, 68, 0.14);
-            color: #fecaca;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.22s ease;
-        }
-
-        .edit-cancel-btn:hover {
-            background: rgba(239, 68, 68, 0.30);
-            transform: translateY(-2px);
-        }
-
-        .cancel-edit-submit {
-            grid-column: span 2;
-            margin-top: 4px;
-            padding: 1rem;
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #fecaca;
-            background: rgba(239, 68, 68, 0.12);
-            border: 1px solid rgba(239, 68, 68, 0.40);
-            border-radius: 30px;
-            cursor: pointer;
-            font-family: 'Tajawal', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .cancel-edit-submit:hover {
-            background: rgba(239, 68, 68, 0.26);
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 768px) {
-            .edit-mode-bar,
-            .cancel-edit-submit {
-                grid-column: span 1;
-            }
-        }
-
         .submit-btn:disabled {
 
             opacity:
@@ -1708,136 +1601,6 @@
 
             cursor:
                 not-allowed;
-        }
-
-        /* =====================================================
-           تنسيق ألوان خاص لخانة البحث (برتقالي/ذهبي مميز)
-           — بدون تغيير ألوان باقي الصفحة —
-        ===================================================== */
-
-        .search-modal {
-
-            border:
-                1px solid rgba(251, 146, 60, 0.35) !important;
-
-            box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.7),
-                0 0 45px rgba(249, 115, 22, 0.15) !important;
-        }
-
-        .search-title {
-
-            color: #fed7aa !important;
-        }
-
-        .search-title i {
-
-            color: #fb923c !important;
-        }
-
-        .close-search {
-
-            background:
-                rgba(251, 146, 60, 0.12) !important;
-
-            color: #fdba74 !important;
-        }
-
-        .close-search:hover {
-
-            background:
-                rgba(249, 115, 22, 0.45) !important;
-        }
-
-        .search-input {
-
-            background:
-                rgba(251, 146, 60, 0.07) !important;
-
-            border:
-                1px solid rgba(251, 146, 60, 0.30) !important;
-
-            color: #ffffff !important;
-        }
-
-        .search-input::placeholder {
-
-            color: #d6a377 !important;
-        }
-
-        /* خيارات قائمة اختيار القسم داخل البحث — بنفس اللون البنفسجي للموقع */
-
-        select.search-input option,
-        #searchSection option {
-
-            background: #24103d !important;
-
-            color: #ffffff !important;
-        }
-
-        .search-input:focus {
-
-            border-color: #fb923c !important;
-
-            background:
-                rgba(251, 146, 60, 0.12) !important;
-
-            box-shadow:
-                0 0 20px rgba(251, 146, 60, 0.30) !important;
-        }
-
-        .search-action {
-
-            background:
-                linear-gradient(135deg,
-                    #ea580c,
-                    #9a3412) !important;
-
-            box-shadow:
-                0 6px 20px rgba(234, 88, 12, 0.35);
-
-            transition:
-                all 0.3s ease;
-        }
-
-        .search-action:hover {
-
-            transform:
-                translateY(-2px);
-
-            box-shadow:
-                0 10px 28px rgba(234, 88, 12, 0.55);
-        }
-
-        .search-status {
-
-            color: #fdba74 !important;
-        }
-
-        .result-item {
-
-            border:
-                1px solid rgba(251, 146, 60, 0.20) !important;
-
-            background:
-                rgba(251, 146, 60, 0.06) !important;
-        }
-
-        .result-item:hover {
-
-            background:
-                rgba(249, 115, 22, 0.18) !important;
-
-            border-color:
-                rgba(251, 146, 60, 0.60) !important;
-
-            box-shadow:
-                0 8px 22px rgba(234, 88, 12, 0.22);
-        }
-
-        .result-info i {
-
-            color: #fb923c !important;
         }
 
         .search-status {
@@ -2561,69 +2324,11 @@
 
 
         /* =====================================================
-           حسابات الشركة - المدير shimee فقط
+   حسابات الشركة - المدير shimee فقط
 ===================================================== */
         .accounts-admin-only-hidden {
             display: none !important;
         }
-
-        /* =====================================================
-           تنبيهات Toast
-        ===================================================== */
-
-        .toast-container {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 99000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: center;
-            pointer-events: none;
-            max-width: calc(100% - 24px);
-        }
-
-        .app-toast {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 22px;
-            border-radius: 18px;
-            color: #ffffff;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 800;
-            font-size: 0.98rem;
-            background: rgba(25, 10, 45, 0.96);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            opacity: 0;
-            transform: translateY(-16px);
-            transition: opacity .3s ease, transform .3s ease;
-            white-space: normal;
-            text-align: center;
-        }
-
-        .app-toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .app-toast i {
-            font-size: 1.15rem;
-            flex: 0 0 auto;
-        }
-
-        .toast-success i { color: #86efac; }
-        .toast-error i { color: #f87171; }
-        .toast-info i { color: #a78bfa; }
-
-        .toast-success { border-color: rgba(134, 239, 172, 0.40); }
-        .toast-error { border-color: rgba(248, 113, 113, 0.45); }
-        .toast-info { border-color: rgba(167, 139, 250, 0.40); }
 
         /* =========================================================
    ✨ SAfer Travel — Premium Dashboard UI
@@ -3090,18 +2795,6 @@
 
         </h1>
 
-        <!-- شريط وضع التعديل -->
-        <div id="editModeBar" class="edit-mode-bar" style="display:none;">
-            <span>
-                <i class="fa-solid fa-pen-to-square"></i>
-                أنت الآن تعدّل حجزًا موجودًا
-            </span>
-            <button type="button" class="edit-cancel-btn" onclick="cancelEditing()">
-                <i class="fa-solid fa-xmark"></i>
-                إلغاء التعديل
-            </button>
-        </div>
-
 
         <form id="dataForm" onsubmit="exportToGoogleSheets(event)" class="form-grid">
 
@@ -3231,21 +2924,14 @@
     ====================================================== -->
     <div class="form-group">
         <label><i class="fa-solid fa-sack-dollar"></i> المبلغ الكلي <span class="required">*</span></label>
-        <input type="text" inputmode="decimal" id="totalAmount" class="bubble-input" placeholder="0.00"
-               oninput="formatAmountInput(this, true)">
+        <input type="number" id="totalAmount" class="bubble-input" placeholder="0.00" step="any"
+               oninput="calculateRemaining()">
     </div>
 
     <div class="form-group">
         <label><i class="fa-solid fa-money-check-dollar"></i> المبلغ المدفوع <span class="required">*</span></label>
-        <input type="text" inputmode="decimal" id="paidAmount" class="bubble-input" placeholder="0.00"
-               oninput="formatAmountInput(this); handlePaidAmountInput()">
-        <span id="paymentMethodIndicator" class="payment-method-indicator" style="display:none;">
-            <i class="fa-solid fa-wallet"></i>
-            <span id="paymentMethodIndicatorText"></span>
-            <button type="button" class="pm-change-btn" onclick="openPaymentMethod()" title="تغيير طريقة الدفع">
-                <i class="fa-solid fa-pen"></i>
-            </button>
-        </span>
+        <input type="number" id="paidAmount" class="bubble-input" placeholder="0.00" step="any"
+               oninput="handlePaidAmountInput()">
     </div>
 
     <div class="form-group">
@@ -3255,8 +2941,7 @@
 
     <div class="form-group">
         <label><i class="fa-solid fa-percent"></i> العمولة / القيمة المضافة <span class="required">*</span></label>
-        <input type="text" inputmode="decimal" id="commission" class="bubble-input" placeholder="0.00"
-               oninput="formatAmountInput(this)">
+        <input type="number" id="commission" class="bubble-input" placeholder="0.00" step="any">
     </div>
 
     <div id="visaCompanyGroup" class="form-group full-width" style="display:none;">
@@ -3269,18 +2954,11 @@
         <input type="text" id="companyName" class="bubble-input" placeholder="أدخل اسم الشركة إن وجد">
     </div>
 
-        <button type="submit" class="submit-btn">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            حفظ البيانات
-        </button>
-
-        <!-- زر إلغاء التعديل -->
-        <button type="button" id="cancelEditBtn" class="cancel-edit-submit" style="display:none;"
-                onclick="cancelEditing()">
-            <i class="fa-solid fa-rotate-left"></i>
-            إلغاء
-        </button>
-    </form>
+    <button type="submit" class="submit-btn">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        حفظ البيانات
+    </button>
+</form>
 
     </main>
 
@@ -4744,79 +4422,6 @@
         let currentEditingRow = null;
 
         // =====================================================
-        // وضع التعديل - إظهار/إخفاء أزرار الإلغاء
-        // =====================================================
-
-        function setEditMode(active) {
-            const bar = document.getElementById("editModeBar");
-            const cancelBtn = document.getElementById("cancelEditBtn");
-            if (bar) bar.style.display = active ? "flex" : "none";
-            if (cancelBtn) cancelBtn.style.display = active ? "flex" : "none";
-        }
-
-        function cancelEditing() {
-            if (!currentEditingRow) return;
-
-            if (!confirm("هل تريد إلغاء التعديل؟ سيتم مسح النموذج.")) return;
-
-            const form = document.getElementById("dataForm");
-            if (form) form.reset();
-
-            selectedPaymentMethod = "";
-            updatePaymentMethodVisualState();
-            forceClosePaymentMethod();
-
-            const remainingInput = document.getElementById("remainingAmount");
-            if (remainingInput) {
-                remainingInput.value = "";
-                remainingInput.classList.remove("remaining-zero", "remaining-due");
-            }
-
-            currentEditingRow = null;
-            setEditMode(false);
-            switchBookingSection();
-
-            showToast("تم إلغاء التعديل", "info");
-        }
-
-        // =====================================================
-        // نظام تنبيهات Toast - بديل أنيق لـ alert
-        // =====================================================
-
-        let toastContainer = null;
-
-        function showToast(message, type = "info", duration = 3500) {
-            if (!toastContainer) {
-                toastContainer = document.createElement("div");
-                toastContainer.className = "toast-container";
-                document.body.appendChild(toastContainer);
-            }
-
-            const icons = {
-                success: "fa-circle-check",
-                error: "fa-circle-exclamation",
-                info: "fa-circle-info"
-            };
-
-            const toast = document.createElement("div");
-            toast.className = "app-toast toast-" + type;
-            toast.innerHTML =
-                '<i class="fa-solid ' + (icons[type] || icons.info) + '"></i>' +
-                '<span>' + escapeHtml(message) + '</span>';
-
-            toastContainer.appendChild(toast);
-
-            requestAnimationFrame(function () {
-                toast.classList.add("show");
-            });
-
-            setTimeout(function () {
-                toast.classList.remove("show");
-                setTimeout(function () { toast.remove(); }, 300);
-            }, duration);
-        }
-
-        // =====================================================
         // طريقة الدفع الحالية
         // =====================================================
 
@@ -5058,69 +4663,6 @@
         }
 
         // =====================================================
-        // التحقق من صحة التواريخ ورقم الموبايل قبل الحفظ
-        // =====================================================
-
-        function validateBookingData(bookingType) {
-
-            /* رقم الموبايل: 11 رقم يبدأ بـ 01 */
-            const mobileFieldMap = {
-                flight: "mobileNumber",
-                visa: "visaMobileNumber",
-                hajj: "hajjMobile",
-                travelPermit: "permitMobile"
-            };
-
-            const mobileEl =
-                document.getElementById(mobileFieldMap[bookingType]);
-
-            if (mobileEl) {
-                const digits =
-                    String(mobileEl.value || "").replace(/\D/g, "");
-                if (digits && !/^01[0125]\d{8}$/.test(digits)) {
-                    showToast("⚠️ رقم الموبايل غير صحيح — يجب أن يكون 11 رقمًا ويبدأ بـ 01", "error");
-                    mobileEl.focus();
-                    return false;
-                }
-            }
-
-            /* التواريخ: تاريخ السفر بعد تاريخ الحجز */
-            if (bookingType === "flight") {
-                const bookingDate = document.getElementById("bookingDate").value;
-                const travelDate = document.getElementById("travelDate").value;
-                if (bookingDate && travelDate && travelDate < bookingDate) {
-                    showToast("⚠️ تاريخ السفر لا يمكن أن يكون قبل تاريخ الحجز", "error");
-                    document.getElementById("travelDate").focus();
-                    return false;
-                }
-            }
-
-            /* التأشيرات: ميعاد التسليم بعد ميعاد الرفع */
-            if (bookingType === "visa") {
-                const sub = document.getElementById("visaSubmissionDate").value;
-                const del = document.getElementById("visaDeliveryDate").value;
-                if (sub && del && del < sub) {
-                    showToast("⚠️ ميعاد التسليم لا يمكن أن يكون قبل ميعاد رفع المعاملة", "error");
-                    document.getElementById("visaDeliveryDate").focus();
-                    return false;
-                }
-            }
-
-            /* تاريخ السفر لا يمكن أن يكون في الماضي (للإضافات الجديدة فقط) */
-            if (bookingType === "flight" && !currentEditingRow) {
-                const travelDate = document.getElementById("travelDate").value;
-                const todayISO = new Date().toLocaleDateString("sv-SE");
-                if (travelDate && travelDate < todayISO) {
-                    showToast("⚠️ تاريخ السفر لا يمكن أن يكون في الماضي", "error");
-                    document.getElementById("travelDate").focus();
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        // =====================================================
         // جمع بيانات النموذج حسب القسم المختار
         // =====================================================
 
@@ -5155,10 +4697,10 @@
                 permitType: document.getElementById("permitType")?.value || "",
 
                 // الحسابات
-                totalAmount: parseFloat(String(document.getElementById("totalAmount")?.value || "").replace(/,/g, "")) || 0,
-                paidAmount: parseFloat(String(document.getElementById("paidAmount")?.value || "").replace(/,/g, "")) || 0,
-                remainingAmount: parseFloat(String(document.getElementById("remainingAmount")?.value || "").replace(/,/g, "")) || 0,
-                commission: parseFloat(String(document.getElementById("commission")?.value || "").replace(/,/g, "")) || 0,
+                totalAmount: parseFloat(document.getElementById("totalAmount")?.value) || 0,
+                paidAmount: parseFloat(document.getElementById("paidAmount")?.value) || 0,
+                remainingAmount: parseFloat(document.getElementById("remainingAmount")?.value) || 0,
+                commission: parseFloat(document.getElementById("commission")?.value) || 0,
                 companyName: document.getElementById("companyName")?.value.trim() || "",
 
                 // طريقة الدفع المختارة من النافذة المنبثقة
@@ -5174,21 +4716,17 @@
 
             const total =
                 parseFloat(
-                    String(
-                        document.getElementById(
-                            "totalAmount"
-                        ).value
-                    ).replace(/,/g, "")
+                    document.getElementById(
+                        "totalAmount"
+                    ).value
                 ) || 0;
 
 
             const paid =
                 parseFloat(
-                    String(
-                        document.getElementById(
-                            "paidAmount"
-                        ).value
-                    ).replace(/,/g, "")
+                    document.getElementById(
+                        "paidAmount"
+                    ).value
                 ) || 0;
 
 
@@ -5201,10 +4739,9 @@
                     "remainingAmount"
                 );
 
-            /* ملاحظة: الحقل type=number لا يقبل الفواصل، لذلك نكتب الرقم خام */
             remainingInput.value =
                 remaining >= 0
-                    ? String(Math.round(remaining * 100) / 100)
+                    ? remaining
                     : 0;
 
             /* تلوين شكلي للحقل: أخضر لو سدد كامل / أحمر لو فيه متبقي */
@@ -6696,7 +6233,6 @@
 
             // مهم جدًا: حفظ رقم الصف ونوع القسم حتى يتم التعديل في نفس الشيت.
             currentEditingRow = data.rowNumber || null;
-            setEditMode(!!currentEditingRow);
 
             const bookingType = document.getElementById("bookingType");
             if (bookingType) {
@@ -6739,7 +6275,6 @@
 
             calculateRemaining();
             closeSearch();
-            setEditMode(!!currentEditingRow);
 
             const title = document.querySelector(".title");
             if (title) {
@@ -6778,7 +6313,7 @@
                 document.getElementById("paidAmount");
 
             const amount =
-                parseFloat(String(input.value).replace(/,/g, "")) || 0;
+                parseFloat(input.value) || 0;
 
             if (amount <= 0) {
                 selectedPaymentMethod = "";
@@ -6796,9 +6331,7 @@
 
             const amount =
                 parseFloat(
-                    String(
-                        document.getElementById("paidAmount").value
-                    ).replace(/,/g, "")
+                    document.getElementById("paidAmount").value
                 ) || 0;
 
             if (amount <= 0) {
@@ -6866,9 +6399,7 @@
 
             const amount =
                 parseFloat(
-                    String(
-                        document.getElementById("paidAmount").value
-                    ).replace(/,/g, "")
+                    document.getElementById("paidAmount").value
                 ) || 0;
 
             if (amount <= 0) {
@@ -6895,45 +6426,13 @@
                     );
 
                 });
-
-            /* عرض طريقة الدفع المختارة داخل النموذج */
-            const indicator = document.getElementById("paymentMethodIndicator");
-            const indicatorText = document.getElementById("paymentMethodIndicatorText");
-
-            if (indicator && indicatorText) {
-                if (selectedPaymentMethod) {
-                    indicatorText.textContent = "الدفع عبر: " + selectedPaymentMethod;
-                    indicator.style.display = "inline-flex";
-                } else {
-                    indicator.style.display = "none";
-                }
-            }
-        }
-
-        /* تنسيق حقل مبلغ بفواصل الآلاف أثناء الكتابة */
-        function formatAmountInput(input, recalc) {
-            const cursorFromEnd = input.value.length - input.selectionStart;
-            const raw = input.value.replace(/,/g, "").replace(/[^0-9.]/g, "");
-            if (raw === "") {
-                input.value = "";
-            } else {
-                const parts = raw.split(".");
-                const intPart = parts[0].replace(/^0+(?=\d)/, "");
-                const decPart = parts.length > 1 ? "." + parts[1].slice(0, 2) : "";
-                input.value = Number(intPart).toLocaleString("en-US") + decPart;
-            }
-            const newCursor = Math.max(0, input.value.length - cursorFromEnd);
-            try { input.setSelectionRange(newCursor, newCursor); } catch (e) {}
-            if (recalc) calculateRemaining();
         }
 
         function validatePaymentMethodBeforeSave() {
 
             const paidAmount =
                 parseFloat(
-                    String(
-                        document.getElementById("paidAmount").value
-                    ).replace(/,/g, "")
+                    document.getElementById("paidAmount").value
                 ) || 0;
 
             if (paidAmount <= 0) {
@@ -7083,9 +6582,6 @@
                 return;
             }
 
-            /* التحقق المنطقي: التواريخ ورقم الموبايل */
-            if (!validateBookingData(bookingType)) return;
-
             const employeeName = getCurrentUser();
             const operationType = currentEditingRow ? "تعديل" : "إضافة";
 
@@ -7140,7 +6636,6 @@
 
                 document.getElementById("remainingAmount").value = "";
                 currentEditingRow = null;
-                setEditMode(false);
 
                 switchBookingSection();
 
