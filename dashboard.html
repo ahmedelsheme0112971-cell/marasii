@@ -4420,6 +4420,8 @@
         // =====================================================
 
         let currentEditingRow = null;
+        let currentEditingOriginalPaidAmount = null;
+        let currentEditingOriginalPaymentMethod = "";
 
         // =====================================================
         // طريقة الدفع الحالية
@@ -6233,6 +6235,8 @@
 
             // مهم جدًا: حفظ رقم الصف ونوع القسم حتى يتم التعديل في نفس الشيت.
             currentEditingRow = data.rowNumber || null;
+            currentEditingOriginalPaidAmount = data.paidAmount != null ? Number(data.paidAmount) || 0 : null;
+            currentEditingOriginalPaymentMethod = data.paymentMethod || "";
 
             const bookingType = document.getElementById("bookingType");
             if (bookingType) {
@@ -6314,6 +6318,14 @@
 
             const amount =
                 parseFloat(input.value) || 0;
+
+            // عند تعديل حجز: إذا تغيّر المدفوع عن القيمة القديمة،
+            // نطلب اختيار طريقة الدفع من جديد حتى لا يتم ترحيل المبلغ على حساب قديم.
+            if (currentEditingRow && currentEditingOriginalPaidAmount !== null &&
+                amount !== currentEditingOriginalPaidAmount) {
+                selectedPaymentMethod = "";
+                updatePaymentMethodVisualState();
+            }
 
             if (amount <= 0) {
                 selectedPaymentMethod = "";
@@ -6636,6 +6648,8 @@
 
                 document.getElementById("remainingAmount").value = "";
                 currentEditingRow = null;
+                currentEditingOriginalPaidAmount = null;
+                currentEditingOriginalPaymentMethod = "";
 
                 switchBookingSection();
 
