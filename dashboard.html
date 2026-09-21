@@ -7000,6 +7000,68 @@
 
         startSessionManager();
 
+        // =====================================================
+        // اختصارات لوحة المفاتيح (Alt + حرف)
+        // Alt+S = بحث | Alt+N = التنبيهات | Alt+M = الملاحظات الشهرية
+        // Alt+A = حسابات الشركة | Alt+Q = تسجيل الخروج | Esc = إغلاق النوافذ
+        // =====================================================
+
+        const KEYBOARD_SHORTCUTS = {
+            "s": { action: openSearch, label: "بحث" },
+            "n": { action: openNotifications, label: "التنبيهات" },
+            // مهم: نغلّفها في دالة لأنها معرّفة في script لاحق،
+            // وكتابتها مباشرة هنا تسبب ReferenceError يعطّل كل الاختصارات.
+            "m": { action: function () { openMonthlyNotes(); }, label: "الملاحظات الشهرية" },
+            "a": { action: function () { window.location.href = "company_accounts.html"; }, label: "حسابات الشركة" },
+            "q": { action: function () { if (confirm("هل تريد تسجيل الخروج؟")) logoutUser(); }, label: "تسجيل الخروج" }
+        };
+
+        document.addEventListener("keydown", function (event) {
+
+            // إغلاق النوافذ المفتوحة بزر Esc
+            if (event.key === "Escape") {
+
+                const searchOverlay = document.getElementById("searchOverlay");
+                if (searchOverlay && searchOverlay.classList.contains("active")) {
+                    closeSearch();
+                    return;
+                }
+
+                const notifOverlay = document.getElementById("notificationOverlay");
+                if (notifOverlay && notifOverlay.classList.contains("active")) {
+                    closeNotifications();
+                    return;
+                }
+
+                const notesOverlay = document.getElementById("monthlyNotesOverlay");
+                if (notesOverlay && notesOverlay.classList.contains("open")) {
+                    closeMonthlyNotes();
+                    return;
+                }
+
+                return;
+            }
+
+            // نطبق الاختصارات فقط مع Alt بدون Ctrl أو Shift
+            if (!event.altKey || event.ctrlKey || event.shiftKey || event.metaKey) return;
+
+            /*
+             * نستخدم event.code لأنه يعتمد على مكان الزر الفيزيائي،
+             * فتعمل الاختصارات حتى لو كانت اللغة العربية أو الإنجليزية.
+             * مثال: Alt + حرف S يعطي code = "KeyS" دائمًا.
+             */
+            const code = event.code || ""; // مثل: KeyS / KeyN / KeyM / KeyA / KeyQ
+            const key = code.startsWith("Key") ? code.substring(3).toLowerCase() : "";
+
+            const shortcut = KEYBOARD_SHORTCUTS[key];
+
+            if (!shortcut) return;
+
+            event.preventDefault();
+            shortcut.action();
+
+        });
+
     </script>
 
 
