@@ -664,8 +664,8 @@ document.addEventListener("click",e=>{
 });
 
 let sessionIdleTimer=null,sessionWarningTimer=null,sessionWarningOpen=false;
-const SESSION_IDLE_LIMIT=15*60*1000;
-const SESSION_WARNING_TIME=60*1000;
+const SESSION_IDLE_LIMIT=15*1000;
+const SESSION_WARNING_TIME=5*1000;
 
 function saveSessionActivity(t){localStorage.setItem("sessionLastActivity",String(t))}
 function getSessionLastActivity(){
@@ -695,8 +695,8 @@ function openSessionWarning(){
  if(sessionWarningOpen)return;
  sessionWarningOpen=true;
  $("sessionWarningOverlay").classList.add("active");
- let seconds=60;
- $("sessionWarningCountdown").textContent="01:00";
+ let seconds=5;
+ $("sessionWarningCountdown").textContent="00:05";
  sessionWarningTimer=setInterval(()=>{
   seconds--;
   $("sessionWarningCountdown").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
