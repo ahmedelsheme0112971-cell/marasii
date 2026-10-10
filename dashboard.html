@@ -1804,6 +1804,63 @@
         }
 
         /* =====================================================
+           زر اختيار رقم من جهات الاتصال
+        ====================================================== */
+
+        .mobile-input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-input-wrap .bubble-input {
+            padding-left: 4.2rem;
+        }
+
+        .contact-pick-btn {
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: #ffffff;
+            color: #4c1d95;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.30);
+            transition: all 0.22s ease;
+            z-index: 2;
+        }
+
+        .contact-pick-btn:hover {
+            background: #f5f3ff;
+            transform: translateY(-50%) scale(1.07);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
+        }
+
+        .contact-pick-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        @media (max-width: 768px) {
+            .contact-pick-btn {
+                width: 40px;
+                height: 40px;
+                left: 6px;
+            }
+
+            .mobile-input-wrap .bubble-input {
+                padding-left: 3.6rem;
+            }
+        }
+
+        /* =====================================================
            الهاتف
         ===================================================== */
 
@@ -2831,7 +2888,13 @@
 
         <div class="form-group">
             <label><i class="fa-solid fa-mobile-screen-button"></i> رقم الموبايل <span class="required">*</span></label>
-            <input type="tel" id="mobileNumber" class="bubble-input" placeholder="01xxxxxxxxx">
+            <div class="mobile-input-wrap">
+                <input type="tel" id="mobileNumber" class="bubble-input" placeholder="01xxxxxxxxx">
+                <button type="button" class="contact-pick-btn" data-target="mobileNumber"
+                        onclick="pickContact('mobileNumber', this)" title="اختيار رقم من جهات الاتصال">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+            </div>
         </div>
 
         <div class="form-group">
@@ -2856,7 +2919,13 @@
 
         <div class="form-group">
             <label><i class="fa-solid fa-mobile-screen-button"></i> رقم الموبايل <span class="required">*</span></label>
-            <input type="tel" id="visaMobileNumber" class="bubble-input" placeholder="01xxxxxxxxx">
+            <div class="mobile-input-wrap">
+                <input type="tel" id="visaMobileNumber" class="bubble-input" placeholder="01xxxxxxxxx">
+                <button type="button" class="contact-pick-btn" data-target="visaMobileNumber"
+                        onclick="pickContact('visaMobileNumber', this)" title="اختيار رقم من جهات الاتصال">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+            </div>
         </div>
 
         <div class="form-group">
@@ -2886,7 +2955,13 @@
 
         <div class="form-group">
             <label><i class="fa-solid fa-mobile-screen-button"></i> رقم المعتمر <span class="required">*</span></label>
-            <input type="tel" id="hajjMobile" class="bubble-input" placeholder="01xxxxxxxxx">
+            <div class="mobile-input-wrap">
+                <input type="tel" id="hajjMobile" class="bubble-input" placeholder="01xxxxxxxxx">
+                <button type="button" class="contact-pick-btn" data-target="hajjMobile"
+                        onclick="pickContact('hajjMobile', this)" title="اختيار رقم من جهات الاتصال">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+            </div>
         </div>
 
         <div class="form-group full-width">
@@ -2906,7 +2981,13 @@
 
         <div class="form-group">
             <label><i class="fa-solid fa-mobile-screen-button"></i> رقم الموبايل <span class="required">*</span></label>
-            <input type="tel" id="permitMobile" class="bubble-input" placeholder="01xxxxxxxxx">
+            <div class="mobile-input-wrap">
+                <input type="tel" id="permitMobile" class="bubble-input" placeholder="01xxxxxxxxx">
+                <button type="button" class="contact-pick-btn" data-target="permitMobile"
+                        onclick="pickContact('permitMobile', this)" title="اختيار رقم من جهات الاتصال">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+            </div>
         </div>
 
         <div class="form-group">
@@ -5622,6 +5703,73 @@
         }
 
 
+        /* =====================================================
+           اختيار رقم من جهات الاتصال (Contact Picker API)
+           مدعوم في Chrome / Edge على أندرويد فقط
+        ====================================================== */
+
+        function contactsSupported() {
+            return (
+                "contacts" in navigator &&
+                typeof navigator.contacts.select === "function"
+            );
+        }
+
+        function pickContact(targetId, btn) {
+
+            if (!contactsSupported()) {
+                alert(
+                    "⚠️ اختيار رقم من جهات الاتصال مدعوم فقط في متصفح Chrome أو Edge على الهاتف.\n\n" +
+                    "يمكنك كتابة الرقم يدويًا في الخانة."
+                );
+                return;
+            }
+
+            navigator.contacts
+                .select(["name", "tel"], { multiple: false })
+                .then(function (contacts) {
+
+                    if (!contacts || !contacts.length) return;
+
+                    const contact = contacts[0];
+                    const telList = contact.tel || [];
+
+                    if (!telList.length) {
+                        alert("⚠️ جهة الاتصال المختارة ليس بها رقم هاتف.");
+                        return;
+                    }
+
+                    /* نفضّل الرقم الأول (الأساسي) */
+                    let phone = String(telList[0] || "").trim();
+
+                    /* لو فيه مسافات أو رموز ننضفها */
+                    const clean = phone.replace(/[^\d+]/g, "");
+                    if (clean) phone = clean;
+
+                    const input = document.getElementById(targetId);
+                    if (input) {
+                        input.value = phone;
+                        input.dispatchEvent(new Event("input", { bubbles: true }));
+                        input.focus();
+                    }
+
+                    /* لمحة خضراء على الزر بعد النجاح */
+                    if (btn) {
+                        const old = btn.style.cssText;
+                        btn.style.background = "#22c55e";
+                        btn.style.color = "#ffffff";
+                        setTimeout(function () {
+                            btn.style.cssText = old;
+                        }, 900);
+                    }
+
+                })
+                .catch(function (error) {
+                    /* المستخدم ألغى الاختيار - لا رسالة */
+                    console.debug("Contact pick cancelled or failed:", error);
+                });
+        }
+
         function refreshNotificationBadge() {
 
             const callbackName =
@@ -7322,6 +7470,27 @@
 
 
     <script>
+        /* =====================================================
+           فتح منتقي التاريخ بالضغط على مربع التاريخ نفسه
+           (Chrome 99+ / Edge — وإلا ينفتح بالأيقونة كالمعتاد)
+        ====================================================== */
+
+        document.addEventListener("click", function (event) {
+            const el = event.target;
+            if (
+                el &&
+                el.tagName === "INPUT" &&
+                el.type === "date" &&
+                typeof el.showPicker === "function"
+            ) {
+                try {
+                    el.showPicker();
+                } catch (e) {
+                    /* بعض المتصفحات ترفض الفتح بدون تفاعل مباشر — نتجاهل بصمت */
+                }
+            }
+        });
+
         /* Premium UI micro-interactions — no business logic changes */
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('input, select, textarea').forEach(function (el) {
