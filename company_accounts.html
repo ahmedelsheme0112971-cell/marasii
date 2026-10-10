@@ -100,7 +100,7 @@ body{min-height:100vh;background:#0f051d;color:#fff;overflow-x:hidden;position:r
 .btn-excel{background:linear-gradient(135deg,#16a34a,#166534)}
 .btn-danger{background:linear-gradient(135deg,#dc2626,#7f1d1d)}
 
-.summary{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:20px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:20px}
 .summary-card{
  padding:19px;border:1px solid rgba(255,255,255,.14);border-radius:22px;
  text-align:center;position:relative;overflow:hidden;transition:.25s;
@@ -120,6 +120,8 @@ body{min-height:100vh;background:#0f051d;color:#fff;overflow-x:hidden;position:r
 .summary-card:nth-child(4) .summary-icon{background:rgba(14,165,233,.18);color:#7dd3fc}
 .summary-card:nth-child(5){background:linear-gradient(145deg,rgba(245,158,11,.20),rgba(180,83,9,.08));border-color:rgba(251,191,36,.35)}
 .summary-card:nth-child(5) .summary-icon{background:rgba(245,158,11,.18);color:#fcd34d}
+.summary-card:nth-child(6){background:linear-gradient(145deg,rgba(236,72,153,.20),rgba(131,24,67,.08));border-color:rgba(244,114,182,.35)}
+.summary-card:nth-child(6) .summary-icon{background:rgba(236,72,153,.18);color:#f9a8d4}
 
 .accounts{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:20px}
 .account-card{
@@ -927,12 +929,21 @@ async function loadDashboard(){
   if(!r.success)throw new Error(r.message||"error");
   lastDashboard=r;
 
+  /* ===== مجموع المبالغ المتبقية على المسافرين (عمود المبلغ المتبقي في شيت المسافرين) ===== */
+  let remainingTotal=null;
+  try{
+   /* السكربت بيفلتر بالتاريخ — نرسل نطاق واسع يجيب كل الحجوزات */
+   const rep=await jsonp("getFinancialReport",{fromDate:"2000-01-01",toDate:"2099-12-31"});
+   if(rep.success)remainingTotal=rep.bookingRemaining||0;
+  }catch(e){remainingTotal=null}
+
   $("summary").innerHTML=`
    <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-arrow-down"></i></div><small>إجمالي الداخل</small><strong>${money(r.totalIn)}</strong></div>
    <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-arrow-up"></i></div><small>إجمالي الخارج</small><strong>${money(r.totalOut)}</strong></div>
    <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-scale-balanced"></i></div><small>صافي الحركة</small><strong>${money(r.net)}</strong></div>
    <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-wallet"></i></div><small>إجمالي الأرصدة</small><strong>${money(r.totalBalance)}</strong></div>
-   <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-list-ol"></i></div><small>عدد الحركات</small><strong>${Number(r.transactions||0)}</strong></div>`;
+   <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-list-ol"></i></div><small>عدد الحركات</small><strong>${Number(r.transactions||0)}</strong></div>
+   <div class="summary-card"><div class="summary-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div><small>مبالغ متبقية على المسافرين</small><strong>${remainingTotal===null?"—":money(remainingTotal)}</strong></div>`;
 
   $("accounts").innerHTML=(r.accounts||[]).map(a=>{
    const accountClass={
