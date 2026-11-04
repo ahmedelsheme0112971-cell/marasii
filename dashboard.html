@@ -4425,7 +4425,21 @@
 
 
         // =====================================================
-        // إظهار زر Google Sheets للمستخدم shimee فقط
+        // فحص الدور: المدير فقط (admin) له كل الصلاحيات
+        // =====================================================
+
+        function isAdmin() {
+
+            return String(
+                localStorage.getItem("userRole") || ""
+            )
+                .trim()
+                .toLowerCase() === "admin";
+        }
+
+
+        // =====================================================
+        // إظهار زر Google Sheets للمدير فقط
         // =====================================================
 
         function setupGoogleSheetAccess() {
@@ -4443,7 +4457,7 @@
                     .toLowerCase();
 
             option.style.display =
-                currentUser === "shimee" ? "flex" : "none";
+                isAdmin() ? "flex" : "none";
         }
 
 
@@ -4457,13 +4471,8 @@
 
             if (!btn) return;
 
-            const currentUser =
-                String(localStorage.getItem("currentUser") || "")
-                    .trim()
-                    .toLowerCase();
-
             btn.style.display =
-                currentUser === "shimee" ? "block" : "none";
+                isAdmin() ? "block" : "none";
         }
 
 
@@ -4502,12 +4511,7 @@
 
             if (event) event.stopPropagation();
 
-            const currentUser =
-                String(localStorage.getItem("currentUser") || "")
-                    .trim()
-                    .toLowerCase();
-
-            if (currentUser !== "shimee") return;
+            if (!isAdmin()) return;
 
             window.open(
                 GOOGLE_SHEET_VIEW_URL,
@@ -4587,14 +4591,7 @@
                 return;
             }
 
-            const currentUser =
-                String(
-                    localStorage.getItem("currentUser") || ""
-                )
-                    .trim()
-                    .toLowerCase();
-
-            if (currentUser !== "shimee") {
+            if (!isAdmin()) {
 
                 button.classList.add(
                     "accounts-admin-only-hidden"
@@ -4661,6 +4658,7 @@
 
             localStorage.removeItem("loggedIn");
             localStorage.removeItem("currentUser");
+            localStorage.removeItem("userRole");
             localStorage.removeItem("loginTime");
             localStorage.removeItem("sessionLastActivity");
 
@@ -7091,6 +7089,7 @@
 
             localStorage.removeItem("loggedIn");
             localStorage.removeItem("currentUser");
+            localStorage.removeItem("userRole");
             localStorage.removeItem("loginTime");
             localStorage.removeItem("sessionLastActivity");
 

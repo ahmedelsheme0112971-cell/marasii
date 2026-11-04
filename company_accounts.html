@@ -623,9 +623,17 @@ const todayISO=()=>new Date().toISOString().slice(0,10);
 const money=n=>Number(n||0).toLocaleString("ar-EG",{minimumFractionDigits:2,maximumFractionDigits:2})+" ج.م";
 const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 
+function isAdmin(){
+ return String(localStorage.getItem("userRole")||"").trim().toLowerCase()==="admin";
+}
+
 function checkLogin(){
  if(localStorage.getItem("loggedIn")!=="true"||!localStorage.getItem("currentUser")){
   location.href="index.html";return false;
+ }
+ // صفحة الحسابات للمدير فقط - الموظف يرجع للداشبورد
+ if(!isAdmin()){
+  location.href="dashboard.html";return false;
  }
  return true;
 }
@@ -634,14 +642,14 @@ function getCurrentUser(){return localStorage.getItem("currentUser")||"غير م
 
 function logoutUser(){
  clearSessionTimers();
- ["loggedIn","currentUser","loginTime","sessionLastActivity"].forEach(k=>localStorage.removeItem(k));
+ ["loggedIn","currentUser","userRole","loginTime","sessionLastActivity"].forEach(k=>localStorage.removeItem(k));
  location.href="index.html";
 }
 
 function setupGoogleSheetAccess(){
  const option=$("googleSheetDropdownOption");
  if(!option)return;
- option.style.display=getCurrentUser().trim().toLowerCase()==="shimee"?"flex":"none";
+ option.style.display=isAdmin()?"flex":"none";
 }
 
 function toggleUserMenu(e){
@@ -656,7 +664,7 @@ function closeUserMenu(){
 }
 function openGoogleSheetFromMenu(e){
  if(e)e.stopPropagation();
- if(getCurrentUser().trim().toLowerCase()!=="shimee")return;
+ if(!isAdmin())return;
  window.open(GOOGLE_SHEET_VIEW_URL,"_blank","noopener,noreferrer");
  closeUserMenu();
 }
