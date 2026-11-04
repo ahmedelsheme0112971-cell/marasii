@@ -3005,24 +3005,24 @@
     ====================================================== -->
     <div class="form-group">
         <label><i class="fa-solid fa-sack-dollar"></i> المبلغ الكلي <span class="required">*</span></label>
-        <input type="number" id="totalAmount" class="bubble-input" placeholder="0.00" step="any"
+        <input type="number" id="totalAmount" class="bubble-input" placeholder="0.00" step="any" lang="en"
                oninput="calculateRemaining()">
     </div>
 
     <div class="form-group">
         <label><i class="fa-solid fa-money-check-dollar"></i> المبلغ المدفوع <span class="required">*</span></label>
-        <input type="number" id="paidAmount" class="bubble-input" placeholder="0.00" step="any"
+        <input type="number" id="paidAmount" class="bubble-input" placeholder="0.00" step="any" lang="en"
                oninput="handlePaidAmountInput()">
     </div>
 
     <div class="form-group">
         <label><i class="fa-solid fa-hand-holding-dollar"></i> المبلغ المتبقي <span class="required">*</span></label>
-        <input type="number" id="remainingAmount" class="bubble-input" placeholder="0.00" readonly>
+        <input type="number" id="remainingAmount" class="bubble-input" placeholder="0.00" readonly lang="en">
     </div>
 
     <div class="form-group">
         <label><i class="fa-solid fa-percent"></i> العمولة / القيمة المضافة <span class="required">*</span></label>
-        <input type="number" id="commission" class="bubble-input" placeholder="0.00" step="any">
+        <input type="number" id="commission" class="bubble-input" placeholder="0.00" step="any" lang="en">
     </div>
 
     <div id="visaCompanyGroup" class="form-group full-width" style="display:none;">
@@ -6454,7 +6454,7 @@
         // =====================================================
 
         function formatPaymentAmount(amount) {
-            return Number(amount || 0).toLocaleString("ar-EG") + " ج.م";
+            return Number(amount || 0).toLocaleString("ar-EG-u-nu-latn") + " ج.م";
         }
 
         function handlePaidAmountInput() {
@@ -6832,10 +6832,10 @@
         });
 
         /* =====================================================
-           نظام الجلسة وعدم النشاط - 15 دقيقة
+           نظام الجلسة وعدم النشاط
         ===================================================== */
 
-        const SESSION_IDLE_LIMIT = 15 * 1000;
+        const SESSION_IDLE_LIMIT = 60 * 1000;
         const SESSION_WARNING_TIME = 5 * 1000;
 
         let sessionIdleTimer = null;
@@ -7276,7 +7276,7 @@
                 text: text,
                 dueDate: dueDate,
                 notified: false,
-                date: new Date().toLocaleDateString("ar-EG")
+                date: new Date().toLocaleDateString("ar-EG-u-nu-latn")
             });
             saveMonthlyNotesToStorage(notes);
 
@@ -7297,7 +7297,7 @@
         function formatDueDate(iso) {
             if (!iso) return "";
             try {
-                return formatDateNice(iso) || new Date(iso + "T00:00:00").toLocaleDateString("ar-EG");
+                return formatDateNice(iso) || new Date(iso + "T00:00:00").toLocaleDateString("ar-EG-u-nu-latn");
             } catch (e) {
                 return iso;
             }
@@ -7394,7 +7394,7 @@
                 noteType: note.type,
                 noteDate: note.date,
                 employeeName: getCurrentUser(),
-                settledAt: new Date().toLocaleString("ar-EG")
+                settledAt: new Date().toLocaleString("ar-EG-u-nu-latn")
             };
 
             try {
