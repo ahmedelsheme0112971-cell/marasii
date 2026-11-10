@@ -5285,6 +5285,9 @@
 
                         menu.classList.remove("active");
 
+                        /* بعد إرسال رسالة التذكير يتم حذف التنبيه فورًا */
+                        markReminderSent(item, element);
+
                     };
 
                     const changedButton =
@@ -5432,15 +5435,43 @@
 
             if (messageType === "reminder") {
 
-                const travelDate =
+                /*
+                 * نستخرج تاريخ السفر من نص التنبيه نفسه
+                 * إذا لم يوجد في الحقل المخصص،
+                 * لأن السيرفر أحيانًا يرسل التاريخ داخل العنوان أو التفاصيل.
+                 */
+                let travelDate =
                     item.travelDateFormatted ||
                     item.travelDate ||
                     "";
 
+                if (!travelDate) {
+
+                    const searchText =
+                        (item.details || "") + " " +
+                        (item.title || "");
+
+                    /* صيغ مثل 25/11/2026 أو 2026-11-25 */
+                    const dateMatch = searchText.match(
+                        /\d{1,4}[\/\-\.]\d{1,2}[\/\-\.]\d{1,4}/
+                    );
+
+                    if (dateMatch) {
+                        travelDate = dateMatch[0];
+                    }
+                }
+
+                const passengerName =
+                    item.passengerName ||
+                    item.name ||
+                    "";
+
                 message =
-                    "أهلاً وسهلاً بحضرتك، بنحب نفكر حضرتك بميعاد الرحلة بتاريخ " +
+                    "اهلا بحضرتك أستاذ " +
+                    passengerName +
+                    "\n\nنود اعلامكم وتذكيركم بموعد السفر الخاص بكم وهو يوم " +
                     travelDate +
-                    "، ونبلغ حضرتك الرجاء الاستعداد للسفر.";
+                    "\n\nالرجاء التواجد بالمطار قبل ميعاد الاقلاع ب 3 ساعات\n\nمع تمنيات شركة الشيمي بالوصول سالما غانما ان شاء الله\nونتمني لكم التوفيق والسداد";
 
             } else {
 
@@ -5554,6 +5585,105 @@
 
             } catch (e) {
                 /* تجاهل صامت — لا رسائل */
+            }
+
+        }
+
+
+        /* =====================================================
+           تم الإرسال — حذف تنبيه التذكير فور إرسال الرسالة
+        ====================================================== */
+
+        function markReminderSent(item, element) {
+
+            const notificationId =
+                item.id ||
+                item.messageId ||
+                (item.passengerName || item.name || "") + "|" +
+                (item.travelDate || item.travelDateFormatted || "");
+
+            /* 1) الحذف الفوري من الواجهة */
+            if (element) {
+
+                element.style.transition = "opacity 0.25s ease, transform 0.25s ease";
+                element.style.opacity = "0";
+                element.style.transform = "translateX(-20px)";
+
+                setTimeout(function () {
+                    element.remove();
+                }, 250);
+
+            }
+
+            /* 2) حذف التنبيه من البيانات المحلية وتحديث العدادات */
+            if (notificationData && notificationData.dueSoon) {
+
+                notificationData.dueSoon =
+                    notificationData.dueSoon.filter(function (n) {
+                        return n !== item;
+                    });
+
+                notificationData.dueSoonCount =
+                    Math.max(0, Number(notificationData.dueSoonCount || 0) - 1);
+
+                notificationData.total =
+                    Math.max(0, Number(notificationData.total || 0) - 1);
+
+                updateNotificationBadge(notificationData.total);
+
+                const summaryCards =
+                    document.querySelectorAll("[data-notification-filter]");
+
+                summaryCards.forEach(function (card) {
+
+                    const filterType =
+                        card.dataset.notificationFilter;
+
+                    if (filterType === "dueSoon") {
+                        card.querySelector(".notification-summary-number").textContent =
+                            notificationData.dueSoonCount;
+                    } else if (filterType === "all") {
+                        card.querySelector(".notification-summary-number").textContent =
+                            notificationData.total;
+                    }
+
+                });
+
+                /* لو الفلتر الحالي على مواعيد قريبة ولم يتبق شئ نعيد العرض */
+                if (
+                    notificationData.dueSoon.length === 0 &&
+                    document.querySelector(
+                        '[data-notification-filter="dueSoon"].active'
+                    )
+                ) {
+                    renderNotificationList(notificationData, "dueSoon");
+                }
+
+            }
+
+            /*
+             * 3) تسجيل الإرسال على السيرفر
+             *    (حذف التنبيه من الشيت حتى لا يعود بعد التحديث)
+             */
+            try {
+
+                fetch(GOOGLE_SHEET_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8"
+                    },
+                    body: JSON.stringify({
+                        action: "markReminderSent",
+                        id: notificationId,
+                        passengerName: item.passengerName || item.name || "",
+                        travelDate: item.travelDate || item.travelDateFormatted || "",
+                        mobileNumber: item.mobileNumber || ""
+                    })
+                });
+
+            } catch (e) {
+                /* تجاهل صامت */
             }
 
         }
