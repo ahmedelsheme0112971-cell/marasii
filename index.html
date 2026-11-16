@@ -742,6 +742,285 @@
                 text-align: center;
             }
         }
+
+        /* =====================================================
+           تسجيل الدخول بالبصمة (WebAuthn)
+        ===================================================== */
+
+        .divider-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .divider-row::before,
+        .divider-row::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .bio-login-btn {
+            width: 100%;
+            padding: 0.95rem;
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.35), rgba(22, 163, 74, 0.20));
+            border: 1px solid rgba(134, 239, 172, 0.45);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+        }
+
+        .bio-login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(34, 197, 94, 0.30);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(22, 163, 74, 0.30));
+        }
+
+        .bio-login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        body.light .bio-login-btn {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(22, 163, 74, 0.1));
+            border-color: rgba(22, 163, 74, 0.5);
+            color: #166534;
+        }
+
+        /* نافذة اختيار الموظف للبصمة */
+        .bio-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 2, 12, 0.80);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .bio-overlay.active {
+            display: flex;
+        }
+
+        .bio-modal {
+            width: min(440px, 100%);
+            max-height: 80vh;
+            overflow-y: auto;
+            background: rgba(25, 10, 45, 0.97);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 30px;
+            padding: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+            animation: cardEnter 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        body.light .bio-modal {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(124, 58, 237, 0.35);
+        }
+
+        .bio-modal-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .bio-modal-title h3 {
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .bio-modal-title h3 i {
+            color: #86efac;
+        }
+
+        body.light .bio-modal-title h3 {
+            color: #2d1157;
+        }
+
+        .bio-modal-title h3 i {
+            color: #22c55e;
+        }
+
+        .bio-close {
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.10);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.25s;
+        }
+
+        .bio-close:hover {
+            background: rgba(239, 68, 68, 0.5);
+            transform: rotate(90deg);
+        }
+
+        body.light .bio-close {
+            background: rgba(0, 0, 0, 0.08);
+            color: #2d1157;
+        }
+
+        .bio-sub {
+            color: #cbd5e1;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            line-height: 1.7;
+        }
+
+        body.light .bio-sub {
+            color: #4c1d95;
+        }
+
+        .bio-user-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .bio-user-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 1.02rem;
+            font-weight: 800;
+            cursor: pointer;
+            text-align: right;
+            transition: all 0.22s ease;
+        }
+
+        .bio-user-btn:hover {
+            background: rgba(34, 197, 94, 0.18);
+            border-color: rgba(134, 239, 172, 0.55);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.18);
+        }
+
+        body.light .bio-user-btn {
+            background: rgba(255, 255, 255, 0.7);
+            border-color: rgba(124, 58, 237, 0.25);
+            color: #2d1157;
+        }
+
+        .bio-user-circle {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #7c3aed, #4c1d95);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            color: #ffffff;
+        }
+
+        body.light .bio-user-circle {
+            border-color: rgba(124, 58, 237, 0.4);
+        }
+
+        .bio-status {
+            display: none;
+            text-align: center;
+            color: #cbd5e1;
+            font-size: 0.88rem;
+            font-weight: 700;
+            margin-top: 14px;
+            min-height: 22px;
+        }
+
+        .bio-status.show {
+            display: block;
+        }
+
+        .bio-status.err {
+            color: #f87171;
+        }
+
+        .bio-status.ok {
+            color: #86efac;
+        }
+
+        body.light .bio-status {
+            color: #4c1d95;
+        }
+
+        body.light .bio-status.err {
+            color: #dc2626;
+        }
+
+        body.light .bio-status.ok {
+            color: #15803d;
+        }
+
+        /* زر ربط البصمة بعد أول دخول ناجح */
+        .bio-setup-banner {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            padding: 10px 14px;
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            border-radius: 16px;
+            background: rgba(250, 204, 21, 0.10);
+            color: #fde68a;
+            font-size: 0.82rem;
+            font-weight: 700;
+            line-height: 1.6;
+        }
+
+        .bio-setup-banner.show {
+            display: flex;
+        }
+
+        .bio-setup-banner button {
+            flex: 0 0 auto;
+            border: none;
+            border-radius: 12px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .bio-setup-banner button:hover {
+            filter: brightness(1.1);
+        }
     </style>
 </head>
 
@@ -821,6 +1100,22 @@
 
                 <button type="submit" id="loginBtn" class="login-btn">دخول</button>
 
+                <div class="divider-row">أو</div>
+
+                <button type="button" id="bioLoginBtn" class="bio-login-btn" onclick="openBioLogin()">
+                    <i class="fa-solid fa-fingerprint"></i>
+                    الدخول بالبصمة
+                </button>
+
+                <!-- بانر ربط بصمة الجهاز بعد أول دخول ناجح -->
+                <div id="bioSetupBanner" class="bio-setup-banner">
+                    <i class="fa-solid fa-fingerprint" style="color:#facc15;"></i>
+                    <span>أضف بصمة جهازك لدخول أسرع في المرة القادمة بدون يوزر وباسورد.</span>
+                    <button type="button" onclick="registerBiometric()">
+                        ربط البصمة
+                    </button>
+                </div>
+
                 <div style="text-align: center;">
                     <button type="button" class="forgot-pass" onclick="forgotPassword()">نسيت كلمة المرور؟</button>
                 </div>
@@ -842,7 +1137,59 @@
         </div>
     </main>
 
-    <!-- الفوتر -->
+    <!-- =====================================================
+         نافذة اختيار الموظف للدخول بالبصمة
+    ====================================================== -->
+    <div id="bioLoginOverlay" class="bio-overlay" onclick="closeBioLoginFromOverlay(event)">
+        <div class="bio-modal" onclick="event.stopPropagation()">
+            <div class="bio-modal-title">
+                <h3>
+                    <i class="fa-solid fa-fingerprint"></i>
+                    اختر اسمك
+                </h3>
+                <button type="button" class="bio-close" onclick="closeBioLogin()" aria-label="إغلاق">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="bio-sub">
+                اختر اسمك من القائمة، ثم استخدم بصمة إصبعك أو وجهك المسجلة على هذا الجهاز.
+            </div>
+            <div id="bioUserList" class="bio-user-list"></div>
+            <div id="bioStatus" class="bio-status"></div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         نافذة سؤال: تفعيل البصمة الآن أم لاحقًا؟
+         (تظهر بعد أول دخول ناجح باليوزر والباسورد)
+    ====================================================== -->
+    <div id="bioOfferOverlay" class="bio-overlay">
+        <div class="bio-modal">
+            <div class="bio-modal-title">
+                <h3>
+                    <i class="fa-solid fa-fingerprint"></i>
+                    تفعيل الدخول بالبصمة؟
+                </h3>
+            </div>
+            <div class="bio-sub">
+                أهلاً <strong id="bioOfferUserName"></strong> 👋
+                <br>
+                هل تريد ربط بصمة هذا الجهاز (بصمة إصبع أو وجه) بحسابك،
+                لتسجيل الدخول لاحقًا بلمسة واحدة بدون اسم مستخدم وكلمة مرور؟
+            </div>
+            <div style="display:flex;gap:10px;">
+                <button type="button" id="bioOfferNow" class="bio-login-btn" style="flex:1;">
+                    <i class="fa-solid fa-check"></i>
+                    تفعيل الآن
+                </button>
+                <button type="button" id="bioOfferLater" class="bio-login-btn"
+                    style="flex:1;background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.25);">
+                    <i class="fa-solid fa-clock"></i>
+                    في وقت لاحق
+                </button>
+            </div>
+        </div>
+    </div>
     <footer class="footer">
         <div class="footer-container">
             <div><i class="fa-solid fa-phone" style="color: #a78bfa;"></i> التواصل: 01129713352 | 01005389471</div>
@@ -1509,13 +1856,48 @@
                 // صوت النجاح
                 playSound("success");
 
+                /*
+                 * حفظ آخر مستخدم دخل بنجاح ثم سؤاله:
+                 * تفعيل البصمة الآن أم في وقت لاحق؟
+                 * (يعمل فقط لو الجهاز يدعم البصمة ولم يربط بصمة من قبل)
+                 */
+                localStorage.setItem("bioLastLoginUser", user);
 
-                // ==================================================
-                // الانتقال للوحة التحكم
-                // ==================================================
+                const canOfferBio = (
+                    isBiometricSupported() &&
+                    !hasCredentialFor(user)
+                );
 
-                window.location.href =
-                    "dashboard.html";
+                if (canOfferBio) {
+
+                    setTimeout(async function () {
+
+                        const wantsBio = await askBiometricOffer(employee.name);
+
+                        if (wantsBio) {
+
+                            try {
+
+                                await registerBiometric(user);
+
+                            } catch (e) { /* تجاهل - أكمل الدخول على أي حال */ }
+
+                        } else {
+
+                            /* اختار "في وقت لاحق" - نعرض البانر في المرة القادمة فقط */
+                            localStorage.removeItem("bioSetupBannerDismissed");
+
+                        }
+
+                        window.location.href = "dashboard.html";
+
+                    }, 300);
+
+                } else {
+
+                    window.location.href = "dashboard.html";
+
+                }
 
 
             } else {
@@ -1749,6 +2131,527 @@
                 welcomeDiv.style.display = "none";
 
             }, 5000);
+
+        }
+
+
+        // ======================================================
+        // نظام الدخول بالبصمة (WebAuthn / Passkeys)
+        //
+        // ملاحظات مهمة:
+        // - البصمة نفسها لا تُغادر جهاز المستخدم أبداً؛ المتصفح والنظام
+        //   يتحققان من هوية الشخص داخلياً، والموقع يتحقق فقط من المفتاح
+        //   المشفر المخزن في localStorage (credential ID).
+        // - يدعم بصمة الإصبع والوجه (Face ID / Touch ID / بصمة أندرويد).
+        // - يتطلب HTTPS أو localhost، وإلا سيظهر تنبيه يدعمه المتصفح.
+        // ======================================================
+
+        const BIO_STORE_KEY = "biometricCredentials";
+
+        function isBiometricSupported() {
+
+            return (
+                window.PublicKeyCredential !== undefined &&
+                typeof navigator.credentials.create === "function" &&
+                typeof navigator.credentials.get === "function"
+            );
+
+        }
+
+        /* تحويل مصفوفة بايتات إلى Base64URL للتخزين أو الإرسال */
+        function bufferToBase64Url(buffer) {
+
+            const bytes = new Uint8Array(buffer);
+
+            let str = "";
+
+            bytes.forEach(b => str += String.fromCharCode(b));
+
+            return btoa(str)
+                .replace(/\+/g, "-")
+                .replace(/\//g, "_")
+                .replace(/=+$/, "");
+
+        }
+
+        /* تحويل Base64URL إلى مصفوفة بايتات (Uint8Array) */
+        function base64UrlToBuffer(value) {
+
+            const normalized = value
+                .replace(/-/g, "+")
+                .replace(/_/g, "/");
+
+            const padding = "=".repeat((4 - normalized.length % 4) % 4);
+
+            const str = atob(normalized + padding);
+
+            const buffer = new Uint8Array(str.length);
+
+            for (let i = 0; i < str.length; i++) {
+
+                buffer[i] = str.charCodeAt(i);
+
+            }
+
+            return buffer;
+
+        }
+
+        /* قراءة / كتابة قائمة بصمات الموظفين المحفوظة */
+        function getStoredCredentials() {
+
+            try {
+
+                return JSON.parse(localStorage.getItem(BIO_STORE_KEY) || "{}");
+
+            } catch (e) {
+
+                return {};
+
+            }
+
+        }
+
+        function saveStoredCredentials(credentials) {
+
+            localStorage.setItem(BIO_STORE_KEY, JSON.stringify(credentials));
+
+        }
+
+        /*
+         * التحقق من وجود بصمة مسجلة لموظف معين على هذا الجهاز.
+         * ملاحظة: المفتاح في المخزن هو credential ID وليس اسم الموظف،
+         * لذلك نبحث بالقيم وليس بالمفاتيح.
+         */
+        function hasCredentialFor(username) {
+
+            const stored = getStoredCredentials();
+
+            return Object.keys(stored).some(function (credId) {
+
+                return stored[credId] && stored[credId].username === username;
+
+            });
+
+        }
+
+        /* تنبيه غير مؤكد داخل نافذة البصمة */
+        function setBioStatus(text, type) {
+
+            const status = document.getElementById("bioStatus");
+
+            if (!status) return;
+
+            status.className = "bio-status show" + (type ? " " + type : "");
+
+            status.textContent = text;
+
+        }
+
+        /* إظهار بانر ربط البصمة بعد أول دخول ناجح بدون كلمة سر */
+        function showBioSetupBanner() {
+
+            if (!isBiometricSupported()) return;
+
+            if (localStorage.getItem("bioSetupBannerDismissed") === "1") return;
+
+            const credentials = getStoredCredentials();
+
+            /* لو المستخدم الحالي مربوط بالفعل لا داعي للإظهار */
+            const current = localStorage.getItem("bioLastLoginUser") || "";
+
+            if (!current || credentials[current]) return;
+
+            document.getElementById("bioSetupBanner").classList.add("show");
+
+        }
+
+        /*
+         * سؤال الموظف بعد دخول ناجح:
+         * تفعيل البصمة الآن أم في وقت لاحق؟
+         * ترجع true لو اختار "تفعيل الآن".
+         */
+        function askBiometricOffer(displayName) {
+
+            return new Promise(function (resolve) {
+
+                const overlay = document.getElementById("bioOfferOverlay");
+
+                document.getElementById("bioOfferUserName").textContent = displayName;
+
+                overlay.classList.add("active");
+
+                document.getElementById("bioOfferNow").onclick = function () {
+
+                    overlay.classList.remove("active");
+
+                    resolve(true);
+
+                };
+
+                document.getElementById("bioOfferLater").onclick = function () {
+
+                    overlay.classList.remove("active");
+
+                    resolve(false);
+
+                };
+
+            });
+
+        }
+
+        /*
+         * إنشاء مفتاح بصمة جديد (تسجيل).
+         * يُطلب فقط بعد دخول ناجح بالطريقة التقليدية حتى يثبت هوية الشخص.
+         */
+        async function registerBiometric(username) {
+
+            if (!isBiometricSupported()) {
+
+                alert(
+                    "⚠️ هذا المتصفح أو هذا الجهاز لا يدعم الدخول بالبصمة.\n\n" +
+                    "الرجاء استخدام Chrome أو Safari حديث على موبايل يدعم بصمة الإصبع أو الوجه."
+                );
+
+                return;
+
+            }
+
+            const userKey = (
+                username ||
+                localStorage.getItem("bioLastLoginUser") ||
+                document.getElementById("username")?.value.trim().toLowerCase() ||
+                ""
+            ).toLowerCase();
+
+            if (!userKey || !EMPLOYEES[userKey]) {
+
+                alert("⚠️ سجل دخولك بالطريقة التقليدية أولاً لربط بصمة جهازك بحسابك.");
+
+                return;
+
+            }
+
+            const userId = new TextEncoder().encode("elschemy-" + userKey);
+
+            const challenge = crypto.getRandomValues(new Uint8Array(32));
+
+            try {
+
+                const credential = await navigator.credentials.create({
+
+                    publicKey: {
+
+                        challenge: challenge,
+
+                        rp: { name: "عالم الشيمي" },
+
+                        user: {
+
+                            id: userId,
+
+                            name: userKey,
+
+                            displayName: EMPLOYEES[userKey].name
+                        },
+
+                        pubKeyCredParams: [
+
+                            { type: "public-key", alg: -7 },   /* ES256 */
+
+                            { type: "public-key", alg: -257 }  /* RS256 */
+                        ],
+
+                        authenticatorSelection: {
+
+                            authenticatorAttachment: "platform",
+
+                            userVerification: "required",
+
+                            residentKey: "preferred"
+                        },
+
+                        timeout: 60000,
+
+                        attestation: "none"
+
+                    }
+
+                });
+
+                /* حفظ معرّف المفتاح الجديد مربوطاً باسم الموظف */
+                const credentialId = bufferToBase64Url(credential.rawId);
+
+                const stored = getStoredCredentials();
+
+                stored[credentialId] = {
+
+                    username: userKey,
+
+                    createdAt: new Date().toISOString()
+
+                };
+
+                saveStoredCredentials(stored);
+
+                localStorage.removeItem("bioSetupBannerDismissed");
+
+                document.getElementById("bioSetupBanner").classList.remove("show");
+
+                playSound("success");
+
+                alert(
+                    "✅ تم ربط بصمة جهازك بحساب " + EMPLOYEES[userKey].name + " بنجاح!\n\n" +
+                    "من الآن يمكنك الدخول من زر الدخول بالبصمة بدون يوزر وباسورد."
+                );
+
+            } catch (error) {
+
+                if (error.name === "NotAllowedError" || error.name === "AbortError") {
+
+                    /* المستخدم ألغى نافذة البصمة — لا رسالة خطأ */
+                    return;
+
+                }
+
+                alert("❌ تعذر ربط البصمة: " + (error.message || "خطأ غير معروف"));
+
+            }
+
+        }
+
+        /* فتح نافذة اختيار الموظف */
+        function openBioLogin() {
+
+            if (!isBiometricSupported()) {
+
+                alert(
+                    "⚠️ الدخول بالبصمة غير مدعوم على هذا الجهاز أو المتصفح.\n\n" +
+                    "تأكد من: " +
+                    "\n1- استخدام Chrome أو Safari حديث. " +
+                    "\n2- فتح الموقع عبر رابط https مؤمّن. " +
+                    "\n3- تسجيل بصمة إصبع أو وجه على الجهاز نفسه."
+                );
+
+                return;
+
+            }
+
+            const stored = getStoredCredentials();
+
+            /* تجميع أسماء الموظفين اللي لهم بصمة مسجلة على هذا الجهاز */
+            const enrolledUsers = {};
+
+            Object.values(stored).forEach(entry => {
+
+                if (entry && entry.username && EMPLOYEES[entry.username]) {
+
+                    enrolledUsers[entry.username] = true;
+
+                }
+
+            });
+
+            const userList = document.getElementById("bioUserList");
+
+            userList.innerHTML = "";
+
+            const names = Object.keys(enrolledUsers);
+
+            if (!names.length) {
+
+                userList.innerHTML =
+                    '<div style="color:#cbd5e1;text-align:center;padding:18px 6px;font-weight:700;font-size:0.9rem;line-height:2;">' +
+                    '🔒 لا توجد أي بصمة مربوطة على هذا الجهاز بعد.' +
+                    '<br>' +
+                    'سجّل دخولك بالطريقة التقليدية (اسم المستخدم وكلمة المرور)،' +
+                    '<br>' +
+                    'وبعد الدخول سيظهر لك سؤال "تفعيل البصمة".' +
+                    '</div>';
+
+                document.getElementById("bioLoginOverlay").classList.add("active");
+
+                return;
+
+            }
+
+            names.forEach(username => {
+
+                const button = document.createElement("button");
+
+                button.type = "button";
+
+                button.className = "bio-user-btn";
+
+                button.innerHTML =
+                    '<span class="bio-user-circle">' +
+                    '<i class="fa-solid fa-user"></i>' +
+                    "</span>" +
+                    "<span>" + EMPLOYEES[username].name + "</span>";
+
+                button.onclick = function () {
+
+                    authenticateBiometric(username);
+
+                };
+
+                userList.appendChild(button);
+
+            });
+
+            setBioStatus("", "");
+
+            document.getElementById("bioLoginOverlay").classList.add("active");
+
+        }
+
+        /* إغلاق نافذة اختيار الموظف */
+        function closeBioLogin() {
+
+            document.getElementById("bioLoginOverlay").classList.remove("active");
+
+        }
+
+        function closeBioLoginFromOverlay(event) {
+
+            if (event.target.id === "bioLoginOverlay") {
+
+                closeBioLogin();
+
+            }
+
+        }
+
+        /*
+         * التحقق من البصمة والدخول تلقائياً.
+         * المتصفح نفسه يطلب بصمة الإصبع أو الوجه من المستخدم،
+         * وإذا نجحت التحقق نفتح جلسة الموظف مباشرة.
+         */
+        async function authenticateBiometric(username) {
+
+            const statusEl = document.getElementById("bioStatus");
+
+            statusEl.classList.add("show");
+
+            statusEl.className = "bio-status show";
+
+            statusEl.textContent = "⏳ بانتظار بصمتك...";
+
+            const credentialIds = [];
+
+            const stored = getStoredCredentials();
+
+            Object.keys(stored).forEach(credId => {
+
+                if (stored[credId].username === username) {
+
+                    credentialIds.push({
+
+                        type: "public-key",
+
+                        id: base64UrlToBuffer(credId)
+
+                    });
+
+                }
+
+            });
+
+            if (!credentialIds.length) {
+
+                setBioStatus("لا توجد بصمة مسجلة لهذا الحساب على هذا الجهاز.", "err");
+
+                return;
+
+            }
+
+            const challenge = crypto.getRandomValues(new Uint8Array(32));
+
+            try {
+
+                const assertion = await navigator.credentials.get({
+
+                    publicKey: {
+
+                        challenge: challenge,
+
+                        rpId: window.location.hostname || undefined,
+
+                        allowCredentials: credentialIds,
+
+                        userVerification: "required",
+
+                        timeout: 60000
+
+                    }
+
+                });
+
+                /* التحقق نجح من جهة الجهاز والمتصفح */
+                const credentialId = bufferToBase64Url(assertion.rawId);
+
+                const entry = stored[credentialId];
+
+                if (!entry || entry.username !== username) {
+
+                    setBioStatus("❌ المفتاح لا يطابق هذا الحساب.", "err");
+
+                    return;
+
+                }
+
+                const employee = EMPLOYEES[username];
+
+                /* بدء جلسة الموظف - نفس تسلسل الدخول التقليدي */
+                localStorage.setItem("loggedIn", "true");
+
+                localStorage.setItem("currentUser", employee.name);
+
+                localStorage.setItem("userRole", employee.role || "employee");
+
+                localStorage.setItem("loginTime", new Date().toISOString());
+
+                localStorage.removeItem("sessionLastActivity");
+
+                localStorage.setItem("rememberedUser", employee.name);
+
+                localStorage.setItem("bioLastLoginUser", username);
+
+                localStorage.removeItem("loginAttempts");
+
+                localStorage.removeItem("lockUntil");
+
+                setBioStatus("✅ تم التعرف عليك! جاري الدخول...", "ok");
+
+                playSound("success");
+
+                setTimeout(() => {
+
+                    window.location.href = "dashboard.html";
+
+                }, 800);
+
+            } catch (error) {
+
+                if (error.name === "NotAllowedError" || error.name === "AbortError") {
+
+                    statusEl.classList.remove("show");
+
+                    return;
+
+                }
+
+                setBioStatus("❌ فشل التحقق من البصمة، حاول تاني.", "err");
+
+            }
+
+        }
+
+        /* إظهار بانر ربط البصمة لو المستخدم دخل من غير بصمة من قبل */
+        if (isBiometricSupported()) {
+
+            setTimeout(showBioSetupBanner, 400);
 
         }
     </script>
