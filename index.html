@@ -2422,7 +2422,13 @@
         }
 
         /* فتح نافذة اختيار الموظف */
-        function openBioLogin() {
+        /*
+         * الدخول بالبصمة - فتح المستشعر مباشرة بدون أي نافذة اختيار.
+         * نمرر كل المفاتيح المسجلة على هذا الجهاز للمتصفح،
+         * وهو هو اللي يطلب بصمة الإصبع أو الوجه من المستخدم مباشرة،
+         * وبعدها نعرف الموظف من المفتاح اللي رجع.
+         */
+        async function openBioLogin() {
 
             if (!isBiometricSupported()) {
 
@@ -2440,73 +2446,110 @@
 
             const stored = getStoredCredentials();
 
-            /* تجميع أسماء الموظفين اللي لهم بصمة مسجلة على هذا الجهاز */
-            const enrolledUsers = {};
+            const credentialIds = Object.keys(stored).map(credId => ({
 
-            Object.values(stored).forEach(entry => {
+                type: "public-key",
+                id: base64UrlToBuffer(credId)
 
-                if (entry && entry.username && EMPLOYEES[entry.username]) {
+            }));
 
-                    enrolledUsers[entry.username] = true;
+            /* لا توجد أي بصمة مربوطة على هذا الجهاز */
+            if (!credentialIds.length) {
 
-                }
-
-            });
-
-            const userList = document.getElementById("bioUserList");
-
-            userList.innerHTML = "";
-
-            const names = Object.keys(enrolledUsers);
-
-            if (!names.length) {
-
-                userList.innerHTML =
-                    '<div style="color:#cbd5e1;text-align:center;padding:18px 6px;font-weight:700;font-size:0.9rem;line-height:2;">' +
-                    '🔒 لا توجد أي بصمة مربوطة على هذا الجهاز بعد.' +
-                    '<br>' +
-                    'سجّل دخولك بالطريقة التقليدية (اسم المستخدم وكلمة المرور)،' +
-                    '<br>' +
-                    'وبعد الدخول سيظهر لك سؤال "تفعيل البصمة".' +
-                    '</div>';
-
-                document.getElementById("bioLoginOverlay").classList.add("active");
+                alert(
+                    "🔒 لا توجد أي بصمة مربوطة على هذا الجهاز بعد.\n\n" +
+                    "سجّل دخولك بالطريقة التقليدية (اسم المستخدم وكلمة المرور)،" +
+                    "\nوبعد الدخول سيظهر لك سؤال تفعيل البصمة."
+                );
 
                 return;
 
             }
 
-            names.forEach(username => {
+            const challenge = crypto.getRandomValues(new Uint8Array(32));
 
-                const button = document.createElement("button");
+            try {
 
-                button.type = "button";
+                /* فتح مستشعر البصمة مباشرة */
+                const assertion = await navigator.credentials.get({
 
-                button.className = "bio-user-btn";
+                    publicKey: {
 
-                button.innerHTML =
-                    '<span class="bio-user-circle">' +
-                    '<i class="fa-solid fa-user"></i>' +
-                    "</span>" +
-                    "<span>" + EMPLOYEES[username].name + "</span>";
+                        challenge: challenge,
 
-                button.onclick = function () {
+                        rpId: window.location.hostname || undefined,
 
-                    authenticateBiometric(username);
+                        allowCredentials: credentialIds,
 
-                };
+                        userVerification: "required",
 
-                userList.appendChild(button);
+                        timeout: 60000
 
-            });
+                    }
 
-            setBioStatus("", "");
+                });
 
-            document.getElementById("bioLoginOverlay").classList.add("active");
+                /* التحقق نجح - نعرف الموظف من المفتاح اللي رجع */
+                const credentialId = bufferToBase64Url(assertion.rawId);
+
+                const entry = stored[credentialId];
+
+                if (!entry || !EMPLOYEES[entry.username]) {
+
+                    alert("❌ المفتاح لا يطابق أي حساب معروف.");
+
+                    return;
+
+                }
+
+                await startBiometricSession(entry.username);
+
+            } catch (error) {
+
+                /* المستخدم ألغى نافذة البصمة - لا رسالة */
+                if (error.name === "NotAllowedError" || error.name === "AbortError") {
+                    return;
+                }
+
+                alert("❌ فشل التحقق من البصمة، حاول تاني.");
+
+            }
 
         }
 
-        /* إغلاق نافذة اختيار الموظف */
+        /*
+         * بدء جلسة الموظف بعد نجاح التحقق بالبصمة.
+         * نفس تسلسل الدخول التقليدي بالظبط.
+         */
+        async function startBiometricSession(username) {
+
+            const employee = EMPLOYEES[username];
+
+            localStorage.setItem("loggedIn", "true");
+
+            localStorage.setItem("currentUser", employee.name);
+
+            localStorage.setItem("userRole", employee.role || "employee");
+
+            localStorage.setItem("loginTime", new Date().toISOString());
+
+            localStorage.removeItem("sessionLastActivity");
+
+            localStorage.setItem("rememberedUser", employee.name);
+
+            localStorage.setItem("bioLastLoginUser", username);
+
+            localStorage.removeItem("loginAttempts");
+
+            localStorage.removeItem("lockUntil");
+
+            playSound("success");
+
+            window.location.href = "dashboard.html";
+
+        }
+
+        /* إغلاق نافذة اختيار الموظف (لم تبقى مستخدمة في التدفق الجديد) */
         function closeBioLogin() {
 
             document.getElementById("bioLoginOverlay").classList.remove("active");
@@ -2524,9 +2567,7 @@
         }
 
         /*
-         * التحقق من البصمة والدخول تلقائياً.
-         * المتصفح نفسه يطلب بصمة الإصبع أو الوجه من المستخدم،
-         * وإذا نجحت التحقق نفتح جلسة الموظف مباشرة.
+         * (غير مستخدمة بعد تبسيط التدفق - التحقق يتم الآن مباشرة من openBioLogin)
          */
         async function authenticateBiometric(username) {
 
