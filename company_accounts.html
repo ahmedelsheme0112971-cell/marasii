@@ -683,20 +683,23 @@ function fetchCompanyLetter(letter){
  });
 }
 
-/* يجيب كل التذاكر ببحث حرف حرف (28 حرف عربي) ويجمعها بدون تكرار */
+/* يجيب كل التذاكر ببحث حرف حرف (28 حرف عربي) بالتوازي — كل الطلبات تتبعت في نفس اللحظة
+   وده اللي بيخلي التحميل ياخد وقت أبطأ طلب واحد (~3-5 ثواني) بدل مجموعهم كلهم */
 async function loadAllCompanyRows(){
  if(companyRowsCache)return companyRowsCache;
  const map={};
- for(const L of COMPANY_FILTER_LETTERS){
-  try{
-   const r=await fetchCompanyLetter(L);
-   if(r&&r.success){
-    (r.results||[]).forEach(x=>{
-     if(x.rowNumber&&!map[x.rowNumber])map[x.rowNumber]=x;
-    });
-   }
-  }catch(e){/* نكمل مع الباقي */}
- }
+ const results=await Promise.all(
+  COMPANY_FILTER_LETTERS.map(L=>
+   fetchCompanyLetter(L).catch(()=>null) /* أي حرف يفشل نكمل مع الباقي */
+  )
+ );
+ results.forEach(r=>{
+  if(r&&r.success){
+   (r.results||[]).forEach(x=>{
+    if(x.rowNumber&&!map[x.rowNumber])map[x.rowNumber]=x;
+   });
+  }
+ });
  companyRowsCache=Object.values(map);
  return companyRowsCache;
 }
