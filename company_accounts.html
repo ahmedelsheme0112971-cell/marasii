@@ -99,6 +99,8 @@ body{min-height:100vh;background:#0f051d;color:#fff;overflow-x:hidden;position:r
 .btn-transfer{background:linear-gradient(135deg,#0891b2,#164e63)}
 .btn-excel{background:linear-gradient(135deg,#16a34a,#166534)}
 .btn-danger{background:linear-gradient(135deg,#dc2626,#7f1d1d)}
+.btn-pdf{background:linear-gradient(135deg,#dc2626,#991b1b);box-shadow:0 8px 20px rgba(220,38,38,.20)}
+.btn-pdf:hover{background:linear-gradient(135deg,#ef4444,#b91c1c)}
 
 .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:20px}
 .summary-card{
@@ -606,6 +608,7 @@ th{color:#c4b5fd;background:rgba(124,58,237,.1)}
    <datalist id="companyList"></datalist>
    <button class="btn btn-primary" onclick="runCompanyFilter()"><i class="fa-solid fa-magnifying-glass"></i> فلترة</button>
    <button class="btn btn-excel" id="companyExportBtn" onclick="exportCompanyExcel()" disabled><i class="fa-solid fa-file-excel"></i> Excel</button>
+   <button class="btn btn-pdf" id="companyPdfBtn" onclick="exportCompanyPDF()" disabled><i class="fa-solid fa-file-pdf"></i> PDF</button>
   </div>
 
   <div id="companyFilterStatus" class="empty">اكتب اسم الشركة ثم اضغط فلترة.</div>
@@ -740,6 +743,7 @@ function renderCompanyFilter(){
   $("companyFilterStatus").textContent="❌ لا توجد تذاكر لشركة بهذا الاسم.";
   $("companyFilterResult").innerHTML="";
   $("companyExportBtn").disabled=true;
+  $("companyPdfBtn").disabled=true;
   return;
  }
  let tT=0,tP=0,tR=0;
@@ -772,6 +776,7 @@ function renderCompanyFilter(){
    </tr></tbody>
   </table>`;
  $("companyExportBtn").disabled=false;
+ $("companyPdfBtn").disabled=false;
 }
 
 /* تصدير نتائج الفلتر لملف Excel */
@@ -795,6 +800,55 @@ function exportCompanyExcel(){
  const ws=XLSX.utils.aoa_to_sheet(data);ws["!dir"]="rtl";
  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"تذاكر "+companyFilterName);
  XLSX.writeFile(wb,"تذاكر_"+companyFilterName.replace(/[^\w\u0600-\u06FF -]/g,"")+".xlsx");
+}
+
+/* تصدير نتائج الفلتر لملف PDF — بيفتح نافذة طباعة منسقة تحفظ PDF مباشرة */
+function exportCompanyPDF(){
+ if(!companyFilteredRows.length)return alert("⚠️ اعمل فلترة أولاً.");
+ let tT=0,tP=0,tR=0;
+ const rowsHtml=companyFilteredRows.map(x=>{
+  tT+=Number(x.totalAmount||0);
+  tP+=Number(x.paidAmount||0);
+  tR+=Number(x.remainingAmount||0);
+  return `<tr>
+   <td>${esc(x.passengerName)}</td><td>${esc(x.bookingNumber)}</td>
+   <td>${esc(x.bookingDate)}</td><td>${esc(x.travelDate)}</td><td>${esc(x.companyName)}</td>
+   <td>${Number(x.totalAmount||0).toFixed(2)}</td>
+   <td>${Number(x.paidAmount||0).toFixed(2)}</td>
+   <td>${Number(x.remainingAmount||0).toFixed(2)}</td>
+   <td>${esc(x.employeeName)}</td>
+  </tr>`;
+ }).join("");
+ const today=new Date().toLocaleDateString("ar-EG");
+ const w=window.open("","_blank");
+ if(!w)return alert("⚠️ المتصفح منع فتح النافذة. اسمح بالنوافذ المنبثقة وحاول تاني.");
+ w.document.write(`<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8">
+  <title>تذاكر ${esc(companyFilterName)}</title>
+  <style>
+   *{font-family:'Tajawal','Segoe UI',Arial,sans-serif;box-sizing:border-box}
+   body{padding:25px;color:#1a1a2e}
+   .head{text-align:center;margin-bottom:18px}
+   .head h1{margin:0;font-size:22px;color:#4c1d95}
+   .head p{margin:6px 0 0;color:#555;font-size:13px}
+   table{width:100%;border-collapse:collapse;font-size:12px}
+   th,td{border:1px solid #bbb;padding:7px 8px;text-align:center}
+   th{background:#ede9fe;color:#4c1d95}
+   tr:nth-child(even) td{background:#f8f7fd}
+   tfoot td{background:#ddd6fe;font-weight:900}
+   @media print{body{padding:0}}
+  </style></head><body>
+  <div class="head">
+   <h1>تقرير تذاكر شركة: ${esc(companyFilterName)}</h1>
+   <p>الشيمي ترافيل — تاريخ الطباعة: ${today} — عدد التذاكر: ${companyFilteredRows.length}</p>
+  </div>
+  <table>
+   <thead><tr><th>المسافر</th><th>رقم الحجز</th><th>تاريخ الحجز</th><th>تاريخ السفر</th><th>الشركة</th><th>الإجمالي</th><th>المدفوع</th><th>المتبقي</th><th>الموظف</th></tr></thead>
+   <tbody>${rowsHtml}</tbody>
+   <tfoot><tr><td colspan="5">الإجماليات</td><td>${tT.toFixed(2)}</td><td>${tP.toFixed(2)}</td><td>${tR.toFixed(2)}</td><td></td></tr></tfoot>
+  </table>
+  <script>window.onload=function(){setTimeout(function(){window.print()},400)}<\/script>
+ </body></html>`);
+ w.document.close();
 }
 
 function isAdmin(){
