@@ -394,6 +394,7 @@ th{color:#c4b5fd;background:rgba(124,58,237,.1)}
  <a href="company_accounts.html" class="nav-btn"><i class="fa-solid fa-wallet"></i> الحسابات</a>
  <button class="nav-btn" onclick="openStatement()"><i class="fa-solid fa-file-invoice-dollar"></i> كشف حساب</button>
  <button class="nav-btn" onclick="openReports()"><i class="fa-solid fa-chart-column"></i> التقارير</button>
+ <button class="nav-btn" onclick="openCompanyFilter()"><i class="fa-solid fa-building"></i> فلتر الشركات</button>
  <button class="nav-btn" onclick="openTransfer()"><i class="fa-solid fa-right-left"></i> تحويل</button>
  <button class="nav-btn" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج</button>
 </nav>
@@ -592,6 +593,26 @@ th{color:#c4b5fd;background:rgba(124,58,237,.1)}
  </div>
 </div>
 
+<!-- فلتر الشركات -->
+<div id="companyFilterModal" class="modal" onclick="if(event.target===this)closeModal('companyFilterModal')">
+ <div class="modal-box" style="width:min(1250px,100%)">
+  <div class="modal-head">
+   <h2><i class="fa-solid fa-building"></i> فلتر التذاكر حسب الشركة</h2>
+   <button class="close-btn" onclick="closeModal('companyFilterModal')"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+
+  <div class="modal-filter" style="grid-template-columns:2fr auto auto">
+   <div class="field"><label>اسم الشركة</label><input id="companyFilterInput" class="input" placeholder="مثال: مراسي أو اورنج أو JAZEERA" list="companyList"></div>
+   <datalist id="companyList"></datalist>
+   <button class="btn btn-primary" onclick="runCompanyFilter()"><i class="fa-solid fa-magnifying-glass"></i> فلترة</button>
+   <button class="btn btn-excel" id="companyExportBtn" onclick="exportCompanyExcel()" disabled><i class="fa-solid fa-file-excel"></i> Excel</button>
+  </div>
+
+  <div id="companyFilterStatus" class="empty">اكتب اسم الشركة ثم اضغط فلترة.</div>
+  <div id="companyFilterResult" class="table-wrap"></div>
+ </div>
+</div>
+
 <!-- التقارير -->
 <div id="reportsModal" class="modal" onclick="if(event.target===this)closeModal('reportsModal')">
  <div class="modal-box">
@@ -622,6 +643,156 @@ const $=id=>document.getElementById(id);
 const todayISO=()=>new Date().toISOString().slice(0,10);
 const money=n=>Number(n||0).toLocaleString("ar-EG",{minimumFractionDigits:2,maximumFractionDigits:2})+" ج.م";
 const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+
+/* ==============================================
+   فلتر التذاكر حسب الشركة
+   يجيب كل التذاكر من شيت المسافرين عبر نفس الـ Apps Script
+   (بدون أي تعديل على السكربت) ثم يفلتر في المتصفح على companyName
+============================================== */
+
+// الأحرف اللي بنبحث بيها عشان نجمع كل التذاكر من السكربت
+const COMPANY_FILTER_LETTERS = ["ا","ب","ت","ث","ج","ح","خ","د","ذ","ر","ز","س","ش","ص","ض","ط","ظ","ع","غ","ف","ق","ك","ل","م","ن","ه","و","ي"];
+
+let companyRowsCache = null;      // كاش لكل التذاكر
+let companyFilteredRows = [];     // نتائج الفلتر الحالية
+let companyFilterName = "";       // اسم الشركة المفلترة
+
+function openCompanyFilter(){
+ openModal("companyFilterModal");
+ if(!companyRowsCache){
+  $("companyFilterStatus").textContent="⏳ جاري تحميل كل التذاكر من شيت المسافرين...";
+  loadAllCompanyRows().then(()=>{
+   fillCompanyDatalist();
+   $("companyFilterStatus").textContent="✅ تم تحميل "+companyRowsCache.length+" تذكرة. اكتب اسم الشركة واضغط فلترة.";
+  }).catch(()=>{
+   $("companyFilterStatus").textContent="❌ تعذر تحميل التذاكر. تأكد من اتصالك بالإنترنت وحاول تاني.";
+  });
+ }
+}
+
+/* استدعاء JSONP واحد لبحث حرف واحد */
+function fetchCompanyLetter(letter){
+ return new Promise((resolve,reject)=>{
+  const cb="compCB_"+Date.now()+"_"+Math.floor(Math.random()*999999);
+  let script=document.createElement("script");
+  window[cb]=data=>{delete window[cb];script.remove();resolve(data)};
+  script.onerror=()=>{delete window[cb];script.remove();reject(new Error("connection"))};
+  const q=new URLSearchParams({action:"search",section:"flight",query:letter,callback:cb});
+  script.src=GOOGLE_SCRIPT_URL+"?"+q.toString()+"&_="+Date.now();
+  document.body.appendChild(script);
+ });
+}
+
+/* يجيب كل التذاكر ببحث حرف حرف (28 حرف عربي) ويجمعها بدون تكرار */
+async function loadAllCompanyRows(){
+ if(companyRowsCache)return companyRowsCache;
+ const map={};
+ for(const L of COMPANY_FILTER_LETTERS){
+  try{
+   const r=await fetchCompanyLetter(L);
+   if(r&&r.success){
+    (r.results||[]).forEach(x=>{
+     if(x.rowNumber&&!map[x.rowNumber])map[x.rowNumber]=x;
+    });
+   }
+  }catch(e){/* نكمل مع الباقي */}
+ }
+ companyRowsCache=Object.values(map);
+ return companyRowsCache;
+}
+
+/* نعبي قائمة الأسماء المقترحة من أسماء الشركات الموجودة */
+function fillCompanyDatalist(){
+ if(!companyRowsCache)return;
+ const set=new Set();
+ companyRowsCache.forEach(x=>{
+  const c=(x.companyName||"").trim();
+  if(c&&c!=="لا يوجد")set.add(c);
+ });
+ $("companyList").innerHTML=[...set].sort().map(c=>`<option value="${esc(c)}">`).join("");
+}
+
+/* تنفيذ الفلترة في المتصفح على companyName */
+async function runCompanyFilter(){
+ const name=$("companyFilterInput").value.trim();
+ if(!name){$("companyFilterStatus").textContent="⚠️ اكتب اسم الشركة أولاً.";return}
+ if(!companyRowsCache){
+  $("companyFilterStatus").textContent="⏳ جاري تحميل التذاكر...";
+  await loadAllCompanyRows().catch(()=>{});
+  if(!companyRowsCache){$("companyFilterStatus").textContent="❌ تعذر تحميل التذاكر.";return}
+  fillCompanyDatalist();
+ }
+ companyFilterName=name;
+ const needle=name.toLowerCase();
+ companyFilteredRows=companyRowsCache.filter(x=>
+  String(x.companyName||"").toLowerCase().includes(needle)
+ );
+ renderCompanyFilter();
+}
+
+/* عرض النتائج + الإجماليات */
+function renderCompanyFilter(){
+ const rows=companyFilteredRows;
+ if(!rows.length){
+  $("companyFilterStatus").textContent="❌ لا توجد تذاكر لشركة بهذا الاسم.";
+  $("companyFilterResult").innerHTML="";
+  $("companyExportBtn").disabled=true;
+  return;
+ }
+ let tT=0,tP=0,tR=0;
+ rows.forEach(x=>{
+  tT+=Number(x.totalAmount||0);
+  tP+=Number(x.paidAmount||0);
+  tR+=Number(x.remainingAmount||0);
+ });
+ $("companyFilterStatus").textContent="✅ تم العثور على "+rows.length+" تذكرة لشركة: "+companyFilterName;
+ $("companyFilterResult").innerHTML=`
+  <table style="min-width:1000px">
+   <thead><tr><th>المسافر</th><th>رقم الحجز</th><th>تاريخ الحجز</th><th>تاريخ السفر</th><th>الشركة</th><th>الإجمالي</th><th>المدفوع</th><th>المتبقي</th><th>الموظف</th></tr></thead>
+   <tbody>${rows.map(x=>`<tr>
+    <td>${esc(x.passengerName)}</td>
+    <td>${esc(x.bookingNumber)}</td>
+    <td>${esc(x.bookingDate)}</td>
+    <td>${esc(x.travelDate)}</td>
+    <td>${esc(x.companyName)}</td>
+    <td>${money(x.totalAmount)}</td>
+    <td>${money(x.paidAmount)}</td>
+    <td style="color:${Number(x.remainingAmount||0)>0?"#fca5a5":"inherit"}">${money(x.remainingAmount)}</td>
+    <td>${esc(x.employeeName)}</td>
+   </tr>`).join("")}
+   <tr style="background:rgba(124,58,237,.18);font-weight:900;border-top:2px solid #a78bfa">
+    <td colspan="5">الإجماليات (${rows.length} تذكرة)</td>
+    <td>${money(tT)}</td>
+    <td>${money(tP)}</td>
+    <td>${money(tR)}</td>
+    <td></td>
+   </tr></tbody>
+  </table>`;
+ $("companyExportBtn").disabled=false;
+}
+
+/* تصدير نتائج الفلتر لملف Excel */
+function exportCompanyExcel(){
+ if(!companyFilteredRows.length)return alert("⚠️ اعمل فلترة أولاً.");
+ let tT=0,tP=0,tR=0;
+ const data=[
+  ["تقرير تذاكر شركة: "+companyFilterName],[""],
+  ["المسافر","رقم الحجز","تاريخ الحجز","تاريخ السفر","الشركة","الإجمالي","المدفوع","المتبقي","الموظف"]
+ ];
+ companyFilteredRows.forEach(x=>{
+  tT+=Number(x.totalAmount||0);
+  tP+=Number(x.paidAmount||0);
+  tR+=Number(x.remainingAmount||0);
+  data.push([
+   x.passengerName||"",x.bookingNumber||"",x.bookingDate||"",x.travelDate||"",
+   x.companyName||"",Number(x.totalAmount||0),Number(x.paidAmount||0),Number(x.remainingAmount||0),x.employeeName||""
+  ]);
+ });
+ data.push([""]);data.push(["الإجماليات","","","","",tT,tP,tR]);
+ const ws=XLSX.utils.aoa_to_sheet(data);ws["!dir"]="rtl";
+ const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"تذاكر "+companyFilterName);
+ XLSX.writeFile(wb,"تذاكر_"+companyFilterName.replace(/[^\w\u0600-\u06FF -]/g,"")+".xlsx");
+}
 
 function isAdmin(){
  return String(localStorage.getItem("userRole")||"").trim().toLowerCase()==="admin";
