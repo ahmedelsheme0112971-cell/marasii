@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#7c3aed">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+    <link rel="apple-touch-icon" href="pwa-icon-192.png">
 
     <!-- SEO -->
     <meta name="description" content="عالم الشيمي - منصة تسجيل الدخول ونظام إدارة متكامل. سجل دخولك للوصول إلى لوحة التحكم.">
@@ -94,8 +97,19 @@
             height: auto;
             z-index: 50;
             filter: drop-shadow(0 4px 18px rgba(167, 139, 250, 0.5));
-            animation: logoGlow 3.5s ease-in-out infinite;
+            animation: logoGlow 3.5s ease-in-out infinite, logoDropIn 1s cubic-bezier(0.22, 1, 0.36, 1) both;
             pointer-events: none;
+        }
+
+        @keyframes logoDropIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-60px) scale(0.7) rotate(-8deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
         }
 
         @keyframes logoGlow {

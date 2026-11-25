@@ -6,6 +6,12 @@
 
 <title>الشيمي ترافيل - حسابات الشركة</title>
 
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+<link rel="apple-touch-icon" href="pwa-icon-192.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7c3aed">
+
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -183,8 +189,29 @@ body{min-height:100vh;background:#0f051d;color:#fff;overflow-x:hidden;position:r
 .modal.active{display:flex}
 .modal-box{
  width:min(1050px,100%);max-height:90vh;overflow:auto;background:#190a2d;
- border:1px solid rgba(255,255,255,.18);border-radius:28px;padding:25px;box-shadow:0 30px 90px #000
+ border:1px solid rgba(255,255,255,.18);border-radius:28px;padding:25px;box-shadow:0 30px 90px #000;
+ position:relative
 }
+/* Watermark لوجو خلف محتوى المودال */
+.modal-box::before{
+ content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+ background:url('logo-transparent.png') center 60% no-repeat;
+ background-size:420px auto;opacity:.055
+}
+.modal-box>*{position:relative;z-index:1}
+/* Watermark خلف جدول نتائج فلتر الشركات تحديداً */
+#companyFilterResult{
+ position:relative
+}
+#companyFilterResult::before{
+ content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+ background:url('logo-transparent.png') center 55% no-repeat;
+ background-size:min(500px,60%) auto;opacity:.06
+}
+#companyFilterResult>*{position:relative;z-index:1}
+/* Watermark في التقرير المطبوع */
+.print-watermark{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:0}
+.print-watermark img{width:420px;opacity:.07}
 .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .modal-head h2{font-size:1.3rem}
 .close-btn{width:40px;height:40px;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;cursor:pointer}
@@ -204,6 +231,7 @@ th{color:#c4b5fd;background:rgba(124,58,237,.1)}
 }
 .session-warning-overlay.active{display:flex}
 .session-warning-modal{width:min(480px,100%);padding:30px;border-radius:28px;text-align:center;background:#1a0b2d;border:1px solid rgba(255,255,255,.18);box-shadow:0 30px 90px #000}
+.session-warning-logo{display:block;width:150px;height:auto;margin:0 auto 15px;filter:drop-shadow(0 4px 15px rgba(167,139,250,.55))}
 .session-warning-icon{font-size:42px;color:#facc15}.session-warning-title{font-size:1.4rem;font-weight:900;margin:10px 0}.session-warning-text{color:#cbd5e1;line-height:1.8}.session-warning-countdown{font-size:2rem;font-weight:900;color:#f87171;margin:15px}
 .session-warning-actions{display:flex;gap:10px}.session-warning-actions button{flex:1;padding:12px;border:0;border-radius:14px;color:#fff;font:900 14px 'Tajawal';cursor:pointer}
 .session-continue-btn{background:#16a34a}.session-logout-btn{background:#dc2626}
@@ -449,6 +477,7 @@ th{color:#c4b5fd;background:rgba(124,58,237,.1)}
 
 <div id="sessionWarningOverlay" class="session-warning-overlay">
  <div class="session-warning-modal">
+  <img src="logo-transparent.png" alt="عالم الشيمي" class="session-warning-logo">
   <div class="session-warning-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
   <div class="session-warning-title">تنبيه انتهاء الجلسة</div>
   <div class="session-warning-text">لم يتم اكتشاف أي نشاط لفترة طويلة.<br>سيتم تسجيل خروجك تلقائيًا خلال:</div>
@@ -667,6 +696,16 @@ const todayISO=()=>new Date().toISOString().slice(0,10);
 const money=n=>Number(n||0).toLocaleString("ar-EG",{minimumFractionDigits:2,maximumFractionDigits:2})+" ج.م";
 const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 
+/* تحويل لوجو الطباعة لـ base64 عشان يظهر في نافذة الطباعة (URL بتاعها فاضي) */
+const logoB64Cache={};
+async function getPrintLogoB64(){
+ if(logoB64Cache.d)return logoB64Cache.d;
+ const blob=await fetch("logo-print-black.png").then(r=>r.blob());
+ return new Promise(res=>{
+  const fr=new FileReader();fr.onload=()=>{logoB64Cache.d=fr.result;res(fr.result)};fr.readAsDataURL(blob);
+ });
+}
+
 /* ==============================================
    فلتر التذاكر حسب الشركة
    يجيب كل التذاكر من شيت المسافرين عبر نفس الـ Apps Script
@@ -823,8 +862,9 @@ function exportCompanyExcel(){
 }
 
 /* تصدير نتائج الفلتر لملف PDF — بيفتح نافذة طباعة منسقة تحفظ PDF مباشرة */
-function exportCompanyPDF(){
+async function exportCompanyPDF(){
  if(!companyFilteredRows.length)return alert("⚠️ اعمل فلترة أولاً.");
+ const logoB64=await getPrintLogoB64().catch(()=>"logo-print-black.png");
  let tT=0,tP=0,tR=0;
  const rowsHtml=companyFilteredRows.map(x=>{
   tT+=Number(x.totalAmount||0);
@@ -846,7 +886,8 @@ function exportCompanyPDF(){
   <title>تذاكر ${esc(companyFilterName)}</title>
   <style>
    *{font-family:'Tajawal','Segoe UI',Arial,sans-serif;box-sizing:border-box}
-   body{padding:25px;color:#1a1a2e}
+   body{padding:25px;color:#1a1a2e;position:relative;min-height:100vh}
+   .print-logo{width:170px;display:block;margin:0 auto 10px}
    .head{text-align:center;margin-bottom:18px}
    .head h1{margin:0;font-size:22px;color:#4c1d95}
    .head p{margin:6px 0 0;color:#555;font-size:13px}
@@ -855,8 +896,18 @@ function exportCompanyPDF(){
    th{background:#ede9fe;color:#4c1d95}
    tr:nth-child(even) td{background:#f8f7fd}
    tfoot td{background:#ddd6fe;font-weight:900}
+   /* لوجو ضخم شفاف في وسط الصفحة ورا كل البيانات */
+   .print-watermark{
+    position:fixed;inset:0;display:grid;place-items:center;
+    pointer-events:none;z-index:0
+   }
+   .print-watermark img{width:min(75vh,520px);opacity:.075}
+   /* كل المحتوى فوق اللوجو */
+   .head,.table-wrap{position:relative;z-index:1}
    @media print{body{padding:0}}
   </style></head><body>
+  <img src="${logoB64}" class="print-logo" alt="عالم الشيمي">
+  <div class="print-watermark"><img src="${logoB64}" alt=""></div>
   <div class="head">
    <h1>تقرير تذاكر شركة: ${esc(companyFilterName)}</h1>
    <p>الشيمي ترافيل — تاريخ الطباعة: ${today} — عدد التذاكر: ${companyFilteredRows.length}</p>
@@ -866,7 +917,7 @@ function exportCompanyPDF(){
    <tbody>${rowsHtml}</tbody>
    <tfoot><tr><td colspan="5">الإجماليات</td><td>${tT.toFixed(2)}</td><td>${tP.toFixed(2)}</td><td>${tR.toFixed(2)}</td><td></td></tr></tfoot>
   </table>
-  <script>window.onload=function(){setTimeout(function(){window.print()},400)}<\/script>
+  <script>window.onload=function(){setTimeout(function(){window.print()},600)}<\/script>
  </body></html>`);
  w.document.close();
 }
