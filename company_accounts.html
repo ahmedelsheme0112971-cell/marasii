@@ -79,6 +79,23 @@ body{min-height:100vh;background:#0f051d;color:#fff;overflow-x:hidden;position:r
 .card-title{font-size:1.25rem;margin-bottom:20px;display:flex;align-items:center;gap:9px}
 .card-title i{color:#c084fc}
 
+/* لوجو عالم الشيمي في أعلى الصفحة */
+.top-corner-logo{
+ position:absolute;top:18px;right:28px;width:150px;height:auto;z-index:50;
+ filter:drop-shadow(0 4px 18px rgba(167,139,250,.5));pointer-events:none
+}
+
+/* لوجو داخل الشريط العلوي */
+.header-nav-logo{
+ height:40px;width:auto;flex-shrink:0;pointer-events:none;
+ filter:drop-shadow(0 3px 12px rgba(167,139,250,.6))
+}
+
+@media (max-width:768px){
+ .top-corner-logo{width:100px;top:12px;right:16px}
+ .header-nav-logo{height:30px}
+}
+
 .form-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:15px}
 .field label{display:block;color:#ddd6fe;font-weight:800;margin-bottom:8px}
 .input,.select{
@@ -391,7 +408,10 @@ th{color:#c4b5fd;background:rgba(124,58,237,.1)}
 <div class="blur-circle-1"></div>
 <div class="blur-circle-2"></div>
 
+<img src="logo-transparent.png" alt="عالم الشيمي" class="top-corner-logo">
+
 <nav class="header-nav">
+ <img src="logo-transparent.png" alt="عالم الشيمي" class="header-nav-logo">
  <a href="dashboard.html" class="nav-btn"><i class="fa-solid fa-house"></i> الرئيسية</a>
  <a href="company_accounts.html" class="nav-btn"><i class="fa-solid fa-wallet"></i> الحسابات</a>
  <button class="nav-btn" onclick="openStatement()"><i class="fa-solid fa-file-invoice-dollar"></i> كشف حساب</button>
